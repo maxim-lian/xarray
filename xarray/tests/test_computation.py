@@ -981,5 +981,5 @@ def test_where():
 def test_pinv_replicates_numpy_result():
     data = np.arange(3 * 4 * 5).reshape(3, 4, 5)
     da = xr.DataArray(data, dims=list('abc'))
-    actual = xr.pinv(da, dims=('b', 'c'))
+    actual = xr.pinv(da, dims=[ 'b', 'c' ])
     assert (actual.data == np.linalg.pinv(data)).all()
