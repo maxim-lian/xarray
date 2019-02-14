@@ -4,7 +4,7 @@ dependencies:
   - pytest
   - flake8
   - mock
-  - numpy=1.13
+  - numpy=1.14
   - pandas=0.20
   - pip:
     - pytest-env
