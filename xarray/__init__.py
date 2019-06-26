@@ -8,7 +8,8 @@ del get_versions
 from .core.alignment import align, broadcast, broadcast_arrays
 from .core.common import full_like, zeros_like, ones_like
 from .core.computation import apply_ufunc, dot, where, pinv
-from .core.combine import concat, combine_auto, combine_manual, auto_combine
+from .core.concat import concat
+from .core.combine import combine_by_coords, combine_nested, auto_combine
 from .core.extensions import (register_dataarray_accessor,
                               register_dataset_accessor)
 from .core.variable import as_variable, Variable, IndexVariable, Coordinate
