@@ -253,8 +253,6 @@ def get_squeeze_dims(xarray_obj,
 class DataWithCoords(SupportsArithmetic, AttrAccessMixin):
     """Shared base class for Dataset and DataArray."""
 
-    _rolling_exp_cls = RollingExp
-
     def squeeze(self, dim: Union[Hashable, Iterable[Hashable], None] = None,
                 drop: bool = False,
                 axis: Union[int, Iterable[int], None] = None):
@@ -656,7 +654,7 @@ class DataWithCoords(SupportsArithmetic, AttrAccessMixin):
         """
         window = either_dict_or_kwargs(window, window_kwargs, 'rolling_exp')
 
-        return self._rolling_exp_cls(self, window, window_type)
+        return RollingExp(self, window, window_type)
 
     def coarsen(self, dim: Optional[Mapping[Hashable, int]] = None,
                 boundary: str = 'exact',
