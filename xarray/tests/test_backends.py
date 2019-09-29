@@ -3,13 +3,12 @@ import itertools
 import math
 import os.path
 import pickle
-import shutil
 import sys
-import tempfile
 import warnings
 from contextlib import ExitStack
 from io import BytesIO
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import Optional
 
 import numpy as np
@@ -993,16 +992,9 @@ _counter = itertools.count()
 
 @contextlib.contextmanager
 def create_tmp_file(suffix=".nc", allow_cleanup_failure=False):
-    temp_dir = tempfile.mkdtemp()
-    path = os.path.join(temp_dir, "temp-%s%s" % (next(_counter), suffix))
-    try:
+    with TemporaryDirectory() as temp_dir:
+        path = os.path.join(temp_dir, "temp-%s%s" % (next(_counter), suffix))
         yield path
-    finally:
-        try:
-            shutil.rmtree(temp_dir)
-        except OSError:
-            if not allow_cleanup_failure:
-                raise
 
 
 @contextlib.contextmanager
