@@ -91,7 +91,7 @@ def open_example_mfdataset(names, *args, **kwargs):
     return open_mfdataset(
         [os.path.join(os.path.dirname(__file__), "data", name) for name in names],
         *args,
-        **kwargs
+        **kwargs,
     )
 
 
@@ -2482,7 +2482,7 @@ def test_open_mfdataset_list_attr():
             f.createDimension("x", 3)
             vlvar = f.createVariable("test_var", np.int32, ("x"))
             # here create an attribute as a list
-            vlvar.test_attr = ["string a {}".format(i), "string b {}".format(i)]
+            vlvar.test_attr = [f"string a {i}", f"string b {i}"]
             vlvar[:] = np.arange(3)
             f.close()
         ds1 = open_dataset(nfiles[0])
@@ -3526,7 +3526,7 @@ def create_tmp_geotiff(
             crs=crs,
             transform=transform,
             dtype=rasterio.float32,
-            **open_kwargs
+            **open_kwargs,
         ) as s:
             for attr, val in additional_attrs.items():
                 setattr(s, attr, val)
@@ -4268,7 +4268,7 @@ def test_use_cftime_standard_calendar_default_out_of_range(calendar, units_year)
 
     x = [0, 1]
     time = [0, 720]
-    units = "days since {}-01-01".format(units_year)
+    units = f"days since {units_year}-01-01"
     original = DataArray(x, [("time", time)], name="x")
     original = original.to_dataset()
     for v in ["x", "time"]:
@@ -4299,7 +4299,7 @@ def test_use_cftime_true(calendar, units_year):
 
     x = [0, 1]
     time = [0, 720]
-    units = "days since {}-01-01".format(units_year)
+    units = f"days since {units_year}-01-01"
     original = DataArray(x, [("time", time)], name="x")
     original = original.to_dataset()
     for v in ["x", "time"]:
@@ -4357,7 +4357,7 @@ def test_use_cftime_false_standard_calendar_in_range(calendar):
 def test_use_cftime_false_standard_calendar_out_of_range(calendar, units_year):
     x = [0, 1]
     time = [0, 720]
-    units = "days since {}-01-01".format(units_year)
+    units = f"days since {units_year}-01-01"
     original = DataArray(x, [("time", time)], name="x")
     original = original.to_dataset()
     for v in ["x", "time"]:
@@ -4376,7 +4376,7 @@ def test_use_cftime_false_standard_calendar_out_of_range(calendar, units_year):
 def test_use_cftime_false_nonstandard_calendar(calendar, units_year):
     x = [0, 1]
     time = [0, 720]
-    units = "days since {}".format(units_year)
+    units = f"days since {units_year}"
     original = DataArray(x, [("time", time)], name="x")
     original = original.to_dataset()
     for v in ["x", "time"]:
