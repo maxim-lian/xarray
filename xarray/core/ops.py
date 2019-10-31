@@ -135,8 +135,8 @@ reduced : DataArray or Dataset
 
 
 def fillna(data, other, join="left", dataset_join="left"):
-    """Fill missing values in this object with data from the other object.
-    Follows normal broadcasting and alignment rules.
+    """Fill missing values in this object with data from the other object. Follows
+    normal broadcasting and alignment rules.
 
     Parameters
     ----------

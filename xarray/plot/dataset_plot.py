@@ -149,8 +149,8 @@ def _parse_size(data, norm):
 
 
 class _Dataset_PlotMethods:
-    """
-    Enables use of xarray.plot functions as attributes on a Dataset.
+    """Enables use of xarray.plot functions as attributes on a Dataset.
+
     For example, Dataset.plot.scatter
     """
 
@@ -382,11 +382,10 @@ def _dsplot(plotfunc):
         cmap=None,
         **kwargs,
     ):
-        """
-        The method should have the same signature as the function.
+        """The method should have the same signature as the function.
 
-        This just makes the method work on Plotmethods objects,
-        and passes all the other arguments straight through.
+        This just makes the method work on Plotmethods objects, and
+        passes all the other arguments straight through.
         """
         allargs = locals()
         allargs["ds"] = _PlotMethods_obj._ds
@@ -403,9 +402,7 @@ def _dsplot(plotfunc):
 
 @_dsplot
 def scatter(ds, x, y, ax, **kwargs):
-    """
-    Scatter Dataset data variables against each other.
-    """
+    """Scatter Dataset data variables against each other."""
 
     if "add_colorbar" in kwargs or "add_legend" in kwargs:
         raise ValueError(

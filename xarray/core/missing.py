@@ -14,8 +14,7 @@ from .variable import Variable, broadcast_variables
 
 
 class BaseInterpolator:
-    """Generic interpolator class for normalizing interpolation methods
-    """
+    """Generic interpolator class for normalizing interpolation methods."""
 
     cons_kwargs: Dict[str, Any]
     call_kwargs: Dict[str, Any]
@@ -76,7 +75,7 @@ class NumpyInterpolator(BaseInterpolator):
 
 
 class ScipyInterpolator(BaseInterpolator):
-    """Interpolate a 1-D function using Scipy interp1d
+    """Interpolate a 1-D function using Scipy interp1d.
 
     See Also
     --------
@@ -165,8 +164,7 @@ class SplineInterpolator(BaseInterpolator):
 
 
 def _apply_over_vars_with_dim(func, self, dim=None, **kwargs):
-    """Wrapper for datasets
-    """
+    """Wrapper for datasets."""
     ds = type(self)(coords=self.coords, attrs=self.attrs)
 
     for name, var in self.data_vars.items():
@@ -222,8 +220,7 @@ def get_clean_interp_index(arr, dim, use_coordinate=True):
 def interp_na(
     self, dim=None, use_coordinate=True, method="linear", limit=None, **kwargs
 ):
-    """Interpolate values according to different methods.
-    """
+    """Interpolate values according to different methods."""
     if dim is None:
         raise NotImplementedError("dim is a required argument")
 
@@ -257,7 +254,7 @@ def interp_na(
 
 
 def func_interpolate_na(interpolator, x, y, **kwargs):
-    """helper function to apply interpolation along 1 dimension"""
+    """helper function to apply interpolation along 1 dimension."""
     # it would be nice if this wasn't necessary, works around:
     # "ValueError: assignment destination is read-only" in assignment below
     out = y.copy()
@@ -276,7 +273,7 @@ def func_interpolate_na(interpolator, x, y, **kwargs):
 
 
 def _bfill(arr, n=None, axis=-1):
-    """inverse of ffill"""
+    """inverse of ffill."""
     import bottleneck as bn
 
     arr = np.flip(arr, axis=axis)
@@ -289,7 +286,7 @@ def _bfill(arr, n=None, axis=-1):
 
 
 def ffill(arr, dim=None, limit=None):
-    """forward fill missing values"""
+    """forward fill missing values."""
     import bottleneck as bn
 
     axis = arr.get_axis_num(dim)
@@ -308,7 +305,7 @@ def ffill(arr, dim=None, limit=None):
 
 
 def bfill(arr, dim=None, limit=None):
-    """backfill missing values"""
+    """backfill missing values."""
     axis = arr.get_axis_num(dim)
 
     # work around for bottleneck 178
@@ -325,7 +322,7 @@ def bfill(arr, dim=None, limit=None):
 
 
 def _get_interpolator(method, vectorizeable_only=False, **kwargs):
-    """helper function to select the appropriate interpolator class
+    """helper function to select the appropriate interpolator class.
 
     returns interpolator class and keyword arguments for the class
     """
@@ -393,7 +390,7 @@ def _get_interpolator(method, vectorizeable_only=False, **kwargs):
 
 
 def _get_interpolator_nd(method, **kwargs):
-    """helper function to select the appropriate interpolator class
+    """helper function to select the appropriate interpolator class.
 
     returns interpolator class and keyword arguments for the class
     """
@@ -417,8 +414,7 @@ def _get_interpolator_nd(method, **kwargs):
 
 
 def _get_valid_fill_mask(arr, dim, limit):
-    """helper function to determine values that can be filled when limit is not
-    None"""
+    """helper function to determine values that can be filled when limit is not None."""
     kw = {dim: limit + 1}
     # we explicitly use construct method to avoid copy.
     new_dim = utils.get_temp_dimname(arr.dims, "_window")
@@ -440,7 +436,8 @@ def _assert_single_chunk(var, axes):
 
 
 def _localize(var, indexes_coords):
-    """ Speed up for linear and nearest neighbor method.
+    """Speed up for linear and nearest neighbor method.
+
     Only consider a subspace that is needed for the interpolation
     """
     indexes = {}
@@ -455,9 +452,10 @@ def _localize(var, indexes_coords):
 
 
 def _floatize_x(x, new_x):
-    """ Make x and new_x float.
-    This is particulary useful for datetime dtype.
-    x, new_x: tuple of np.ndarray
+    """Make x and new_x float.
+
+    This is particulary useful for datetime dtype. x, new_x: tuple of
+    np.ndarray
     """
     x = list(x)
     new_x = list(new_x)
@@ -475,7 +473,7 @@ def _floatize_x(x, new_x):
 
 
 def interp(var, indexes_coords, method, **kwargs):
-    """ Make an interpolation of Variable
+    """Make an interpolation of Variable.
 
     Parameters
     ----------
@@ -536,8 +534,7 @@ def interp(var, indexes_coords, method, **kwargs):
 
 
 def interp_func(var, x, new_x, method, kwargs):
-    """
-    multi-dimensional interpolation for array-like. Interpolated axes should be
+    """multi-dimensional interpolation for array-like. Interpolated axes should be
     located in the last position.
 
     Parameters

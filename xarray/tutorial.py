@@ -1,9 +1,7 @@
-"""
-Useful for:
+"""Useful for:
 
 * users learning xarray
 * building tutorials in the documentation.
-
 """
 import hashlib
 import os as _os
@@ -34,8 +32,7 @@ def open_dataset(
     branch="master",
     **kws,
 ):
-    """
-    Open a dataset from the online repository (requires internet).
+    """Open a dataset from the online repository (requires internet).
 
     If a local copy is found then always use that to avoid network traffic.
 
@@ -58,7 +55,6 @@ def open_dataset(
     See Also
     --------
     xarray.open_dataset
-
     """
     longdir = _os.path.expanduser(cache_dir)
     fullname = name + ".nc"
@@ -98,9 +94,8 @@ def open_dataset(
 
 
 def load_dataset(*args, **kwargs):
-    """
-    Open, load into memory, and close a dataset from the online repository
-    (requires internet).
+    """Open, load into memory, and close a dataset from the online repository (requires
+    internet).
 
     See Also
     --------

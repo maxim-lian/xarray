@@ -41,12 +41,11 @@ def find_root_and_group(ds):
 
 
 def robust_getitem(array, key, catch=Exception, max_retries=6, initial_delay=500):
-    """
-    Robustly index an array, using retry logic with exponential backoff if any
-    of the errors ``catch`` are raised. The initial_delay is measured in ms.
+    """Robustly index an array, using retry logic with exponential backoff if any of the
+    errors ``catch`` are raised. The initial_delay is measured in ms.
 
-    With the default settings, the maximum delay will be in the range of 32-64
-    seconds.
+    With the default settings, the maximum delay will be in the range of
+    32-64 seconds.
     """
     assert max_retries >= 0
     for n in range(max_retries + 1):
@@ -99,10 +98,9 @@ class AbstractDataStore(Mapping):
         return {}
 
     def load(self):
-        """
-        This loads the variables and attributes simultaneously.
-        A centralized loading function makes it easier to create
-        data stores that do automatic encoding/decoding.
+        """This loads the variables and attributes simultaneously. A centralized loading
+        function makes it easier to create data stores that do automatic
+        encoding/decoding.
 
         For example::
 
@@ -213,8 +211,7 @@ class AbstractWritableDataStore(AbstractDataStore):
     __slots__ = ()
 
     def encode(self, variables, attributes):
-        """
-        Encode the variables and attributes in this store
+        """Encode the variables and attributes in this store.
 
         Parameters
         ----------
@@ -227,18 +224,17 @@ class AbstractWritableDataStore(AbstractDataStore):
         -------
         variables : dict-like
         attributes : dict-like
-
         """
         variables = {k: self.encode_variable(v) for k, v in variables.items()}
         attributes = {k: self.encode_attribute(v) for k, v in attributes.items()}
         return variables, attributes
 
     def encode_variable(self, v):
-        """encode one variable"""
+        """encode one variable."""
         return v
 
     def encode_attribute(self, a):
-        """encode one attribute"""
+        """encode one attribute."""
         return a
 
     def set_dimension(self, d, l):  # pragma: no cover
@@ -251,12 +247,9 @@ class AbstractWritableDataStore(AbstractDataStore):
         raise NotImplementedError()
 
     def store_dataset(self, dataset):
-        """
-        in stores, variables are all variables AND coordinates
-        in xarray.Dataset variables are variables NOT coordinates,
-        so here we pass the whole dataset in instead of doing
-        dataset.variables
-        """
+        """in stores, variables are all variables AND coordinates in xarray.Dataset
+        variables are variables NOT coordinates, so here we pass the whole dataset in
+        instead of doing dataset.variables."""
         self.store(dataset, dataset.attrs)
 
     def store(
@@ -267,8 +260,8 @@ class AbstractWritableDataStore(AbstractDataStore):
         writer=None,
         unlimited_dims=None,
     ):
-        """
-        Top level method for putting data on this store, this method:
+        """Top level method for putting data on this store, this method:
+
           - encodes variables/attributes
           - sets dimensions
           - sets variables
@@ -299,9 +292,8 @@ class AbstractWritableDataStore(AbstractDataStore):
         )
 
     def set_attributes(self, attributes):
-        """
-        This provides a centralized method to set the dataset attributes on the
-        data store.
+        """This provides a centralized method to set the dataset attributes on the data
+        store.
 
         Parameters
         ----------
@@ -312,9 +304,7 @@ class AbstractWritableDataStore(AbstractDataStore):
             self.set_attribute(k, v)
 
     def set_variables(self, variables, check_encoding_set, writer, unlimited_dims=None):
-        """
-        This provides a centralized method to set the variables on the data
-        store.
+        """This provides a centralized method to set the variables on the data store.
 
         Parameters
         ----------
@@ -339,9 +329,7 @@ class AbstractWritableDataStore(AbstractDataStore):
             writer.add(source, target)
 
     def set_dimensions(self, variables, unlimited_dims=None):
-        """
-        This provides a centralized method to set the dimensions on the data
-        store.
+        """This provides a centralized method to set the dimensions on the data store.
 
         Parameters
         ----------

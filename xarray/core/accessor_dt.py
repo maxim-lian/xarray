@@ -6,8 +6,7 @@ from .pycompat import dask_array_type
 
 
 def _season_from_months(months):
-    """Compute season (DJF, MAM, JJA, SON) from month ordinal
-    """
+    """Compute season (DJF, MAM, JJA, SON) from month ordinal."""
     # TODO: Move "season" accessor upstream into pandas
     seasons = np.array(["DJF", "MAM", "JJA", "SON"])
     months = np.asarray(months)
@@ -15,9 +14,8 @@ def _season_from_months(months):
 
 
 def _access_through_cftimeindex(values, name):
-    """Coerce an array of datetime-like values to a CFTimeIndex
-    and access requested datetime component
-    """
+    """Coerce an array of datetime-like values to a CFTimeIndex and access requested
+    datetime component."""
     from ..coding.cftimeindex import CFTimeIndex
 
     values_as_cftimeindex = CFTimeIndex(values.ravel())
@@ -30,9 +28,8 @@ def _access_through_cftimeindex(values, name):
 
 
 def _access_through_series(values, name):
-    """Coerce an array of datetime-like values to a pandas Series and
-    access requested datetime component
-    """
+    """Coerce an array of datetime-like values to a pandas Series and access requested
+    datetime component."""
     values_as_series = pd.Series(values.ravel())
     if name == "season":
         months = values_as_series.dt.month.values
@@ -43,8 +40,8 @@ def _access_through_series(values, name):
 
 
 def _get_date_field(values, name, dtype):
-    """Indirectly access pandas' libts.get_date_field by wrapping data
-    as a Series and calling through `.dt` attribute.
+    """Indirectly access pandas' libts.get_date_field by wrapping data as a Series and
+    calling through `.dt` attribute.
 
     Parameters
     ----------
@@ -59,7 +56,6 @@ def _get_date_field(values, name, dtype):
     -------
     datetime_fields : same type as values
         Array-like of datetime fields accessed for each element in values
-
     """
     if is_np_datetime_like(values.dtype):
         access_method = _access_through_series
@@ -75,9 +71,8 @@ def _get_date_field(values, name, dtype):
 
 
 def _round_series(values, name, freq):
-    """Coerce an array of datetime-like values to a pandas Series and
-    apply requested rounding
-    """
+    """Coerce an array of datetime-like values to a pandas Series and apply requested
+    rounding."""
     values_as_series = pd.Series(values.ravel())
     method = getattr(values_as_series.dt, name)
     field_values = method(freq=freq).values
@@ -86,8 +81,8 @@ def _round_series(values, name, freq):
 
 
 def _round_field(values, name, freq):
-    """Indirectly access pandas rounding functions by wrapping data
-    as a Series and calling through `.dt` attribute.
+    """Indirectly access pandas rounding functions by wrapping data as a Series and
+    calling through `.dt` attribute.
 
     Parameters
     ----------
@@ -101,7 +96,6 @@ def _round_field(values, name, freq):
     -------
     rounded timestamps : same type as values
         Array-like of datetime fields accessed for each element in values
-
     """
     if isinstance(values, dask_array_type):
         from dask.array import map_blocks
@@ -112,9 +106,8 @@ def _round_field(values, name, freq):
 
 
 def _strftime_through_cftimeindex(values, date_format):
-    """Coerce an array of cftime-like values to a CFTimeIndex
-    and access requested datetime component
-    """
+    """Coerce an array of cftime-like values to a CFTimeIndex and access requested
+    datetime component."""
     from ..coding.cftimeindex import CFTimeIndex
 
     values_as_cftimeindex = CFTimeIndex(values.ravel())
@@ -124,9 +117,8 @@ def _strftime_through_cftimeindex(values, date_format):
 
 
 def _strftime_through_series(values, date_format):
-    """Coerce an array of datetime-like values to a pandas Series and
-    apply string formatting
-    """
+    """Coerce an array of datetime-like values to a pandas Series and apply string
+    formatting."""
     values_as_series = pd.Series(values.ravel())
     strs = values_as_series.dt.strftime(date_format)
     return strs.values.reshape(values.shape)
@@ -165,8 +157,7 @@ class DatetimeAccessor:
      not calendar-aware; if your datetimes are encoded with a non-Gregorian
      calendar (e.g. a 360-day calendar) using cftime, then some fields like
      `dayofyear` may not be accurate.
-
-     """
+    """
 
     def __init__(self, obj):
         if not _contains_datetime_like_objects(obj):
@@ -242,8 +233,7 @@ class DatetimeAccessor:
         return obj_type(result, name=name, coords=self._obj.coords, dims=self._obj.dims)
 
     def floor(self, freq):
-        """
-        Round timestamps downward to specified frequency resolution.
+        """Round timestamps downward to specified frequency resolution.
 
         Parameters
         ----------
@@ -259,8 +249,7 @@ class DatetimeAccessor:
         return self._tslib_round_accessor("floor", freq)
 
     def ceil(self, freq):
-        """
-        Round timestamps upward to specified frequency resolution.
+        """Round timestamps upward to specified frequency resolution.
 
         Parameters
         ----------
@@ -275,8 +264,7 @@ class DatetimeAccessor:
         return self._tslib_round_accessor("ceil", freq)
 
     def round(self, freq):
-        """
-        Round timestamps to specified frequency resolution.
+        """Round timestamps to specified frequency resolution.
 
         Parameters
         ----------

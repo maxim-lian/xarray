@@ -24,9 +24,10 @@ _DEFAULT_MODE = utils.ReprObject("<unused>")
 class FileManager:
     """Manager for acquiring and closing a file object.
 
-    Use FileManager subclasses (CachingFileManager in particular) on backend
-    storage classes to automatically handle issues related to keeping track of
-    many open files and transferring them between multiple processes.
+    Use FileManager subclasses (CachingFileManager in particular) on
+    backend storage classes to automatically handle issues related to
+    keeping track of many open files and transferring them between
+    multiple processes.
     """
 
     def acquire(self, needs_lock=True):
@@ -36,9 +37,10 @@ class FileManager:
     def acquire_context(self, needs_lock=True):
         """Context manager for acquiring a file. Yields a file object.
 
-        The context manager unwinds any actions taken as part of acquisition
-        (i.e., removes it from any cache) if an exception is raised from the
-        context. It *does not* automatically close the file.
+        The context manager unwinds any actions taken as part of
+        acquisition (i.e., removes it from any cache) if an exception is
+        raised from the context. It *does not* automatically close the
+        file.
         """
         raise NotImplementedError()
 
@@ -72,7 +74,6 @@ class CachingFileManager(FileManager):
         f1 = manager.acquire()
         f2 = manager.acquire()
         assert f1 is f2
-
     """
 
     def __init__(
@@ -313,8 +314,7 @@ class _HashedSequence(list):
 
 
 class DummyFileManager(FileManager):
-    """FileManager that simply wraps an open file in the FileManager interface.
-    """
+    """FileManager that simply wraps an open file in the FileManager interface."""
 
     def __init__(self, value):
         self._value = value

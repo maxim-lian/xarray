@@ -66,9 +66,8 @@ def align(
     exclude=frozenset(),
     fill_value=dtypes.NA,
 ):
-    """
-    Given any number of Dataset and/or DataArray objects, returns new
-    objects with aligned indexes and dimension sizes.
+    """Given any number of Dataset and/or DataArray objects, returns new objects with
+    aligned indexes and dimension sizes.
 
     Array from the aligned objects are suitable as input to mathematical
     operators, because along each dimension they have the same index and size.
@@ -245,7 +244,6 @@ def align(
     Coordinates:
     * lat      (lat) float64 35.0 40.0
     * lon      (lon) float64 100.0 120.0
-
     """
     if indexes is None:
         indexes = {}
@@ -467,8 +465,8 @@ def reindex_variables(
     copy: bool = True,
     fill_value: Optional[Any] = dtypes.NA,
 ) -> Tuple[Dict[Hashable, Variable], Dict[Hashable, pd.Index]]:
-    """Conform a dictionary of aligned variables onto a new set of variables,
-    filling in missing values with NaN.
+    """Conform a dictionary of aligned variables onto a new set of variables, filling in
+    missing values with NaN.
 
     Not public API.
 
@@ -642,8 +640,8 @@ def _broadcast_helper(arg, exclude, dims_map, common_coords):
 
 
 def broadcast(*args, exclude=None):
-    """Explicitly broadcast any number of DataArray or Dataset objects against
-    one another.
+    """Explicitly broadcast any number of DataArray or Dataset objects against one
+    another.
 
     xarray objects automatically broadcast against each other in arithmetic
     operations, so this function should not be necessary for normal use.

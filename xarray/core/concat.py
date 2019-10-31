@@ -132,10 +132,8 @@ def concat(
 
 
 def _calc_concat_dim_coord(dim):
-    """
-    Infer the dimension name and 1d coordinate variable (if appropriate)
-    for concatenating along the new dimension.
-    """
+    """Infer the dimension name and 1d coordinate variable (if appropriate) for
+    concatenating along the new dimension."""
     from .dataarray import DataArray
 
     if isinstance(dim, str):
@@ -156,9 +154,7 @@ def _calc_concat_dim_coord(dim):
 
 
 def _calc_concat_over(datasets, dim, dim_names, data_vars, coords, compat):
-    """
-    Determine which dataset variables need to be concatenated in the result,
-    """
+    """Determine which dataset variables need to be concatenated in the result,"""
     # Return values
     concat_over = set()
     equals = {}
@@ -270,9 +266,7 @@ def _dataset_concat(
     fill_value=dtypes.NA,
     join="outer",
 ):
-    """
-    Concatenate a sequence of datasets along a new or existing dimension
-    """
+    """Concatenate a sequence of datasets along a new or existing dimension."""
     from .dataset import Dataset
 
     dim, coord = _calc_concat_dim_coord(dim)

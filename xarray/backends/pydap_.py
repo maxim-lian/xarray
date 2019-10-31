@@ -59,8 +59,8 @@ def _fix_attributes(attributes):
 class PydapDataStore(AbstractDataStore):
     """Store for accessing OpenDAP datasets with pydap.
 
-    This store provides an alternative way to access OpenDAP datasets that may
-    be useful if the netCDF4 library is not available.
+    This store provides an alternative way to access OpenDAP datasets
+    that may be useful if the netCDF4 library is not available.
     """
 
     def __init__(self, ds):

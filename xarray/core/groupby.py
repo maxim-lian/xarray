@@ -101,8 +101,7 @@ def _is_one_or_none(obj):
 
 
 def _consolidate_slices(slices):
-    """Consolidate adjacent slices in a list of slices.
-    """
+    """Consolidate adjacent slices in a list of slices."""
     result = []
     last_slice = slice(None)
     for slice_ in slices:
@@ -208,9 +207,7 @@ def _unique_and_monotonic(group):
 
 
 def _apply_loffset(grouper, result):
-    """
-    (copied from pandas)
-    if loffset is set, offset the result index
+    """(copied from pandas) if loffset is set, offset the result index.
 
     This is NOT an idempotent routine, it will be applied
     exactly once to the result.
@@ -274,7 +271,7 @@ class GroupBy(SupportsArithmetic):
         restore_coord_dims=None,
         cut_kwargs={},
     ):
-        """Create a GroupBy object
+        """Create a GroupBy object.
 
         Parameters
         ----------
@@ -296,7 +293,6 @@ class GroupBy(SupportsArithmetic):
             coordinates.
         cut_kwargs : dict, optional
             Extra keyword arguments to pass to `pandas.cut`
-
         """
         from .dataarray import DataArray
 
@@ -459,7 +455,7 @@ class GroupBy(SupportsArithmetic):
         return full_index, first_items
 
     def _iter_grouped(self):
-        """Iterate over each element in this group"""
+        """Iterate over each element in this group."""
         for indices in self._group_indices:
             yield self._obj.isel(**{self._group_dim: indices})
 
@@ -513,8 +509,10 @@ class GroupBy(SupportsArithmetic):
             yield result
 
     def _maybe_restore_empty_groups(self, combined):
-        """Our index contained empty groups (e.g., from a resampling). If we
-        reduced on that dimension, we want to restore the full index.
+        """Our index contained empty groups (e.g., from a resampling).
+
+        If we reduced on that dimension, we want to restore the full
+        index.
         """
         if self._full_index is not None and self._group.name in combined.dims:
             indexers = {self._group.name: self._full_index}
@@ -522,8 +520,8 @@ class GroupBy(SupportsArithmetic):
         return combined
 
     def _maybe_unstack(self, obj):
-        """This gets called if we are applying on an array with a
-        multidimensional group."""
+        """This gets called if we are applying on an array with a multidimensional
+        group."""
         if self._stacked_dim is not None and self._stacked_dim in obj.dims:
             obj = obj.unstack(self._stacked_dim)
             for dim in self._inserted_dims:
@@ -589,13 +587,11 @@ class GroupBy(SupportsArithmetic):
         )
 
     def first(self, skipna=None, keep_attrs=None):
-        """Return the first element of each group along the group dimension
-        """
+        """Return the first element of each group along the group dimension."""
         return self._first_or_last(duck_array_ops.first, skipna, keep_attrs)
 
     def last(self, skipna=None, keep_attrs=None):
-        """Return the last element of each group along the group dimension
-        """
+        """Return the last element of each group along the group dimension."""
         return self._first_or_last(duck_array_ops.last, skipna, keep_attrs)
 
     def assign_coords(self, coords=None, **coords_kwargs):
@@ -620,13 +616,10 @@ def _maybe_reorder(xarray_obj, dim, positions):
 
 
 class DataArrayGroupBy(GroupBy, ImplementsArrayReduce):
-    """GroupBy object specialized to grouping DataArray objects
-    """
+    """GroupBy object specialized to grouping DataArray objects."""
 
     def _iter_grouped_shortcut(self):
-        """Fast version of `_iter_grouped` that yields Variables without
-        metadata
-        """
+        """Fast version of `_iter_grouped` that yields Variables without metadata."""
         var = self._obj.variable
         for indices in self._group_indices:
             yield var[{self._group_dim: indices}]
@@ -655,8 +648,8 @@ class DataArrayGroupBy(GroupBy, ImplementsArrayReduce):
         return stacked.transpose(*new_order, transpose_coords=self._restore_coord_dims)
 
     def apply(self, func, shortcut=False, args=(), **kwargs):
-        """Apply a function over each array in the group and concatenate them
-        together into a new array.
+        """Apply a function over each array in the group and concatenate them together
+        into a new array.
 
         `func` is called like `func(ar, *args, **kwargs)` for each array `ar`
         in this group.
@@ -724,8 +717,8 @@ class DataArrayGroupBy(GroupBy, ImplementsArrayReduce):
         return combined
 
     def quantile(self, q, dim=None, interpolation="linear", keep_attrs=None):
-        """Compute the qth quantile over each array in the groups and
-        concatenate them together into a new array.
+        """Compute the qth quantile over each array in the groups and concatenate them
+        together into a new array.
 
         Parameters
         ----------
@@ -780,8 +773,7 @@ class DataArrayGroupBy(GroupBy, ImplementsArrayReduce):
     def reduce(
         self, func, dim=None, axis=None, keep_attrs=None, shortcut=True, **kwargs
     ):
-        """Reduce the items in this group by applying `func` along some
-        dimension(s).
+        """Reduce the items in this group by applying `func` along some dimension(s).
 
         Parameters
         ----------
@@ -828,8 +820,8 @@ ops.inject_binary_ops(DataArrayGroupBy)
 
 class DatasetGroupBy(GroupBy, ImplementsDatasetReduce):
     def apply(self, func, args=(), shortcut=None, **kwargs):
-        """Apply a function over each Dataset in the group and concatenate them
-        together into a new Dataset.
+        """Apply a function over each Dataset in the group and concatenate them together
+        into a new Dataset.
 
         `func` is called like `func(ds, *args, **kwargs)` for each dataset `ds`
         in this group.
@@ -874,8 +866,7 @@ class DatasetGroupBy(GroupBy, ImplementsDatasetReduce):
         return combined
 
     def reduce(self, func, dim=None, keep_attrs=None, **kwargs):
-        """Reduce the items in this group by applying `func` along some
-        dimension(s).
+        """Reduce the items in this group by applying `func` along some dimension(s).
 
         Parameters
         ----------

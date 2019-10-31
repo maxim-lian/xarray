@@ -20,9 +20,7 @@ _NTICKS = 5
 
 
 def _nicetitle(coord, value, maxchar, template):
-    """
-    Put coord, value in template and truncate at maxchar
-    """
+    """Put coord, value in template and truncate at maxchar."""
     prettyvalue = format_item(value, quote_strings=False)
     title = template.format(coord=coord, value=prettyvalue)
 
@@ -33,8 +31,7 @@ def _nicetitle(coord, value, maxchar, template):
 
 
 class FacetGrid:
-    """
-    Initialize the matplotlib figure and FacetGrid object.
+    """Initialize the matplotlib figure and FacetGrid object.
 
     The :class:`FacetGrid` is an object that links a xarray DataArray to
     a matplotlib figure with a particular structure.
@@ -215,8 +212,7 @@ class FacetGrid:
         return self.axes[-1, :]
 
     def map_dataarray(self, func, x, y, **kwargs):
-        """
-        Apply a plotting function to a 2d facet's subset of the data.
+        """Apply a plotting function to a 2d facet's subset of the data.
 
         This is more convenient and less general than ``FacetGrid.map``
 
@@ -233,7 +229,6 @@ class FacetGrid:
         Returns
         -------
         self : FacetGrid object
-
         """
 
         if kwargs.get("cbar_ax", None) is not None:
@@ -402,8 +397,7 @@ class FacetGrid:
         self.fig.subplots_adjust(right=right)
 
     def add_colorbar(self, **kwargs):
-        """Draw a colorbar
-        """
+        """Draw a colorbar."""
         kwargs = kwargs.copy()
         if self._cmap_extend is not None:
             kwargs.setdefault("extend", self._cmap_extend)
@@ -449,8 +443,7 @@ class FacetGrid:
         return self
 
     def set_titles(self, template="{coord} = {value}", maxchar=30, size=None, **kwargs):
-        """
-        Draw titles either above each facet or on the grid margins.
+        """Draw titles either above each facet or on the grid margins.
 
         Parameters
         ----------
@@ -464,7 +457,6 @@ class FacetGrid:
         Returns
         -------
         self: FacetGrid object
-
         """
         import matplotlib as mpl
 
@@ -502,8 +494,7 @@ class FacetGrid:
         return self
 
     def set_ticks(self, max_xticks=_NTICKS, max_yticks=_NTICKS, fontsize=_FONTSIZE):
-        """
-        Set and control tick behavior
+        """Set and control tick behavior.
 
         Parameters
         ----------
@@ -515,7 +506,6 @@ class FacetGrid:
         Returns
         -------
         self : FacetGrid object
-
         """
         from matplotlib.ticker import MaxNLocator
 
@@ -534,8 +524,7 @@ class FacetGrid:
         return self
 
     def map(self, func, *args, **kwargs):
-        """
-        Apply a plotting function to each facet's subset of the data.
+        """Apply a plotting function to each facet's subset of the data.
 
         Parameters
         ----------
@@ -554,7 +543,6 @@ class FacetGrid:
         Returns
         -------
         self : FacetGrid object
-
         """
         plt = import_matplotlib_pyplot()
 
@@ -592,8 +580,7 @@ def _easy_facetgrid(
     figsize=None,
     **kwargs,
 ):
-    """
-    Convenience method to call xarray.plot.FacetGrid from 2d plotting methods
+    """Convenience method to call xarray.plot.FacetGrid from 2d plotting methods.
 
     kwargs are the arguments to 2d plotting method
     """

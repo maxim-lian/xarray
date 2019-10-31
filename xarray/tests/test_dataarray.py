@@ -148,10 +148,8 @@ class TestDataArray:
         assert actual.dtype == expected.dtype
 
     def test_struct_array_dims(self):
-        """
-        This test checks subraction of two DataArrays for the case
-        when dimension is a structured array.
-        """
+        """This test checks subraction of two DataArrays for the case when dimension is
+        a structured array."""
         # GH837, GH861
         # checking array subtraction when dims are the same
         p_data = np.array(
@@ -3588,7 +3586,7 @@ class TestDataArray:
         assert len(ma.mask) == N
 
     def test_to_and_from_cdms2_classic(self):
-        """Classic with 1D axes"""
+        """Classic with 1D axes."""
         pytest.importorskip("cdms2")
 
         original = DataArray(
@@ -3627,7 +3625,7 @@ class TestDataArray:
             assert_array_equal(original.coords[coord_name], back.coords[coord_name])
 
     def test_to_and_from_cdms2_sgrid(self):
-        """Curvilinear (structured) grid
+        """Curvilinear (structured) grid.
 
         The rectangular grid case is covered by the classic case
         """
@@ -3656,7 +3654,7 @@ class TestDataArray:
         assert_array_equal(original.coords["lon"], back.coords["lon"])
 
     def test_to_and_from_cdms2_ugrid(self):
-        """Unstructured grid"""
+        """Unstructured grid."""
         pytest.importorskip("cdms2")
 
         lon = DataArray(np.random.uniform(size=5), dims=["cell"], name="lon")
@@ -3839,9 +3837,12 @@ class TestDataArray:
         ],
     )
     def test_copy_coords(self, deep, expected_orig):
-        """The test fails for the shallow copy, and apparently only on Windows
-        for some reason. In windows coords seem to be immutable unless it's one
-        dataarray deep copied from another."""
+        """The test fails for the shallow copy, and apparently only on Windows for some
+        reason.
+
+        In windows coords seem to be immutable unless it's one dataarray
+        deep copied from another.
+        """
         da = xr.DataArray(
             np.ones([2, 2, 2]),
             coords={"a": [1, 2], "b": ["x", "y"], "c": [0, 1]},
@@ -4652,9 +4653,9 @@ def test_no_dict():
 def test_subclass_slots():
     """Test that DataArray subclasses must explicitly define ``__slots__``.
 
-    .. note::
-       As of 0.13.0, this is actually mitigated into a FutureWarning for any class
-       defined outside of the xarray package.
+    .. note::    As of 0.13.0, this is actually mitigated into a
+    FutureWarning for any class    defined outside of the xarray
+    package.
     """
     with pytest.raises(AttributeError) as e:
 
@@ -4666,8 +4667,7 @@ def test_subclass_slots():
 
 def test_weakref():
     """Classes with __slots__ are incompatible with the weakref module unless they
-    explicitly state __weakref__ among their slots
-    """
+    explicitly state __weakref__ among their slots."""
     from weakref import ref
 
     a = DataArray(1)

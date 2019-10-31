@@ -300,7 +300,7 @@ class TestDecodeCF:
 
 class CFEncodedInMemoryStore(WritableCFDataStore, InMemoryDataStore):
     def encode_variable(self, var):
-        """encode one variable"""
+        """encode one variable."""
         coder = coding.strings.EncodedStringCoder(allows_unicode=True)
         var = coder.encode(var)
         return var

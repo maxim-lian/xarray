@@ -1,4 +1,4 @@
-"""Time offset classes for use with cftime.datetime objects"""
+"""Time offset classes for use with cftime.datetime objects."""
 # The offset classes and mechanisms for generating time ranges defined in
 # this module were copied/adapted from those defined in pandas.  See in
 # particular the objects and methods defined in pandas.tseries.offsets
@@ -129,8 +129,8 @@ class BaseCFTimeOffset:
         return NotImplemented
 
     def onOffset(self, date):
-        """Check if the given date is in the set of possible dates created
-        using a length-one version of this offset class."""
+        """Check if the given date is in the set of possible dates created using a
+        length-one version of this offset class."""
         test_date = (self + date) - self
         return date == test_date
 
@@ -159,8 +159,8 @@ class BaseCFTimeOffset:
 
 
 def _get_day_of_month(other, day_option):
-    """Find the day in `other`'s month that satisfies a BaseCFTimeOffset's
-    onOffset policy, as described by the `day_option` argument.
+    """Find the day in `other`'s month that satisfies a BaseCFTimeOffset's onOffset
+    policy, as described by the `day_option` argument.
 
     Parameters
     ----------
@@ -172,7 +172,6 @@ def _get_day_of_month(other, day_option):
     Returns
     -------
     day_of_month : int
-
     """
 
     if day_option == "start":
@@ -189,7 +188,7 @@ def _get_day_of_month(other, day_option):
 
 
 def _days_in_month(date):
-    """The number of days in the month of the given date"""
+    """The number of days in the month of the given date."""
     if date.month == 12:
         reference = type(date)(date.year + 1, 1, 1)
     else:
@@ -198,9 +197,8 @@ def _days_in_month(date):
 
 
 def _adjust_n_months(other_day, n, reference_day):
-    """Adjust the number of times a monthly offset is applied based
-    on the day of a given date, and the reference day provided.
-    """
+    """Adjust the number of times a monthly offset is applied based on the day of a
+    given date, and the reference day provided."""
     if n > 0 and other_day < reference_day:
         n = n - 1
     elif n <= 0 and other_day > reference_day:
@@ -209,8 +207,8 @@ def _adjust_n_months(other_day, n, reference_day):
 
 
 def _adjust_n_years(other, n, month, reference_day):
-    """Adjust the number of times an annual offset is applied based on
-    another date, and the reference day provided"""
+    """Adjust the number of times an annual offset is applied based on another date, and
+    the reference day provided."""
     if n > 0:
         if other.month < month or (other.month == month and other.day < reference_day):
             n -= 1
@@ -221,8 +219,7 @@ def _adjust_n_years(other, n, month, reference_day):
 
 
 def _shift_month(date, months, day_option="start"):
-    """Shift the date to a month start or end a given number of months away.
-    """
+    """Shift the date to a month start or end a given number of months away."""
     import cftime
 
     delta_year = (date.month + months) // 12
@@ -251,8 +248,8 @@ def _shift_month(date, months, day_option="start"):
 
 
 def roll_qtrday(other, n, month, day_option, modby=3):
-    """Possibly increment or decrement the number of periods to shift
-    based on rollforward/rollbackward conventions.
+    """Possibly increment or decrement the number of periods to shift based on
+    rollforward/rollbackward conventions.
 
     Parameters
     ----------
@@ -319,8 +316,8 @@ class MonthBegin(BaseCFTimeOffset):
         return _shift_month(other, n, "start")
 
     def onOffset(self, date):
-        """Check if the given date is in the set of possible dates created
-        using a length-one version of this offset class."""
+        """Check if the given date is in the set of possible dates created using a
+        length-one version of this offset class."""
         return date.day == 1
 
 
@@ -332,8 +329,8 @@ class MonthEnd(BaseCFTimeOffset):
         return _shift_month(other, n, "end")
 
     def onOffset(self, date):
-        """Check if the given date is in the set of possible dates created
-        using a length-one version of this offset class."""
+        """Check if the given date is in the set of possible dates created using a
+        length-one version of this offset class."""
         return date.day == _days_in_month(date)
 
 
@@ -354,8 +351,7 @@ _MONTH_ABBREVIATIONS = {
 
 
 class QuarterOffset(BaseCFTimeOffset):
-    """Quarter representation copied off of pandas/tseries/offsets.py
-    """
+    """Quarter representation copied off of pandas/tseries/offsets.py."""
 
     _freq: ClassVar[str]
     _default_month: ClassVar[int]
@@ -378,8 +374,8 @@ class QuarterOffset(BaseCFTimeOffset):
         return _shift_month(other, months, self._day_option)
 
     def onOffset(self, date):
-        """Check if the given date is in the set of possible dates created
-        using a length-one version of this offset class."""
+        """Check if the given date is in the set of possible dates created using a
+        length-one version of this offset class."""
         mod_month = (date.month - self.month) % 3
         return mod_month == 0 and date.day == self._get_offset_day(date)
 
@@ -414,14 +410,14 @@ class QuarterBegin(QuarterOffset):
     _day_option = "start"
 
     def rollforward(self, date):
-        """Roll date forward to nearest start of quarter"""
+        """Roll date forward to nearest start of quarter."""
         if self.onOffset(date):
             return date
         else:
             return date + QuarterBegin(month=self.month)
 
     def rollback(self, date):
-        """Roll date backward to nearest start of quarter"""
+        """Roll date backward to nearest start of quarter."""
         if self.onOffset(date):
             return date
         else:
@@ -439,14 +435,14 @@ class QuarterEnd(QuarterOffset):
     _day_option = "end"
 
     def rollforward(self, date):
-        """Roll date forward to nearest end of quarter"""
+        """Roll date forward to nearest end of quarter."""
         if self.onOffset(date):
             return date
         else:
             return date + QuarterEnd(month=self.month)
 
     def rollback(self, date):
-        """Roll date backward to nearest end of quarter"""
+        """Roll date backward to nearest end of quarter."""
         if self.onOffset(date):
             return date
         else:
@@ -494,19 +490,19 @@ class YearBegin(YearOffset):
     _default_month = 1
 
     def onOffset(self, date):
-        """Check if the given date is in the set of possible dates created
-        using a length-one version of this offset class."""
+        """Check if the given date is in the set of possible dates created using a
+        length-one version of this offset class."""
         return date.day == 1 and date.month == self.month
 
     def rollforward(self, date):
-        """Roll date forward to nearest start of year"""
+        """Roll date forward to nearest start of year."""
         if self.onOffset(date):
             return date
         else:
             return date + YearBegin(month=self.month)
 
     def rollback(self, date):
-        """Roll date backward to nearest start of year"""
+        """Roll date backward to nearest start of year."""
         if self.onOffset(date):
             return date
         else:
@@ -519,19 +515,19 @@ class YearEnd(YearOffset):
     _default_month = 12
 
     def onOffset(self, date):
-        """Check if the given date is in the set of possible dates created
-        using a length-one version of this offset class."""
+        """Check if the given date is in the set of possible dates created using a
+        length-one version of this offset class."""
         return date.day == _days_in_month(date) and date.month == self.month
 
     def rollforward(self, date):
-        """Roll date forward to nearest end of year"""
+        """Roll date forward to nearest end of year."""
         if self.onOffset(date):
             return date
         else:
             return date + YearEnd(month=self.month)
 
     def rollback(self, date):
-        """Roll date backward to nearest end of year"""
+        """Roll date backward to nearest end of year."""
         if self.onOffset(date):
             return date
         else:
@@ -653,8 +649,7 @@ CFTIME_TICKS = (Day, Hour, Minute, Second)
 
 
 def to_offset(freq):
-    """Convert a frequency string to the appropriate subclass of
-    BaseCFTimeOffset."""
+    """Convert a frequency string to the appropriate subclass of BaseCFTimeOffset."""
     if isinstance(freq, BaseCFTimeOffset):
         return freq
     else:
@@ -708,8 +703,8 @@ def _maybe_normalize_date(date, normalize):
 
 
 def _generate_linear_range(start, end, periods):
-    """Generate an equally-spaced sequence of cftime.datetime objects between
-    and including two dates (whose length equals the number of periods)."""
+    """Generate an equally-spaced sequence of cftime.datetime objects between and
+    including two dates (whose length equals the number of periods)."""
     import cftime
 
     total_seconds = (end - start).total_seconds()
@@ -722,8 +717,7 @@ def _generate_linear_range(start, end, periods):
 
 
 def _generate_range(start, end, periods, offset):
-    """Generate a regular range of cftime.datetime objects with a
-    given time offset.
+    """Generate a regular range of cftime.datetime objects with a given time offset.
 
     Adapted from pandas.tseries.offsets.generate_range.
 

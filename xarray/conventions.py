@@ -13,7 +13,7 @@ from .core.variable import IndexVariable, Variable, as_variable
 
 
 class NativeEndiannessArray(indexing.ExplicitlyIndexedNDArrayMixin):
-    """Decode arrays on the fly from non-native to native endianness
+    """Decode arrays on the fly from non-native to native endianness.
 
     This is useful for decoding arrays from netCDF3 files (which are all
     big endian) into native endianness, so they can be used with Cython
@@ -45,7 +45,7 @@ class NativeEndiannessArray(indexing.ExplicitlyIndexedNDArrayMixin):
 
 
 class BoolTypeArray(indexing.ExplicitlyIndexedNDArrayMixin):
-    """Decode arrays on the fly from integer to boolean datatype
+    """Decode arrays on the fly from integer to boolean datatype.
 
     This is useful for decoding boolean arrays from integer typed netCDF
     variables.
@@ -128,9 +128,8 @@ def maybe_encode_bools(var):
 
 
 def _infer_dtype(array, name=None):
-    """Given an object array with no missing values, infer its dtype from its
-    first element
-    """
+    """Given an object array with no missing values, infer its dtype from its first
+    element."""
     if array.dtype.kind != "O":
         raise TypeError("infer_type must be called on a dtype=object array")
 
@@ -165,8 +164,8 @@ def ensure_not_multiindex(var, name=None):
 def _copy_with_dtype(data, dtype):
     """Create a copy of an array with the given dtype.
 
-    We use this instead of np.array() to ensure that custom object dtypes end
-    up on the resulting array.
+    We use this instead of np.array() to ensure that custom object
+    dtypes end up on the resulting array.
     """
     result = np.empty(data.shape, dtype)
     result[...] = data
@@ -219,9 +218,8 @@ def ensure_dtype_not_object(var, name=None):
 
 
 def encode_cf_variable(var, needs_copy=True, name=None):
-    """
-    Converts an Variable into an Variable which follows some
-    of the CF conventions:
+    """Converts an Variable into an Variable which follows some of the CF
+    conventions:
 
         - Nans are masked using _FillValue (or the deprecated missing_value)
         - Rescaling via: scale_factor and add_offset
@@ -267,8 +265,7 @@ def decode_cf_variable(
     stack_char_dim=True,
     use_cftime=None,
 ):
-    """
-    Decodes a variable which may hold CF encoded information.
+    """Decodes a variable which may hold CF encoded information.
 
     This includes variables that have been masked and scaled, which
     hold CF style time variables (this is almost always the case if
@@ -443,8 +440,7 @@ def decode_cf_variables(
     drop_variables=None,
     use_cftime=None,
 ):
-    """
-    Decode several CF encoded variables.
+    """Decode several CF encoded variables.
 
     See: decode_cf_variable
     """
@@ -519,8 +515,8 @@ def decode_cf(
     drop_variables=None,
     use_cftime=None,
 ):
-    """Decode the given Dataset or Datastore according to CF conventions into
-    a new Dataset.
+    """Decode the given Dataset or Datastore according to CF conventions into a new
+    Dataset.
 
     Parameters
     ----------
@@ -599,8 +595,7 @@ def cf_decoder(
     mask_and_scale=True,
     decode_times=True,
 ):
-    """
-    Decode a set of CF encoded variables and attributes.
+    """Decode a set of CF encoded variables and attributes.
 
     Parameters
     ----------
@@ -693,8 +688,8 @@ def _encode_coordinates(variables, attributes, non_dim_coord_names):
 
 
 def encode_dataset_coordinates(dataset):
-    """Encode coordinates on the given dataset object into variable specific
-    and global attributes.
+    """Encode coordinates on the given dataset object into variable specific and global
+    attributes.
 
     When possible, this is done according to CF conventions.
 
@@ -715,13 +710,9 @@ def encode_dataset_coordinates(dataset):
 
 
 def cf_encoder(variables, attributes):
-    """
-    Encode a set of CF encoded variables and attributes.
-    Takes a dicts of variables and attributes and encodes them
-    to conform to CF conventions as much as possible.
-    This includes masking, scaling, character array handling,
-    and CF-time encoding.
-
+    """Encode a set of CF encoded variables and attributes. Takes a dicts of variables
+    and attributes and encodes them to conform to CF conventions as much as possible.
+    This includes masking, scaling, character array handling, and CF-time encoding.
 
     Parameters
     ----------

@@ -139,9 +139,8 @@ class VariableSubclassobjects:
         assert_identical(v._getitem_with_mask(indexer, fill_value=-1), indexer)
 
     def _assertIndexedLikeNDArray(self, variable, expected_value0, expected_dtype=None):
-        """Given a 1-dimensional variable, verify that the variable is indexed
-        like a numpy.ndarray.
-        """
+        """Given a 1-dimensional variable, verify that the variable is indexed like a
+        numpy.ndarray."""
         assert variable[0].shape == ()
         assert variable[0].ndim == 0
         assert variable[0].size == 1
@@ -1036,7 +1035,7 @@ class TestVariable(VariableSubclassobjects):
         assert isinstance(v._data, LazilyOuterIndexedArray)
 
     def test_detect_indexer_type(self):
-        """ Tests indexer type was correctly detected. """
+        """Tests indexer type was correctly detected."""
         data = np.random.random((10, 11))
         v = Variable(["x", "y"], data)
 
@@ -2111,7 +2110,7 @@ def test_raise_no_warning_for_nan_in_binary_ops():
 
 
 class TestBackendIndexing:
-    """    Make sure all the array wrappers can be indexed. """
+    """Make sure all the array wrappers can be indexed."""
 
     @pytest.fixture(autouse=True)
     def setUp(self):

@@ -22,7 +22,7 @@ ROBUST_PERCENTILE = 2.0
 
 
 def import_seaborn():
-    """import seaborn and handle deprecation of apionly module"""
+    """import seaborn and handle deprecation of apionly module."""
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")
         try:
@@ -75,9 +75,7 @@ def _determine_extend(calc_data, vmin, vmax):
 
 
 def _build_discrete_cmap(cmap, levels, extend, filled):
-    """
-    Build a discrete colormap and normalization of the data.
-    """
+    """Build a discrete colormap and normalization of the data."""
     import matplotlib as mpl
 
     if not filled:
@@ -150,8 +148,7 @@ def _determine_cmap_params(
     filled=True,
     norm=None,
 ):
-    """
-    Use some heuristics to set good defaults for colorbar and range.
+    """Use some heuristics to set good defaults for colorbar and range.
 
     Parameters
     ==========
@@ -284,11 +281,10 @@ def _determine_cmap_params(
 
 
 def _infer_xy_labels_3d(darray, x, y, rgb):
-    """
-    Determine x and y labels for showing RGB images.
+    """Determine x and y labels for showing RGB images.
 
-    Attempts to infer which dimension is RGB/RGBA by size and order of dims.
-
+    Attempts to infer which dimension is RGB/RGBA by size and order of
+    dims.
     """
     assert rgb is None or rgb != x
     assert rgb is None or rgb != y
@@ -342,8 +338,7 @@ def _infer_xy_labels_3d(darray, x, y, rgb):
 
 
 def _infer_xy_labels(darray, x, y, imshow=False, rgb=None):
-    """
-    Determine x and y labels. For use in _plot2d
+    """Determine x and y labels. For use in _plot2d.
 
     darray must be a 2 dimensional data array, or 3d for imshow only.
     """
@@ -396,8 +391,7 @@ def get_axis(figsize, size, aspect, ax):
 
 
 def label_from_attrs(da, extra=""):
-    """ Makes informative labels if variable metadata (attrs) follows
-        CF conventions. """
+    """Makes informative labels if variable metadata (attrs) follows CF conventions."""
 
     if da.attrs.get("long_name"):
         name = da.attrs["long_name"]
@@ -417,19 +411,13 @@ def label_from_attrs(da, extra=""):
 
 
 def _interval_to_mid_points(array):
-    """
-    Helper function which returns an array
-    with the Intervals' mid points.
-    """
+    """Helper function which returns an array with the Intervals' mid points."""
 
     return np.array([x.mid for x in array])
 
 
 def _interval_to_bound_points(array):
-    """
-    Helper function which returns an array
-    with the Intervals' boundaries.
-    """
+    """Helper function which returns an array with the Intervals' boundaries."""
 
     array_boundaries = np.array([x.left for x in array])
     array_boundaries = np.concatenate((array_boundaries, np.array([array[-1].right])))
@@ -438,10 +426,11 @@ def _interval_to_bound_points(array):
 
 
 def _interval_to_double_bound_points(xarray, yarray):
-    """
-    Helper function to deal with a xarray consisting of pd.Intervals. Each
-    interval is replaced with both boundaries. I.e. the length of xarray
-    doubles. yarray is modified so it matches the new shape of xarray.
+    """Helper function to deal with a xarray consisting of pd.Intervals.
+
+    Each interval is replaced with both boundaries. I.e. the length of
+    xarray doubles. yarray is modified so it matches the new shape of
+    xarray.
     """
 
     xarray1 = np.array([x.left for x in xarray])
@@ -454,8 +443,8 @@ def _interval_to_double_bound_points(xarray, yarray):
 
 
 def _resolve_intervals_2dplot(val, func_name):
-    """
-    Helper function to replace the values of a coordinate array containing
+    """Helper function to replace the values of a coordinate array containing.
+
     pd.Interval with their mid-points or - for pcolormesh - boundaries which
     increases length by 1.
     """
@@ -471,16 +460,12 @@ def _resolve_intervals_2dplot(val, func_name):
 
 
 def _valid_other_type(x, types):
-    """
-    Do all elements of x have a type from types?
-    """
+    """Do all elements of x have a type from types?"""
     return all(any(isinstance(el, t) for t in types) for el in np.ravel(x))
 
 
 def _valid_numpy_subdtype(x, numpy_types):
-    """
-    Is any dtype from numpy_types superior to the dtype of x?
-    """
+    """Is any dtype from numpy_types superior to the dtype of x?"""
     # If any of the types given in numpy_types is understood as numpy.generic,
     # all possible x will be considered valid.  This is probably unwanted.
     for t in numpy_types:
@@ -490,10 +475,8 @@ def _valid_numpy_subdtype(x, numpy_types):
 
 
 def _ensure_plottable(*args):
-    """
-    Raise exception if there is anything in args that can't be plotted on an
-    axis by matplotlib.
-    """
+    """Raise exception if there is anything in args that can't be plotted on an axis by
+    matplotlib."""
     numpy_types = [np.floating, np.integer, np.timedelta64, np.datetime64]
     other_types = [datetime]
     try:
@@ -595,9 +578,7 @@ def _update_axes(
     xlim=None,
     ylim=None,
 ):
-    """
-    Update axes with provided parameters
-    """
+    """Update axes with provided parameters."""
     if xincrease is None:
         pass
     elif xincrease and ax.xaxis_inverted():

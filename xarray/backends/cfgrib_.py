@@ -30,9 +30,7 @@ class CfGribArrayWrapper(BackendArray):
 
 
 class CfGribDataStore(AbstractDataStore):
-    """
-    Implements the ``xr.AbstractDataStore`` read-only API for a GRIB file.
-    """
+    """Implements the ``xr.AbstractDataStore`` read-only API for a GRIB file."""
 
     def __init__(self, filename, lock=None, **backend_kwargs):
         import cfgrib

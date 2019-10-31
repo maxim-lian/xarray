@@ -29,9 +29,10 @@ dd = pytest.importorskip("dask.dataframe")
 
 
 class CountingScheduler:
-    """ Simple dask scheduler counting the number of computes.
+    """Simple dask scheduler counting the number of computes.
 
-    Reference: https://stackoverflow.com/questions/53289286/ """
+    Reference: https://stackoverflow.com/questions/53289286/
+    """
 
     def __init__(self, max_computes=0):
         self.total_computes = 0
@@ -812,6 +813,7 @@ kernel_call_count = 0
 
 def kernel(name):
     """Dask kernel to test pickling/unpickling and __repr__.
+
     Must be global to make it pickleable.
     """
     global kernel_call_count

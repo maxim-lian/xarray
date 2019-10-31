@@ -5,8 +5,8 @@ RESAMPLE_DIM = "__resample_dim__"
 
 
 class Resample:
-    """An object that extends the `GroupBy` object with additional logic
-    for handling specialized re-sampling operations.
+    """An object that extends the `GroupBy` object with additional logic for handling
+    specialized re-sampling operations.
 
     You should create a `Resample` object by using the `DataArray.resample` or
     `Dataset.resample` methods. The dimension along re-sampling
@@ -15,12 +15,10 @@ class Resample:
     --------
     DataArray.resample
     Dataset.resample
-
     """
 
     def _upsample(self, method, *args, **kwargs):
-        """Dispatch function to call appropriate up-sampling methods on
-        data.
+        """Dispatch function to call appropriate up-sampling methods on data.
 
         This method should not be called directly; instead, use one of the
         wrapper functions supplied by `Resample`.
@@ -37,7 +35,6 @@ class Resample:
         Resample.pad
         Resample.backfill
         Resample.interpolate
-
         """
 
         upsampled_index = self._full_index
@@ -68,8 +65,7 @@ class Resample:
 
     def asfreq(self):
         """Return values of original object at the new up-sampling frequency;
-        essentially a re-index with new times set to NaN.
-        """
+        essentially a re-index with new times set to NaN."""
         return self._upsample("asfreq")
 
     def pad(self, tolerance=None):
@@ -107,8 +103,8 @@ class Resample:
     bfill = backfill
 
     def nearest(self, tolerance=None):
-        """Take new values from nearest original coordinate to up-sampled
-        frequency coordinates.
+        """Take new values from nearest original coordinate to up-sampled frequency
+        coordinates.
 
         Parameters
         ----------
@@ -123,8 +119,7 @@ class Resample:
         return self._upsample("nearest", tolerance=tolerance)
 
     def interpolate(self, kind="linear"):
-        """Interpolate up-sampled data using the original data
-        as knots.
+        """Interpolate up-sampled data using the original data as knots.
 
         Parameters
         ----------
@@ -135,7 +130,6 @@ class Resample:
         See Also
         --------
         scipy.interpolate.interp1d
-
         """
         return self._interpolate(kind=kind)
 
@@ -157,8 +151,7 @@ class Resample:
 
 class DataArrayResample(DataArrayGroupBy, Resample):
     """DataArrayGroupBy object specialized to time resampling operations over a
-    specified dimension
-    """
+    specified dimension."""
 
     def __init__(self, *args, dim=None, resample_dim=None, **kwargs):
 
@@ -174,8 +167,8 @@ class DataArrayResample(DataArrayGroupBy, Resample):
         super().__init__(*args, **kwargs)
 
     def apply(self, func, shortcut=False, args=(), **kwargs):
-        """Apply a function over each array in the group and concatenate them
-        together into a new array.
+        """Apply a function over each array in the group and concatenate them together
+        into a new array.
 
         `func` is called like `func(ar, *args, **kwargs)` for each array `ar`
         in this group.
@@ -231,8 +224,7 @@ ops.inject_binary_ops(DataArrayResample)
 
 
 class DatasetResample(DatasetGroupBy, Resample):
-    """DatasetGroupBy object specialized to resampling a specified dimension
-    """
+    """DatasetGroupBy object specialized to resampling a specified dimension."""
 
     def __init__(self, *args, dim=None, resample_dim=None, **kwargs):
 
@@ -248,8 +240,8 @@ class DatasetResample(DatasetGroupBy, Resample):
         super().__init__(*args, **kwargs)
 
     def apply(self, func, args=(), shortcut=None, **kwargs):
-        """Apply a function over each Dataset in the groups generated for
-        resampling  and concatenate them together into a new Dataset.
+        """Apply a function over each Dataset in the groups generated for resampling
+        and concatenate them together into a new Dataset.
 
         `func` is called like `func(ds, *args, **kwargs)` for each dataset `ds`
         in this group.
@@ -283,8 +275,8 @@ class DatasetResample(DatasetGroupBy, Resample):
         return combined.rename({self._resample_dim: self._dim})
 
     def reduce(self, func, dim=None, keep_attrs=None, **kwargs):
-        """Reduce the items in this group by applying `func` along the
-        pre-defined resampling dimension.
+        """Reduce the items in this group by applying `func` along the pre- defined
+        resampling dimension.
 
         Parameters
         ----------

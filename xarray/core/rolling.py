@@ -45,8 +45,7 @@ class Rolling:
     _attributes = ("window", "min_periods", "center", "dim")
 
     def __init__(self, obj, windows, min_periods=None, center=False):
-        """
-        Moving window object.
+        """Moving window object.
 
         Parameters
         ----------
@@ -93,7 +92,7 @@ class Rolling:
         return self.min_periods if self.min_periods is not None else self.window
 
     def __repr__(self):
-        """provide a nice str repr of our rolling object"""
+        """provide a nice str repr of our rolling object."""
 
         attrs = [
             "{k}->{v}".format(k=k, v=getattr(self, k))
@@ -143,10 +142,8 @@ class DataArrayRolling(Rolling):
     __slots__ = ("window_labels",)
 
     def __init__(self, obj, windows, min_periods=None, center=False):
-        """
-        Moving window object for DataArray.
-        You should use DataArray.rolling() method to construct this object
-        instead of the class constructor.
+        """Moving window object for DataArray. You should use DataArray.rolling() method
+        to construct this object instead of the class constructor.
 
         Parameters
         ----------
@@ -193,9 +190,8 @@ class DataArrayRolling(Rolling):
             yield (label, window)
 
     def construct(self, window_dim, stride=1, fill_value=dtypes.NA):
-        """
-        Convert this rolling object to xr.DataArray,
-        where the window dimension is stacked as a new dimension
+        """Convert this rolling object to xr.DataArray, where the window dimension is
+        stacked as a new dimension.
 
         Parameters
         ----------
@@ -241,8 +237,7 @@ class DataArrayRolling(Rolling):
         return result.isel(**{self.dim: slice(None, None, stride)})
 
     def reduce(self, func, **kwargs):
-        """Reduce the items in this group by applying `func` along some
-        dimension(s).
+        """Reduce the items in this group by applying `func` along some dimension(s).
 
         Parameters
         ----------
@@ -290,7 +285,7 @@ class DataArrayRolling(Rolling):
         return result.where(counts >= self._min_periods)
 
     def _counts(self):
-        """ Number of non-nan entries in each rolling window. """
+        """Number of non-nan entries in each rolling window."""
 
         rolling_dim = utils.get_temp_dimname(self.obj.dims, "_rolling_dim")
         # We use False as the fill_value instead of np.nan, since boolean
@@ -366,10 +361,8 @@ class DatasetRolling(Rolling):
     __slots__ = ("rollings",)
 
     def __init__(self, obj, windows, min_periods=None, center=False):
-        """
-        Moving window object for Dataset.
-        You should use Dataset.rolling() method to construct this object
-        instead of the class constructor.
+        """Moving window object for Dataset. You should use Dataset.rolling() method to
+        construct this object instead of the class constructor.
 
         Parameters
         ----------
@@ -421,8 +414,7 @@ class DatasetRolling(Rolling):
         return Dataset(reduced, coords=self.obj.coords)
 
     def reduce(self, func, **kwargs):
-        """Reduce the items in this group by applying `func` along some
-        dimension(s).
+        """Reduce the items in this group by applying `func` along some dimension(s).
 
         Parameters
         ----------
@@ -458,9 +450,8 @@ class DatasetRolling(Rolling):
         )
 
     def construct(self, window_dim, stride=1, fill_value=dtypes.NA):
-        """
-        Convert this rolling object to xr.Dataset,
-        where the window dimension is stacked as a new dimension
+        """Convert this rolling object to xr.Dataset, where the window dimension is
+        stacked as a new dimension.
 
         Parameters
         ----------
@@ -504,8 +495,7 @@ class Coarsen:
     _attributes = ("windows", "side", "trim_excess")
 
     def __init__(self, obj, windows, boundary, side, coord_func):
-        """
-        Moving window object.
+        """Moving window object.
 
         Parameters
         ----------
@@ -541,7 +531,7 @@ class Coarsen:
         self.coord_func = coord_func
 
     def __repr__(self):
-        """provide a nice str repr of our coarsen object"""
+        """provide a nice str repr of our coarsen object."""
 
         attrs = [
             "{k}->{v}".format(k=k, v=getattr(self, k))
@@ -558,8 +548,8 @@ class DataArrayCoarsen(Coarsen):
 
     @classmethod
     def _reduce_method(cls, func):
-        """
-        Return a wrapped function for injecting numpy methods.
+        """Return a wrapped function for injecting numpy methods.
+
         see ops.inject_coarsen_methods
         """
 
@@ -590,8 +580,8 @@ class DatasetCoarsen(Coarsen):
 
     @classmethod
     def _reduce_method(cls, func):
-        """
-        Return a wrapped function for injecting numpy methods.
+        """Return a wrapped function for injecting numpy methods.
+
         see ops.inject_coarsen_methods
         """
 

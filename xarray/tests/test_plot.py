@@ -40,9 +40,7 @@ except ImportError:
 @pytest.mark.flaky
 @pytest.mark.skip(reason="maybe flaky")
 def text_in_fig():
-    """
-    Return the set of all text in the figure
-    """
+    """Return the set of all text in the figure."""
     return {t.get_text() for t in plt.gcf().findobj(mpl.text.Text)}
 
 
@@ -52,9 +50,7 @@ def find_possible_colorbars():
 
 
 def substring_in_axes(substring, ax):
-    """
-    Return True if a substring is found anywhere in an axes
-    """
+    """Return True if a substring is found anywhere in an axes."""
     alltxt = {t.get_text() for t in ax.findobj(mpl.text.Text)}
     for txt in alltxt:
         if substring in txt:
@@ -63,8 +59,7 @@ def substring_in_axes(substring, ax):
 
 
 def easy_array(shape, start=0, stop=1):
-    """
-    Make an array with desired shape using np.linspace
+    """Make an array with desired shape using np.linspace.
 
     shape is a tuple like (2, 3)
     """
@@ -839,8 +834,7 @@ class TestDiscreteColorMap:
 
 
 class Common2dMixin:
-    """
-    Common tests for 2d plotting go here.
+    """Common tests for 2d plotting go here.
 
     These tests assume that a staticmethod for `self.plotfunc` exists.
     Should have the same name as the method.
@@ -1997,9 +1991,7 @@ class TestDatasetScatterPlots(PlotTestCase):
 class TestDatetimePlot(PlotTestCase):
     @pytest.fixture(autouse=True)
     def setUp(self):
-        """
-        Create a DataArray with a time-axis that contains datetime objects.
-        """
+        """Create a DataArray with a time-axis that contains datetime objects."""
         month = np.arange(1, 13, 1)
         data = np.sin(2 * np.pi * month / 12.0)
 
@@ -2018,10 +2010,7 @@ class TestDatetimePlot(PlotTestCase):
 class TestCFDatetimePlot(PlotTestCase):
     @pytest.fixture(autouse=True)
     def setUp(self):
-        """
-        Create a DataArray with a time-axis that contains cftime.datetime
-        objects.
-        """
+        """Create a DataArray with a time-axis that contains cftime.datetime objects."""
         # case for 1d array
         data = np.random.rand(4, 12)
         time = xr.cftime_range(start="2017", periods=12, freq="1M", calendar="noleap")
@@ -2045,10 +2034,7 @@ class TestCFDatetimePlot(PlotTestCase):
 class TestNcAxisNotInstalled(PlotTestCase):
     @pytest.fixture(autouse=True)
     def setUp(self):
-        """
-        Create a DataArray with a time-axis that contains cftime.datetime
-        objects.
-        """
+        """Create a DataArray with a time-axis that contains cftime.datetime objects."""
         month = np.arange(1, 13, 1)
         data = np.sin(2 * np.pi * month / 12.0)
         darray = DataArray(data, dims=["time"])

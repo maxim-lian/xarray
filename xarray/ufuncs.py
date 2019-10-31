@@ -1,4 +1,4 @@
-"""xarray specific universal functions
+"""xarray specific universal functions.
 
 Handles unary and binary operations for the following types, in ascending
 priority order:

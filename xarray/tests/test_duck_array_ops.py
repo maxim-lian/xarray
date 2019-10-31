@@ -250,8 +250,10 @@ def from_series_or_scalar(se):
 
 
 def series_reduce(da, func, dim, **kwargs):
-    """ convert DataArray to pd.Series, apply pd.func, then convert back to
-    a DataArray. Multiple dims cannot be specified."""
+    """convert DataArray to pd.Series, apply pd.func, then convert back to a DataArray.
+
+    Multiple dims cannot be specified.
+    """
     if dim is None or da.ndim == 1:
         se = da.to_series()
         return from_series_or_scalar(getattr(se, func)(**kwargs))

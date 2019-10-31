@@ -45,6 +45,7 @@ def make_meta(obj):
     """If obj is a DataArray or Dataset, return a new object of the same type and with
     the same variables and dtypes, but where all variables have size 0 and numpy
     backend.
+
     If obj is neither a DataArray nor Dataset, return it unaltered.
     """
     if isinstance(obj, DataArray):
@@ -70,8 +71,7 @@ def make_meta(obj):
 def infer_template(
     func: Callable[..., T_DSorDA], obj: Union[DataArray, Dataset], *args, **kwargs
 ) -> T_DSorDA:
-    """Infer return object by running the function on meta objects.
-    """
+    """Infer return object by running the function on meta objects."""
     meta_args = [make_meta(arg) for arg in (obj,) + args]
 
     try:
@@ -91,9 +91,7 @@ def infer_template(
 
 
 def make_dict(x: Union[DataArray, Dataset]) -> Dict[Hashable, Any]:
-    """Map variable name to numpy(-like) data
-    (Dataset.to_dict() is too complicated).
-    """
+    """Map variable name to numpy(-like) data (Dataset.to_dict() is too complicated)."""
     if isinstance(x, DataArray):
         x = x._to_temp_dataset()
 

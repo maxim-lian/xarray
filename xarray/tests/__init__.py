@@ -137,9 +137,8 @@ class IndexerMaker:
 
 
 def source_ndarray(array):
-    """Given an ndarray, return the base object which holds its memory, or the
-    object itself.
-    """
+    """Given an ndarray, return the base object which holds its memory, or the object
+    itself."""
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", "DatetimeIndex.base")
         warnings.filterwarnings("ignore", "TimedeltaIndex.base")

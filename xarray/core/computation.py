@@ -1,6 +1,4 @@
-"""
-Functions for applying functions that act on arrays to xarray's labeled data.
-"""
+"""Functions for applying functions that act on arrays to xarray's labeled data."""
 import functools
 import itertools
 import operator
@@ -213,8 +211,7 @@ def apply_dataarray_vfunc(
     func, *args, signature, join="inner", exclude_dims=frozenset(), keep_attrs=False
 ):
     """Apply a variable level function over DataArray, Variable and/or ndarray
-    objects.
-    """
+    objects."""
     from .dataarray import DataArray
 
     if len(args) > 1:
@@ -314,9 +311,8 @@ def _unpack_dict_tuples(
 def apply_dict_of_variables_vfunc(
     func, *args, signature, join="inner", fill_value=None
 ):
-    """Apply a variable level function over dicts of DataArray, DataArray,
-    Variable and ndarray objects.
-    """
+    """Apply a variable level function over dicts of DataArray, DataArray, Variable and
+    ndarray objects."""
     args = [_as_variables_or_variable(arg) for arg in args]
     names = join_dict_keys(args, how=join)
     grouped_by_name = collect_dict_values(args, names, fill_value)
@@ -355,9 +351,8 @@ def apply_dataset_vfunc(
     exclude_dims=frozenset(),
     keep_attrs=False,
 ):
-    """Apply a variable level function over Dataset, dict of DataArray,
-    DataArray, Variable and/or ndarray objects.
-    """
+    """Apply a variable level function over Dataset, dict of DataArray, DataArray,
+    Variable and/or ndarray objects."""
     from .dataset import Dataset
 
     first_obj = args[0]  # we'll copy attrs from this in case keep_attrs=True
@@ -411,9 +406,8 @@ def _iter_over_selections(obj, dim, values):
 
 
 def apply_groupby_func(func, *args):
-    """Apply a dataset or datarray level function over GroupBy, Dataset,
-    DataArray, Variable and/or ndarray objects.
-    """
+    """Apply a dataset or datarray level function over GroupBy, Dataset, DataArray,
+    Variable and/or ndarray objects."""
     from .groupby import GroupBy, peek_at
     from .variable import Variable
 
@@ -548,8 +542,7 @@ def apply_variable_ufunc(
     output_sizes=None,
     keep_attrs=False,
 ):
-    """Apply a ndarray level function over Variable and/or ndarray objects.
-    """
+    """Apply a ndarray level function over Variable and/or ndarray objects."""
     from .variable import Variable, as_compatible_data
 
     dim_sizes = unified_dim_sizes(
@@ -1048,8 +1041,8 @@ def apply_ufunc(
 
 
 def dot(*arrays, dims=None, **kwargs):
-    """Generalized dot product for xarray objects. Like np.einsum, but
-    provides a simpler interface based on array dimensions.
+    """Generalized dot product for xarray objects. Like np.einsum, but provides a
+    simpler interface based on array dimensions.
 
     Parameters
     ----------

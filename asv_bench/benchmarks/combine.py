@@ -4,10 +4,10 @@ import xarray as xr
 
 
 class Combine:
-    """Benchmark concatenating and merging large datasets"""
+    """Benchmark concatenating and merging large datasets."""
 
     def setup(self):
-        """Create 4 datasets with two different variables"""
+        """Create 4 datasets with two different variables."""
 
         t_size, x_size, y_size = 100, 900, 800
         t = np.arange(t_size)
@@ -32,7 +32,7 @@ class Combine:
         xr.combine_manual(datasets, concat_dim=[None, "t"])
 
     def time_auto_combine(self):
-        """Also has to load and arrange t coordinate"""
+        """Also has to load and arrange t coordinate."""
         datasets = [self.dsA0, self.dsA1, self.dsB0, self.dsB1]
 
         xr.combine_auto(datasets)

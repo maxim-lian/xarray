@@ -36,15 +36,13 @@ class VariableCoder:
     def encode(
         self, variable: Variable, name: Hashable = None
     ) -> Variable:  # pragma: no cover
-        """Convert an encoded variable to a decoded variable
-        """
+        """Convert an encoded variable to a decoded variable."""
         raise NotImplementedError()
 
     def decode(
         self, variable: Variable, name: Hashable = None
     ) -> Variable:  # pragma: no cover
-        """Convert an decoded variable to a encoded variable
-        """
+        """Convert an decoded variable to a encoded variable."""
         raise NotImplementedError()
 
 
@@ -121,10 +119,10 @@ def safe_setitem(dest, key, value, name=None):
 
 
 def pop_to(source, dest, key, name=None):
-    """
-    A convenience function which pops a key k from source to dest.
-    None values are not passed on.  If k already exists in dest an
-    error is raised.
+    """A convenience function which pops a key k from source to dest.
+
+    None values are not passed on.  If k already exists in dest an error
+    is raised.
     """
     value = source.pop(key, None)
     if value is not None:

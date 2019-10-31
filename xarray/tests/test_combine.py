@@ -464,7 +464,7 @@ class TestNestedCombine:
         assert_identical(expected, actual)
 
     def test_concat_name_symmetry(self):
-        """Inspired by the discussion on GH issue #2777"""
+        """Inspired by the discussion on GH issue #2777."""
 
         da1 = DataArray(name="a", data=[[0]], dims=["x", "y"])
         da2 = DataArray(name="b", data=[[1]], dims=["x", "y"])
@@ -718,9 +718,10 @@ class TestCombineAuto:
 @pytest.mark.filterwarnings("ignore:Also `open_mfdataset` will no longer")
 @pytest.mark.filterwarnings("ignore:The datasets supplied")
 class TestAutoCombineOldAPI:
-    """
-    Set of tests which check that old 1-dimensional auto_combine behaviour is
-    still satisfied. #2616
+    """Set of tests which check that old 1-dimensional auto_combine behaviour is still
+    satisfied.
+
+    #2616
     """
 
     def test_auto_combine(self):
@@ -850,9 +851,10 @@ class TestAutoCombineOldAPI:
 
 
 class TestAutoCombineDeprecation:
-    """
-    Set of tests to check that FutureWarnings are correctly raised until the
-    deprecation cycle is complete. #2616
+    """Set of tests to check that FutureWarnings are correctly raised until the
+    deprecation cycle is complete.
+
+    #2616
     """
 
     def test_auto_combine_with_concat_dim(self):

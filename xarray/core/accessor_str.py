@@ -72,7 +72,6 @@ class StringAccessor:
         <xarray.DataArray (dim_0: 5)>
         array([4, 4, 2, 2, 5])
         Dimensions without coordinates: dim_0
-
     """
 
     __slots__ = ("_obj",)
@@ -89,8 +88,7 @@ class StringAccessor:
         return apply_ufunc(g, self._obj, dask="parallelized", output_dtypes=[dtype])
 
     def len(self):
-        """
-        Compute the length of each element in the array.
+        """Compute the length of each element in the array.
 
         Returns
         -------
@@ -105,8 +103,7 @@ class StringAccessor:
             return self.get(key)
 
     def get(self, i):
-        """
-        Extract element from indexable in each element in the array.
+        """Extract element from indexable in each element in the array.
 
         Parameters
         ----------
@@ -124,8 +121,7 @@ class StringAccessor:
         return self._apply(lambda x: x[obj])
 
     def slice(self, start=None, stop=None, step=None):
-        """
-        Slice substrings from each element in the array.
+        """Slice substrings from each element in the array.
 
         Parameters
         ----------
@@ -145,8 +141,7 @@ class StringAccessor:
         return self._apply(f)
 
     def slice_replace(self, start=None, stop=None, repl=""):
-        """
-        Replace a positional slice of a string with another value.
+        """Replace a positional slice of a string with another value.
 
         Parameters
         ----------
@@ -184,8 +179,7 @@ class StringAccessor:
         return self._apply(f)
 
     def capitalize(self):
-        """
-        Convert strings in the array to be capitalized.
+        """Convert strings in the array to be capitalized.
 
         Returns
         -------
@@ -194,8 +188,7 @@ class StringAccessor:
         return self._apply(lambda x: x.capitalize())
 
     def lower(self):
-        """
-        Convert strings in the array to lowercase.
+        """Convert strings in the array to lowercase.
 
         Returns
         -------
@@ -204,8 +197,7 @@ class StringAccessor:
         return self._apply(lambda x: x.lower())
 
     def swapcase(self):
-        """
-        Convert strings in the array to be swapcased.
+        """Convert strings in the array to be swapcased.
 
         Returns
         -------
@@ -214,8 +206,7 @@ class StringAccessor:
         return self._apply(lambda x: x.swapcase())
 
     def title(self):
-        """
-        Convert strings in the array to titlecase.
+        """Convert strings in the array to titlecase.
 
         Returns
         -------
@@ -224,8 +215,7 @@ class StringAccessor:
         return self._apply(lambda x: x.title())
 
     def upper(self):
-        """
-        Convert strings in the array to uppercase.
+        """Convert strings in the array to uppercase.
 
         Returns
         -------
@@ -234,8 +224,7 @@ class StringAccessor:
         return self._apply(lambda x: x.upper())
 
     def isalnum(self):
-        """
-        Check whether all characters in each string are alphanumeric.
+        """Check whether all characters in each string are alphanumeric.
 
         Returns
         -------
@@ -245,8 +234,7 @@ class StringAccessor:
         return self._apply(lambda x: x.isalnum(), dtype=bool)
 
     def isalpha(self):
-        """
-        Check whether all characters in each string are alphabetic.
+        """Check whether all characters in each string are alphabetic.
 
         Returns
         -------
@@ -256,8 +244,7 @@ class StringAccessor:
         return self._apply(lambda x: x.isalpha(), dtype=bool)
 
     def isdecimal(self):
-        """
-        Check whether all characters in each string are decimal.
+        """Check whether all characters in each string are decimal.
 
         Returns
         -------
@@ -267,8 +254,7 @@ class StringAccessor:
         return self._apply(lambda x: x.isdecimal(), dtype=bool)
 
     def isdigit(self):
-        """
-        Check whether all characters in each string are digits.
+        """Check whether all characters in each string are digits.
 
         Returns
         -------
@@ -278,8 +264,7 @@ class StringAccessor:
         return self._apply(lambda x: x.isdigit(), dtype=bool)
 
     def islower(self):
-        """
-        Check whether all characters in each string are lowercase.
+        """Check whether all characters in each string are lowercase.
 
         Returns
         -------
@@ -289,8 +274,7 @@ class StringAccessor:
         return self._apply(lambda x: x.islower(), dtype=bool)
 
     def isnumeric(self):
-        """
-        Check whether all characters in each string are numeric.
+        """Check whether all characters in each string are numeric.
 
         Returns
         -------
@@ -300,8 +284,7 @@ class StringAccessor:
         return self._apply(lambda x: x.isnumeric(), dtype=bool)
 
     def isspace(self):
-        """
-        Check whether all characters in each string are spaces.
+        """Check whether all characters in each string are spaces.
 
         Returns
         -------
@@ -311,8 +294,7 @@ class StringAccessor:
         return self._apply(lambda x: x.isspace(), dtype=bool)
 
     def istitle(self):
-        """
-        Check whether all characters in each string are titlecase.
+        """Check whether all characters in each string are titlecase.
 
         Returns
         -------
@@ -322,8 +304,7 @@ class StringAccessor:
         return self._apply(lambda x: x.istitle(), dtype=bool)
 
     def isupper(self):
-        """
-        Check whether all characters in each string are uppercase.
+        """Check whether all characters in each string are uppercase.
 
         Returns
         -------
@@ -333,8 +314,7 @@ class StringAccessor:
         return self._apply(lambda x: x.isupper(), dtype=bool)
 
     def count(self, pat, flags=0):
-        """
-        Count occurrences of pattern in each string of the array.
+        """Count occurrences of pattern in each string of the array.
 
         This function is used to count the number of times a particular regex
         pattern is repeated in each of the string elements of the
@@ -358,8 +338,7 @@ class StringAccessor:
         return self._apply(f, dtype=int)
 
     def startswith(self, pat):
-        """
-        Test if the start of each string element matches a pattern.
+        """Test if the start of each string element matches a pattern.
 
         Parameters
         ----------
@@ -377,8 +356,7 @@ class StringAccessor:
         return self._apply(f, dtype=bool)
 
     def endswith(self, pat):
-        """
-        Test if the end of each string element matches a pattern.
+        """Test if the end of each string element matches a pattern.
 
         Parameters
         ----------
@@ -396,8 +374,7 @@ class StringAccessor:
         return self._apply(f, dtype=bool)
 
     def pad(self, width, side="left", fillchar=" "):
-        """
-        Pad strings in the array up to width.
+        """Pad strings in the array up to width.
 
         Parameters
         ----------
@@ -431,9 +408,8 @@ class StringAccessor:
         return self._apply(f)
 
     def center(self, width, fillchar=" "):
-        """
-        Filling left and right side of strings in the array with an
-        additional character.
+        """Filling left and right side of strings in the array with an additional
+        character.
 
         Parameters
         ----------
@@ -450,9 +426,7 @@ class StringAccessor:
         return self.pad(width, side="both", fillchar=fillchar)
 
     def ljust(self, width, fillchar=" "):
-        """
-        Filling right side of strings in the array with an additional
-        character.
+        """Filling right side of strings in the array with an additional character.
 
         Parameters
         ----------
@@ -469,8 +443,7 @@ class StringAccessor:
         return self.pad(width, side="right", fillchar=fillchar)
 
     def rjust(self, width, fillchar=" "):
-        """
-        Filling left side of strings in the array with an additional character.
+        """Filling left side of strings in the array with an additional character.
 
         Parameters
         ----------
@@ -487,8 +460,7 @@ class StringAccessor:
         return self.pad(width, side="left", fillchar=fillchar)
 
     def zfill(self, width):
-        """
-        Pad strings in the array by prepending '0' characters.
+        """Pad strings in the array by prepending '0' characters.
 
         Strings in the array are padded with '0' characters on the
         left of the string to reach a total string length  `width`. Strings
@@ -507,8 +479,7 @@ class StringAccessor:
         return self.pad(width, side="left", fillchar="0")
 
     def contains(self, pat, case=True, flags=0, regex=True):
-        """
-        Test if pattern or regex is contained within a string of the array.
+        """Test if pattern or regex is contained within a string of the array.
 
         Return boolean array based on whether a given pattern or regex is
         contained within a string of the array.
@@ -553,8 +524,7 @@ class StringAccessor:
         return self._apply(f, dtype=bool)
 
     def match(self, pat, case=True, flags=0):
-        """
-        Determine if each string matches a regular expression.
+        """Determine if each string matches a regular expression.
 
         Parameters
         ----------
@@ -578,8 +548,7 @@ class StringAccessor:
         return self._apply(f, dtype=bool)
 
     def strip(self, to_strip=None, side="both"):
-        """
-        Remove leading and trailing characters.
+        """Remove leading and trailing characters.
 
         Strip whitespaces (including newlines) or a set of specified characters
         from each string in the array from left and/or right sides.
@@ -612,8 +581,7 @@ class StringAccessor:
         return self._apply(f)
 
     def lstrip(self, to_strip=None):
-        """
-        Remove leading and trailing characters.
+        """Remove leading and trailing characters.
 
         Strip whitespaces (including newlines) or a set of specified characters
         from each string in the array from the left side.
@@ -632,8 +600,7 @@ class StringAccessor:
         return self.strip(to_strip, side="left")
 
     def rstrip(self, to_strip=None):
-        """
-        Remove leading and trailing characters.
+        """Remove leading and trailing characters.
 
         Strip whitespaces (including newlines) or a set of specified characters
         from each string in the array from the right side.
@@ -652,9 +619,8 @@ class StringAccessor:
         return self.strip(to_strip, side="right")
 
     def wrap(self, width, **kwargs):
-        """
-        Wrap long strings in the array to be formatted in paragraphs with
-        length less than a given width.
+        """Wrap long strings in the array to be formatted in paragraphs with length less
+        than a given width.
 
         This method has the same keyword parameters and defaults as
         :class:`textwrap.TextWrapper`.
@@ -693,8 +659,7 @@ class StringAccessor:
         return self._apply(f)
 
     def translate(self, table):
-        """
-        Map all characters in the string through the given mapping table.
+        """Map all characters in the string through the given mapping table.
 
         Parameters
         ----------
@@ -712,8 +677,7 @@ class StringAccessor:
         return self._apply(f)
 
     def repeat(self, repeats):
-        """
-        Duplicate each string in the array.
+        """Duplicate each string in the array.
 
         Parameters
         ----------
@@ -729,10 +693,8 @@ class StringAccessor:
         return self._apply(f)
 
     def find(self, sub, start=0, end=None, side="left"):
-        """
-        Return lowest or highest indexes in each strings in the array
-        where the substring is fully contained between [start:end].
-        Return -1 on failure.
+        """Return lowest or highest indexes in each strings in the array where the
+        substring is fully contained between [start:end]. Return -1 on failure.
 
         Parameters
         ----------
@@ -766,10 +728,8 @@ class StringAccessor:
         return self._apply(f, dtype=int)
 
     def rfind(self, sub, start=0, end=None):
-        """
-        Return highest indexes in each strings in the array
-        where the substring is fully contained between [start:end].
-        Return -1 on failure.
+        """Return highest indexes in each strings in the array where the substring is
+        fully contained between [start:end]. Return -1 on failure.
 
         Parameters
         ----------
@@ -787,11 +747,9 @@ class StringAccessor:
         return self.find(sub, start=start, end=end, side="right")
 
     def index(self, sub, start=0, end=None, side="left"):
-        """
-        Return lowest or highest indexes in each strings where the substring is
-        fully contained between [start:end]. This is the same as
-        ``str.find`` except instead of returning -1, it raises a ValueError
-        when the substring is not found.
+        """Return lowest or highest indexes in each strings where the substring is fully
+        contained between [start:end]. This is the same as ``str.find`` except instead
+        of returning -1, it raises a ValueError when the substring is not found.
 
         Parameters
         ----------
@@ -825,11 +783,9 @@ class StringAccessor:
         return self._apply(f, dtype=int)
 
     def rindex(self, sub, start=0, end=None):
-        """
-        Return highest indexes in each strings where the substring is
-        fully contained between [start:end]. This is the same as
-        ``str.rfind`` except instead of returning -1, it raises a ValueError
-        when the substring is not found.
+        """Return highest indexes in each strings where the substring is fully contained
+        between [start:end]. This is the same as ``str.rfind`` except instead of
+        returning -1, it raises a ValueError when the substring is not found.
 
         Parameters
         ----------
@@ -847,8 +803,7 @@ class StringAccessor:
         return self.index(sub, start=start, end=end, side="right")
 
     def replace(self, pat, repl, n=-1, case=None, flags=0, regex=True):
-        """
-        Replace occurrences of pattern/regex in the array with some string.
+        """Replace occurrences of pattern/regex in the array with some string.
 
         Parameters
         ----------
@@ -926,8 +881,7 @@ class StringAccessor:
         return self._apply(f)
 
     def decode(self, encoding, errors="strict"):
-        """
-        Decode character string in the array using indicated encoding.
+        """Decode character string in the array using indicated encoding.
 
         Parameters
         ----------
@@ -946,8 +900,7 @@ class StringAccessor:
         return self._apply(f, dtype=np.str_)
 
     def encode(self, encoding, errors="strict"):
-        """
-        Encode character string in the array using indicated encoding.
+        """Encode character string in the array using indicated encoding.
 
         Parameters
         ----------

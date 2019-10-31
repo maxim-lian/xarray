@@ -98,8 +98,7 @@ def _is_contiguous(positions):
 
 
 def _advanced_indexer_subspaces(key):
-    """Indices of the advanced indexes subspaces for mixed indexing and vindex.
-    """
+    """Indices of the advanced indexes subspaces for mixed indexing and vindex."""
     if not isinstance(key, tuple):
         key = (key,)
     advanced_index_positions = [
@@ -141,7 +140,7 @@ class NumpyVIndexAdapter:
 
 
 def rolling_window(a, axis, window, center, fill_value):
-    """ rolling window with padding. """
+    """rolling window with padding."""
     pads = [(0, 0) for s in a.shape]
     if center:
         start = int(window / 2)  # 10 -> 5,  9 -> 4
@@ -154,8 +153,7 @@ def rolling_window(a, axis, window, center, fill_value):
 
 
 def _rolling_window(a, window, axis=-1):
-    """
-    Make an ndarray with a rolling window along axis.
+    """Make an ndarray with a rolling window along axis.
 
     Parameters
     ----------

@@ -82,7 +82,7 @@ if TYPE_CHECKING:
 def _infer_coords_and_dims(
     shape, coords, dims
 ) -> "Tuple[Dict[Any, Variable], Tuple[Hashable, ...]]":
-    """All the logic for creating a new DataArray"""
+    """All the logic for creating a new DataArray."""
 
     if (
         coords is not None
@@ -516,8 +516,7 @@ class DataArray(AbstractArray, DataWithCoords):
 
     @property
     def name(self) -> Optional[Hashable]:
-        """The name of this array.
-        """
+        """The name of this array."""
         return self._name
 
     @name.setter
@@ -554,8 +553,7 @@ class DataArray(AbstractArray, DataWithCoords):
 
     @property
     def data(self) -> Any:
-        """The array's data as a dask or numpy array
-        """
+        """The array's data as a dask or numpy array."""
         return self.variable.data
 
     @data.setter
@@ -564,7 +562,7 @@ class DataArray(AbstractArray, DataWithCoords):
 
     @property
     def values(self) -> np.ndarray:
-        """The array's data as a numpy.ndarray"""
+        """The array's data as a numpy.ndarray."""
         return self.variable.values
 
     @values.setter
@@ -576,8 +574,9 @@ class DataArray(AbstractArray, DataWithCoords):
         return self.variable._in_memory
 
     def to_index(self) -> pd.Index:
-        """Convert this variable to a pandas.Index. Only possible for 1D
-        arrays.
+        """Convert this variable to a pandas.Index.
+
+        Only possible for 1D arrays.
         """
         return self.variable.to_index()
 
@@ -607,9 +606,8 @@ class DataArray(AbstractArray, DataWithCoords):
 
     @property
     def _level_coords(self) -> Dict[Hashable, Hashable]:
-        """Return a mapping of all MultiIndex levels and their corresponding
-        coordinate name.
-        """
+        """Return a mapping of all MultiIndex levels and their corresponding coordinate
+        name."""
         level_coords: Dict[Hashable, Hashable] = {}
 
         for cname, var in self._coords.items():
@@ -662,14 +660,12 @@ class DataArray(AbstractArray, DataWithCoords):
 
     @property
     def _attr_sources(self) -> List[Mapping[Hashable, Any]]:
-        """List of places to look-up items for attribute-style access
-        """
+        """List of places to look-up items for attribute-style access."""
         return self._item_sources + [self.attrs]
 
     @property
     def _item_sources(self) -> List[Mapping[Hashable, Any]]:
-        """List of places to look-up items for key-completion
-        """
+        """List of places to look-up items for key-completion."""
         return [
             self.coords,
             {d: self.coords[d] for d in self.dims},
@@ -681,8 +677,7 @@ class DataArray(AbstractArray, DataWithCoords):
 
     @property
     def loc(self) -> _LocIndexer:
-        """Attribute for location based indexing like pandas.
-        """
+        """Attribute for location based indexing like pandas."""
         return _LocIndexer(self)
 
     @property
@@ -707,16 +702,14 @@ class DataArray(AbstractArray, DataWithCoords):
 
     @property
     def indexes(self) -> Indexes:
-        """Mapping of pandas.Index objects used for label based indexing
-        """
+        """Mapping of pandas.Index objects used for label based indexing."""
         if self._indexes is None:
             self._indexes = default_indexes(self._coords, self.dims)
         return Indexes(self._indexes)
 
     @property
     def coords(self) -> DataArrayCoordinates:
-        """Dictionary-like container of coordinate arrays.
-        """
+        """Dictionary-like container of coordinate arrays."""
         return DataArrayCoordinates(self)
 
     def reset_coords(
@@ -787,8 +780,8 @@ class DataArray(AbstractArray, DataWithCoords):
         return DataArray(variable, coords, name=name, fastpath=True)
 
     def load(self, **kwargs) -> "DataArray":
-        """Manually trigger loading of this array's data from disk or a
-        remote source into memory and return this array.
+        """Manually trigger loading of this array's data from disk or a remote source
+        into memory and return this array.
 
         Normally, it should not be necessary to call this method in user code,
         because all xarray functions should either work on deferred data or
@@ -811,9 +804,8 @@ class DataArray(AbstractArray, DataWithCoords):
         return self
 
     def compute(self, **kwargs) -> "DataArray":
-        """Manually trigger loading of this array's data from disk or a
-        remote source into memory and return a new array. The original is
-        left unaltered.
+        """Manually trigger loading of this array's data from disk or a remote source
+        into memory and return a new array. The original is left unaltered.
 
         Normally, it should not be necessary to call this method in user code,
         because all xarray functions should either work on deferred data or
@@ -833,7 +825,7 @@ class DataArray(AbstractArray, DataWithCoords):
         return new.load(**kwargs)
 
     def persist(self, **kwargs) -> "DataArray":
-        """ Trigger computation in constituent dask arrays
+        """Trigger computation in constituent dask arrays.
 
         This keeps them as dask arrays but encourages them to keep data in
         memory.  This is particularly useful when on a distributed machine.
@@ -939,9 +931,7 @@ class DataArray(AbstractArray, DataWithCoords):
 
     @property
     def chunks(self) -> Optional[Tuple[Tuple[int, ...], ...]]:
-        """Block dimensions for this array's data or None if it's not a dask
-        array.
-        """
+        """Block dimensions for this array's data or None if it's not a dask array."""
         return self.variable.chunks
 
     def chunk(
@@ -998,8 +988,8 @@ class DataArray(AbstractArray, DataWithCoords):
         drop: bool = False,
         **indexers_kwargs: Any,
     ) -> "DataArray":
-        """Return a new DataArray whose data is given by integer indexing
-        along the specified dimension(s).
+        """Return a new DataArray whose data is given by integer indexing along the
+        specified dimension(s).
 
         See Also
         --------
@@ -1018,8 +1008,8 @@ class DataArray(AbstractArray, DataWithCoords):
         drop: bool = False,
         **indexers_kwargs: Any,
     ) -> "DataArray":
-        """Return a new DataArray whose data is given by selecting index
-        labels along the specified dimension(s).
+        """Return a new DataArray whose data is given by selecting index labels along
+        the specified dimension(s).
 
         .. warning::
 
@@ -1037,7 +1027,6 @@ class DataArray(AbstractArray, DataWithCoords):
         --------
         Dataset.sel
         DataArray.isel
-
         """
         ds = self._to_temp_dataset().sel(
             indexers=indexers,
@@ -1171,8 +1160,8 @@ class DataArray(AbstractArray, DataWithCoords):
         copy: bool = True,
         fill_value=dtypes.NA,
     ) -> "DataArray":
-        """Conform this object onto the indexes of another object, filling in
-        missing values with ``fill_value``. The default fill value is NaN.
+        """Conform this object onto the indexes of another object, filling in missing
+        values with ``fill_value``. The default fill value is NaN.
 
         Parameters
         ----------
@@ -1232,8 +1221,8 @@ class DataArray(AbstractArray, DataWithCoords):
         fill_value=dtypes.NA,
         **indexers_kwargs: Any,
     ) -> "DataArray":
-        """Conform this object onto the indexes of another object, filling in
-        missing values with ``fill_value``. The default fill value is NaN.
+        """Conform this object onto the indexes of another object, filling in missing
+        values with ``fill_value``. The default fill value is NaN.
 
         Parameters
         ----------
@@ -1295,7 +1284,7 @@ class DataArray(AbstractArray, DataWithCoords):
         kwargs: Mapping[str, Any] = None,
         **coords_kwargs: Any,
     ) -> "DataArray":
-        """ Multidimensional interpolation of variables.
+        """Multidimensional interpolation of variables.
 
         coords : dict, optional
             Mapping from dimension names to the new coordinates.
@@ -1359,8 +1348,8 @@ class DataArray(AbstractArray, DataWithCoords):
         assume_sorted: bool = False,
         kwargs: Mapping[str, Any] = None,
     ) -> "DataArray":
-        """Interpolate this object onto the coordinates of another object,
-        filling out of range values with NaN.
+        """Interpolate this object onto the coordinates of another object, filling out
+        of range values with NaN.
 
         Parameters
         ----------
@@ -1493,10 +1482,9 @@ class DataArray(AbstractArray, DataWithCoords):
         axis=None,
         **dim_kwargs: Any,
     ) -> "DataArray":
-        """Return a new object with an additional axis (or axes) inserted at
-        the corresponding position in the array shape. The new object is a
-        view into the underlying array, not a copy.
-
+        """Return a new object with an additional axis (or axes) inserted at the
+        corresponding position in the array shape. The new object is a view into the
+        underlying array, not a copy.
 
         If dim is already a scalar coordinate, it will be promoted to a 1D
         coordinate consisting of a single value.
@@ -1547,8 +1535,7 @@ class DataArray(AbstractArray, DataWithCoords):
         inplace: bool = None,
         **indexes_kwargs: Union[Hashable, Sequence[Hashable]],
     ) -> Optional["DataArray"]:
-        """Set DataArray (multi-)indexes using one or more existing
-        coordinates.
+        """Set DataArray (multi-)indexes using one or more existing coordinates.
 
         Parameters
         ----------
@@ -1676,8 +1663,7 @@ class DataArray(AbstractArray, DataWithCoords):
         dimensions: Mapping[Hashable, Sequence[Hashable]] = None,
         **dimensions_kwargs: Sequence[Hashable],
     ) -> "DataArray":
-        """
-        Stack any number of existing dimensions into a single new dimension.
+        """Stack any number of existing dimensions into a single new dimension.
 
         New dimensions will be added at the end, and the corresponding
         coordinate variables will be combined into a MultiIndex.
@@ -1724,9 +1710,8 @@ class DataArray(AbstractArray, DataWithCoords):
     def unstack(
         self, dim: Union[Hashable, Sequence[Hashable], None] = None
     ) -> "DataArray":
-        """
-        Unstack existing dimensions corresponding to MultiIndexes into
-        multiple new dimensions.
+        """Unstack existing dimensions corresponding to MultiIndexes into multiple new
+        dimensions.
 
         New dimensions will be added at the end.
 
@@ -1770,8 +1755,8 @@ class DataArray(AbstractArray, DataWithCoords):
         return self._from_temp_dataset(ds)
 
     def to_unstacked_dataset(self, dim, level=0):
-        """Unstack DataArray expanding to Dataset along a given level of a
-        stacked coordinate.
+        """Unstack DataArray expanding to Dataset along a given level of a stacked
+        coordinate.
 
         This is the inverse operation of Dataset.to_stacked_array.
 
@@ -1927,8 +1912,8 @@ class DataArray(AbstractArray, DataWithCoords):
     def dropna(
         self, dim: Hashable, how: str = "any", thresh: int = None
     ) -> "DataArray":
-        """Returns a new array with dropped labels for missing values along
-        the provided dimension.
+        """Returns a new array with dropped labels for missing values along the provided
+        dimension.
 
         Parameters
         ----------
@@ -2033,7 +2018,7 @@ class DataArray(AbstractArray, DataWithCoords):
         )
 
     def ffill(self, dim: Hashable, limit: int = None) -> "DataArray":
-        """Fill NaN values by propogating values forward
+        """Fill NaN values by propogating values forward.
 
         *Requires bottleneck.*
 
@@ -2057,7 +2042,7 @@ class DataArray(AbstractArray, DataWithCoords):
         return ffill(self, dim, limit=limit)
 
     def bfill(self, dim: Hashable, limit: int = None) -> "DataArray":
-        """Fill NaN values by propogating values backward
+        """Fill NaN values by propogating values backward.
 
         *Requires bottleneck.*
 
@@ -2207,14 +2192,14 @@ class DataArray(AbstractArray, DataWithCoords):
     def to_series(self) -> pd.Series:
         """Convert this array into a pandas.Series.
 
-        The Series is indexed by the Cartesian product of index coordinates
-        (in the form of a :py:class:`pandas.MultiIndex`).
+        The Series is indexed by the Cartesian product of index
+        coordinates (in the form of a :py:class:`pandas.MultiIndex`).
         """
         index = self.coords.to_index()
         return pd.Series(self.values.reshape(-1), index=index, name=self.name)
 
     def to_masked_array(self, copy: bool = True) -> np.ma.MaskedArray:
-        """Convert this array into a numpy.ma.MaskedArray
+        """Convert this array into a numpy.ma.MaskedArray.
 
         Parameters
         ----------
@@ -2261,9 +2246,8 @@ class DataArray(AbstractArray, DataWithCoords):
         return dataset.to_netcdf(*args, **kwargs)
 
     def to_dict(self, data: bool = True) -> dict:
-        """
-        Convert this xarray.DataArray into a dictionary following xarray
-        naming conventions.
+        """Convert this xarray.DataArray into a dictionary following xarray naming
+        conventions.
 
         Converts all variables and attributes to native Python objects.
         Useful for coverting to json. To avoid datetime incompatibility
@@ -2287,8 +2271,7 @@ class DataArray(AbstractArray, DataWithCoords):
 
     @classmethod
     def from_dict(cls, d: dict) -> "DataArray":
-        """
-        Convert a dictionary into an xarray.DataArray
+        """Convert a dictionary into an xarray.DataArray.
 
         Input dict can take several forms::
 
@@ -2361,38 +2344,33 @@ class DataArray(AbstractArray, DataWithCoords):
         return result
 
     def to_cdms2(self) -> "cdms2_Variable":
-        """Convert this array into a cdms2.Variable
-        """
+        """Convert this array into a cdms2.Variable."""
         from ..convert import to_cdms2
 
         return to_cdms2(self)
 
     @classmethod
     def from_cdms2(cls, variable: "cdms2_Variable") -> "DataArray":
-        """Convert a cdms2.Variable into an xarray.DataArray
-        """
+        """Convert a cdms2.Variable into an xarray.DataArray."""
         from ..convert import from_cdms2
 
         return from_cdms2(variable)
 
     def to_iris(self) -> "iris_Cube":
-        """Convert this array into a iris.cube.Cube
-        """
+        """Convert this array into a iris.cube.Cube."""
         from ..convert import to_iris
 
         return to_iris(self)
 
     @classmethod
     def from_iris(cls, cube: "iris_Cube") -> "DataArray":
-        """Convert a iris.cube.Cube into an xarray.DataArray
-        """
+        """Convert a iris.cube.Cube into an xarray.DataArray."""
         from ..convert import from_iris
 
         return from_iris(cube)
 
     def _all_compat(self, other: "DataArray", compat_str: str) -> bool:
-        """Helper function for equals, broadcast_equals, and identical
-        """
+        """Helper function for equals, broadcast_equals, and identical."""
 
         def compat(x, y):
             return getattr(x.variable, compat_str)(y.variable)
@@ -2402,9 +2380,8 @@ class DataArray(AbstractArray, DataWithCoords):
         )
 
     def broadcast_equals(self, other: "DataArray") -> bool:
-        """Two DataArrays are broadcast equal if they are equal after
-        broadcasting them against each other such that they have the same
-        dimensions.
+        """Two DataArrays are broadcast equal if they are equal after broadcasting them
+        against each other such that they have the same dimensions.
 
         See Also
         --------
@@ -2417,8 +2394,8 @@ class DataArray(AbstractArray, DataWithCoords):
             return False
 
     def equals(self, other: "DataArray") -> bool:
-        """True if two DataArrays have the same dimensions, coordinates and
-        values; otherwise False.
+        """True if two DataArrays have the same dimensions, coordinates and values;
+        otherwise False.
 
         DataArrays can still be equal (like pandas objects) if they have NaN
         values in the same locations.
@@ -2437,8 +2414,8 @@ class DataArray(AbstractArray, DataWithCoords):
             return False
 
     def identical(self, other: "DataArray") -> bool:
-        """Like equals, but also checks the array name and attributes, and
-        attributes on all coordinates.
+        """Like equals, but also checks the array name and attributes, and attributes on
+        all coordinates.
 
         See Also
         --------
@@ -2537,8 +2514,7 @@ class DataArray(AbstractArray, DataWithCoords):
 
     @property
     def plot(self) -> _PlotMethods:
-        """
-        Access plotting functions for DataArray's
+        """Access plotting functions for DataArray's.
 
         >>> d = DataArray([[1, 2], [3, 4]])
 
@@ -2550,14 +2526,12 @@ class DataArray(AbstractArray, DataWithCoords):
         DataArray methods
 
         >>> d.plot.imshow()  # equivalent to xarray.plot.imshow(d)
-
         """
         return _PlotMethods(self)
 
     def _title_for_slice(self, truncate: int = 50) -> str:
-        """
-        If the dataarray has 1 dimensional coordinates or comes from a slice
-        we can show that info in the title
+        """If the dataarray has 1 dimensional coordinates or comes from a slice we can
+        show that info in the title.
 
         Parameters
         ----------
@@ -2568,7 +2542,6 @@ class DataArray(AbstractArray, DataWithCoords):
         -------
         title : string
             Can be used for plot titles
-
         """
         one_dims = []
         for dim, coord in self.coords.items():
@@ -2936,8 +2909,7 @@ class DataArray(AbstractArray, DataWithCoords):
     def differentiate(
         self, coord: Hashable, edge_order: int = 1, datetime_unit: str = None
     ) -> "DataArray":
-        """ Differentiate the array with the second order accurate central
-        differences.
+        """Differentiate the array with the second order accurate central differences.
 
         .. note::
             This feature is limited to simple cartesian geometry, i.e. coord
@@ -2992,7 +2964,7 @@ class DataArray(AbstractArray, DataWithCoords):
     def integrate(
         self, dim: Union[Hashable, Sequence[Hashable]], datetime_unit: str = None
     ) -> "DataArray":
-        """ integrate the array with the trapezoidal rule.
+        """integrate the array with the trapezoidal rule.
 
         .. note::
             This feature is limited to simple cartesian geometry, i.e. dim
@@ -3039,7 +3011,7 @@ class DataArray(AbstractArray, DataWithCoords):
         return self._from_temp_dataset(ds)
 
     def unify_chunks(self) -> "DataArray":
-        """ Unify chunk size along all chunked dimensions of this DataArray.
+        """Unify chunk size along all chunked dimensions of this DataArray.
 
         Returns
         -------
@@ -3060,8 +3032,7 @@ class DataArray(AbstractArray, DataWithCoords):
         args: Sequence[Any] = (),
         kwargs: Mapping[str, Any] = None,
     ) -> "T_DSorDA":
-        """
-        Apply a function to each chunk of this DataArray. This method is experimental
+        """Apply a function to each chunk of this DataArray. This method is experimental
         and its signature may change.
 
         Parameters

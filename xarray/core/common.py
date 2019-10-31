@@ -112,8 +112,7 @@ class ImplementsDatasetReduce:
 
 
 class AbstractArray(ImplementsArrayReduce):
-    """Shared base class for DataArray and Variable.
-    """
+    """Shared base class for DataArray and Variable."""
 
     __slots__ = ()
 
@@ -189,15 +188,15 @@ class AbstractArray(ImplementsArrayReduce):
 
 
 class AttrAccessMixin:
-    """Mixin class that allows getting keys with attribute access
-    """
+    """Mixin class that allows getting keys with attribute access."""
 
     __slots__ = ()
 
     def __init_subclass__(cls):
-        """Verify that all subclasses explicitly define ``__slots__``. If they don't,
-        raise error in the core xarray module and a FutureWarning in third-party
-        extensions.
+        """Verify that all subclasses explicitly define ``__slots__``.
+
+        If they don't, raise error in the core xarray module and a
+        FutureWarning in third-party extensions.
         """
         if not hasattr(object.__new__(cls), "__dict__"):
             pass
@@ -213,14 +212,12 @@ class AttrAccessMixin:
 
     @property
     def _attr_sources(self) -> List[Mapping[Hashable, Any]]:
-        """List of places to look-up items for attribute-style access
-        """
+        """List of places to look-up items for attribute-style access."""
         return []
 
     @property
     def _item_sources(self) -> List[Mapping[Hashable, Any]]:
-        """List of places to look-up items for key-autocompletion
-        """
+        """List of places to look-up items for key-autocompletion."""
         return []
 
     def __getattr__(self, name: str) -> Any:
@@ -240,8 +237,7 @@ class AttrAccessMixin:
     # runtime before every single assignment. All of this is just temporary until the
     # FutureWarning can be changed into a hard crash.
     def _setattr_dict(self, name: str, value: Any) -> None:
-        """Deprecated third party subclass (see ``__init_subclass__`` above)
-        """
+        """Deprecated third party subclass (see ``__init_subclass__`` above)"""
         object.__setattr__(self, name, value)
         if name in self.__dict__:
             # Custom, non-slotted attr, or improperly assigned variable?
@@ -256,7 +252,9 @@ class AttrAccessMixin:
 
     def __setattr__(self, name: str, value: Any) -> None:
         """Objects with ``__slots__`` raise AttributeError if you try setting an
-        undeclared attribute. This is desirable, but the error message could use some
+        undeclared attribute.
+
+        This is desirable, but the error message could use some
         improvement.
         """
         try:
@@ -275,8 +273,9 @@ class AttrAccessMixin:
             ) from e
 
     def __dir__(self) -> List[str]:
-        """Provide method name lookup and completion. Only provide 'public'
-        methods.
+        """Provide method name lookup and completion.
+
+        Only provide 'public' methods.
         """
         extra_attrs = [
             item
@@ -288,6 +287,7 @@ class AttrAccessMixin:
 
     def _ipython_key_completions_(self) -> List[str]:
         """Provide method for the key-autocompletions in IPython.
+
         See http://ipython.readthedocs.io/en/stable/config/integrating.html#tab-completion
         For the details.
         """
@@ -305,8 +305,7 @@ def get_squeeze_dims(
     dim: Union[Hashable, Iterable[Hashable], None] = None,
     axis: Union[int, Iterable[int], None] = None,
 ) -> List[Hashable]:
-    """Get a list of dimensions to squeeze out.
-    """
+    """Get a list of dimensions to squeeze out."""
     if dim is not None and axis is not None:
         raise ValueError("cannot use both parameters `axis` and `dim`")
     if dim is None and axis is None:
@@ -375,8 +374,7 @@ class DataWithCoords(SupportsArithmetic, AttrAccessMixin):
         return self.isel(drop=drop, **{d: 0 for d in dims})
 
     def get_index(self, key: Hashable) -> pd.Index:
-        """Get an index for a dimension, with fall-back to a default RangeIndex
-        """
+        """Get an index for a dimension, with fall-back to a default RangeIndex."""
         if key not in self.dims:
             raise KeyError(key)
 
@@ -489,8 +487,7 @@ class DataWithCoords(SupportsArithmetic, AttrAccessMixin):
         *args,
         **kwargs,
     ) -> T:
-        """
-        Apply func(self, *args, **kwargs)
+        """Apply func(self, *args, **kwargs)
 
         This method replicates the pandas method of the same name.
 
@@ -745,8 +742,7 @@ class DataWithCoords(SupportsArithmetic, AttrAccessMixin):
         center: bool = False,
         **window_kwargs: int,
     ):
-        """
-        Rolling window object.
+        """Rolling window object.
 
         Parameters
         ----------
@@ -809,9 +805,7 @@ class DataWithCoords(SupportsArithmetic, AttrAccessMixin):
         window_type: str = "span",
         **window_kwargs,
     ):
-        """
-        Exponentially-weighted moving window.
-        Similar to EWM in pandas
+        """Exponentially-weighted moving window. Similar to EWM in pandas.
 
         Requires the optional Numbagg dependency.
 
@@ -850,8 +844,7 @@ class DataWithCoords(SupportsArithmetic, AttrAccessMixin):
         coord_func: str = "mean",
         **window_kwargs: int,
     ):
-        """
-        Coarsen object.
+        """Coarsen object.
 
         Parameters
         ----------
@@ -1146,8 +1139,7 @@ class DataWithCoords(SupportsArithmetic, AttrAccessMixin):
         return ops.where_method(self, cond, other)
 
     def close(self: Any) -> None:
-        """Close any files linked to this object
-        """
+        """Close any files linked to this object."""
         if self._file_obj is not None:
             self._file_obj.close()
         self._file_obj = None
@@ -1287,7 +1279,6 @@ def full_like(other, fill_value, dtype: DTypeLike = None):
 
     zeros_like
     ones_like
-
     """
     from .dataarray import DataArray
     from .dataset import Dataset
@@ -1314,8 +1305,7 @@ def full_like(other, fill_value, dtype: DTypeLike = None):
 
 
 def _full_like_variable(other, fill_value, dtype: DTypeLike = None):
-    """Inner function of full_like, where other must be a variable
-    """
+    """Inner function of full_like, where other must be a variable."""
     from .variable import Variable
 
     if isinstance(other.data, dask_array_type):
@@ -1333,8 +1323,8 @@ def _full_like_variable(other, fill_value, dtype: DTypeLike = None):
 
 
 def zeros_like(other, dtype: DTypeLike = None):
-    """Return a new object of zeros with the same shape and
-    type as a given dataarray or dataset.
+    """Return a new object of zeros with the same shape and type as a given dataarray or
+    dataset.
 
     Parameters
     ----------
@@ -1385,14 +1375,13 @@ def zeros_like(other, dtype: DTypeLike = None):
 
     ones_like
     full_like
-
     """
     return full_like(other, 0, dtype)
 
 
 def ones_like(other, dtype: DTypeLike = None):
-    """Return a new object of ones with the same shape and
-    type as a given dataarray or dataset.
+    """Return a new object of ones with the same shape and type as a given dataarray or
+    dataset.
 
     Parameters
     ----------
@@ -1435,20 +1424,17 @@ def ones_like(other, dtype: DTypeLike = None):
 
     zeros_like
     full_like
-
     """
     return full_like(other, 1, dtype)
 
 
 def is_np_datetime_like(dtype: DTypeLike) -> bool:
-    """Check if a dtype is a subclass of the numpy datetime types
-    """
+    """Check if a dtype is a subclass of the numpy datetime types."""
     return np.issubdtype(dtype, np.datetime64) or np.issubdtype(dtype, np.timedelta64)
 
 
 def _contains_cftime_datetimes(array) -> bool:
-    """Check if an array contains cftime.datetime objects
-    """
+    """Check if an array contains cftime.datetime objects."""
     try:
         from cftime import datetime as cftime_datetime
     except ImportError:
@@ -1466,13 +1452,11 @@ def _contains_cftime_datetimes(array) -> bool:
 
 
 def contains_cftime_datetimes(var) -> bool:
-    """Check if an xarray.Variable contains cftime.datetime objects
-    """
+    """Check if an xarray.Variable contains cftime.datetime objects."""
     return _contains_cftime_datetimes(var.data)
 
 
 def _contains_datetime_like_objects(var) -> bool:
-    """Check if a variable contains datetime like objects (either
-    np.datetime64, np.timedelta64, or cftime.datetime)
-    """
+    """Check if a variable contains datetime like objects (either np.datetime64,
+    np.timedelta64, or cftime.datetime)"""
     return is_np_datetime_like(var.dtype) or contains_cftime_datetimes(var)

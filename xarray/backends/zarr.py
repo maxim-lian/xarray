@@ -58,9 +58,7 @@ class ZarrArrayWrapper(BackendArray):
 
 
 def _determine_zarr_chunks(enc_chunks, var_chunks, ndim):
-    """
-    Given encoding chunks (possibly None) and variable chunks (possibly None)
-    """
+    """Given encoding chunks (possibly None) and variable chunks (possibly None)"""
 
     # zarr chunk spec:
     # chunks : int or tuple of ints, optional
@@ -195,9 +193,8 @@ def _extract_zarr_variable_encoding(variable, raise_on_invalid=False):
 # Function below is copied from conventions.encode_cf_variable.
 # The only change is to raise an error for object dtypes.
 def encode_zarr_variable(var, needs_copy=True, name=None):
-    """
-    Converts an Variable into an Variable which follows some
-    of the CF conventions:
+    """Converts an Variable into an Variable which follows some of the CF
+    conventions:
 
         - Nans are masked using _FillValue (or the deprecated missing_value)
         - Rescaling via: scale_factor and add_offset
@@ -228,8 +225,7 @@ def encode_zarr_variable(var, needs_copy=True, name=None):
 
 
 class ZarrStore(AbstractWritableDataStore):
-    """Store for reading and writing data via zarr
-    """
+    """Store for reading and writing data via zarr."""
 
     __slots__ = (
         "append_dim",
@@ -337,8 +333,8 @@ class ZarrStore(AbstractWritableDataStore):
         writer=None,
         unlimited_dims=None,
     ):
-        """
-        Top level method for putting data on this store, this method:
+        """Top level method for putting data on this store, this method:
+
           - encodes variables/attributes
           - sets dimensions
           - sets variables
@@ -390,9 +386,7 @@ class ZarrStore(AbstractWritableDataStore):
         pass
 
     def set_variables(self, variables, check_encoding_set, writer, unlimited_dims=None):
-        """
-        This provides a centralized method to set the variables on the data
-        store.
+        """This provides a centralized method to set the variables on the data store.
 
         Parameters
         ----------

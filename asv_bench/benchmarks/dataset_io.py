@@ -18,10 +18,8 @@ os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
 
 
 class IOSingleNetCDF:
-    """
-    A few examples that benchmark reading/writing a single netCDF file with
-    xarray
-    """
+    """A few examples that benchmark reading/writing a single netCDF file with
+    xarray."""
 
     timeout = 300.0
     repeat = 1
@@ -220,10 +218,8 @@ class IOReadSingleNetCDF3Dask(IOReadSingleNetCDF4Dask):
 
 
 class IOMultipleNetCDF:
-    """
-    A few examples that benchmark reading/writing multiple netCDF files with
-    xarray
-    """
+    """A few examples that benchmark reading/writing multiple netCDF files with
+    xarray."""
 
     timeout = 300.0
     repeat = 1

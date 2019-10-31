@@ -18,12 +18,10 @@ def _infer_concat_order_from_positions(datasets):
 
 
 def _infer_tile_ids_from_nested_list(entry, current_pos):
-    """
-    Given a list of lists (of lists...) of objects, returns a iterator
-    which returns a tuple containing the index of each object in the nested
-    list structure as the key, and the object. This can then be called by the
-    dict constructor to create a dictionary of the objects organised by their
-    position in the original nested list.
+    """Given a list of lists (of lists...) of objects, returns a iterator which returns
+    a tuple containing the index of each object in the nested list structure as the key,
+    and the object. This can then be called by the dict constructor to create a
+    dictionary of the objects organised by their position in the original nested list.
 
     Recursively traverses the given structure, while keeping track of the
     current position. Should work for any type of object which isn't a list.
@@ -150,9 +148,8 @@ def _combine_nd(
     fill_value=dtypes.NA,
     join="outer",
 ):
-    """
-    Combines an N-dimensional structure of datasets into one by applying a
-    series of either concat and merge operations along each dimension.
+    """Combines an N-dimensional structure of datasets into one by applying a series of
+    either concat and merge operations along each dimension.
 
     No checks are performed on the consistency of the datasets, concat_dims or
     tile_IDs, because it is assumed that this has already been done.
@@ -231,10 +228,8 @@ def _combine_1d(
     fill_value=dtypes.NA,
     join="outer",
 ):
-    """
-    Applies either concat or merge to 1D list of datasets depending on value
-    of concat_dim
-    """
+    """Applies either concat or merge to 1D list of datasets depending on value of
+    concat_dim."""
 
     if concat_dim is not None:
         try:
@@ -318,8 +313,7 @@ def combine_nested(
     fill_value=dtypes.NA,
     join="outer",
 ):
-    """
-    Explicitly combine an N-dimensional grid of datasets into one by using a
+    """Explicitly combine an N-dimensional grid of datasets into one by using a
     succession of concat and merge operations along each dimension of the grid.
 
     Does not sort the supplied datasets under any circumstances, so the
@@ -477,9 +471,8 @@ def combine_by_coords(
     fill_value=dtypes.NA,
     join="outer",
 ):
-    """
-    Attempt to auto-magically combine the given datasets into one by using
-    dimension coordinates.
+    """Attempt to auto-magically combine the given datasets into one by using dimension
+    coordinates.
 
     This method attempts to combine a group of datasets along any number of
     dimensions into a single entity by inspecting coords and metadata and using
@@ -651,7 +644,6 @@ def combine_by_coords(
     Data variables:
     temperature    (y, x) float64 1.654 10.63 7.015 2.543 ... 12.46 2.22 15.96
     precipitation  (y, x) float64 0.2136 0.9974 0.7603 ... 0.6125 0.4654 0.5953
-
     """
 
     # Group by data vars
@@ -714,8 +706,7 @@ def auto_combine(
     join="outer",
     from_openmfds=False,
 ):
-    """
-    Attempt to auto-magically combine the given datasets into one.
+    """Attempt to auto-magically combine the given datasets into one.
 
     This entire function is deprecated in favour of ``combine_nested`` and
     ``combine_by_coords``.
@@ -855,10 +846,8 @@ def auto_combine(
 
 
 def _dimension_coords_exist(datasets):
-    """
-    Check if the datasets have consistent global dimension coordinates
-    which would in future be used by `auto_combine` for concatenation ordering.
-    """
+    """Check if the datasets have consistent global dimension coordinates which would in
+    future be used by `auto_combine` for concatenation ordering."""
 
     # Group by data vars
     sorted_datasets = sorted(datasets, key=vars_as_keys)
@@ -877,11 +866,8 @@ def _dimension_coords_exist(datasets):
 
 
 def _requires_concat_and_merge(datasets):
-    """
-    Check if the datasets require the use of both xarray.concat and
-    xarray.merge, which in future might require the user to use
-    `manual_combine` instead.
-    """
+    """Check if the datasets require the use of both xarray.concat and xarray.merge,
+    which in future might require the user to use `manual_combine` instead."""
     # Group by data vars
     sorted_datasets = sorted(datasets, key=vars_as_keys)
     grouped_by_vars = itertools.groupby(sorted_datasets, key=vars_as_keys)

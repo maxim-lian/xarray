@@ -159,7 +159,7 @@ def _normalize_path(path):
 
 
 def _validate_dataset_names(dataset):
-    """DataArray.name and Dataset keys must be a string or None"""
+    """DataArray.name and Dataset keys must be a string or None."""
 
     def check_name(name):
         if isinstance(name, str):
@@ -180,9 +180,8 @@ def _validate_dataset_names(dataset):
 
 
 def _validate_attrs(dataset):
-    """`attrs` must have a string key and a value which is either: a number,
-    a string, an ndarray or a list/tuple of numbers/strings.
-    """
+    """`attrs` must have a string key and a value which is either: a number, a string,
+    an ndarray or a list/tuple of numbers/strings."""
 
     def check_attr(name, value):
         if isinstance(name, str):
@@ -227,14 +226,13 @@ def _protect_dataset_variables_inplace(dataset, cache):
 
 
 def _finalize_store(write, store):
-    """ Finalize this store by explicitly syncing and closing"""
+    """Finalize this store by explicitly syncing and closing."""
     del write  # ensure writing is done first
     store.close()
 
 
 def load_dataset(filename_or_obj, **kwargs):
-    """Open, load into memory, and close a Dataset from a file or file-like
-    object.
+    """Open, load into memory, and close a Dataset from a file or file-like object.
 
     This is a thin wrapper around :py:meth:`~xarray.open_dataset`. It differs
     from `open_dataset` in that it loads the Dataset into memory, closes the
@@ -259,8 +257,8 @@ def load_dataset(filename_or_obj, **kwargs):
 
 
 def load_dataarray(filename_or_obj, **kwargs):
-    """Open, load into memory, and close a DataArray from a file or file-like
-    object containing a single data variable.
+    """Open, load into memory, and close a DataArray from a file or file-like object
+    containing a single data variable.
 
     This is a thin wrapper around :py:meth:`~xarray.open_dataarray`. It differs
     from `open_dataarray` in that it loads the Dataset into memory, closes the
@@ -559,8 +557,8 @@ def open_dataarray(
     backend_kwargs=None,
     use_cftime=None,
 ):
-    """Open an DataArray from a file or file-like object containing a single
-    data variable.
+    """Open an DataArray from a file or file-like object containing a single data
+    variable.
 
     This is designed to read netCDF files with only one data variable. If
     multiple variables are present then a ValueError is raised.
@@ -983,8 +981,8 @@ def to_netcdf(
     multifile: bool = False,
     invalid_netcdf: bool = False,
 ) -> Union[Tuple[ArrayWriter, AbstractDataStore], bytes, "Delayed", None]:
-    """This function creates an appropriate datastore for writing a dataset to
-    disk as a netCDF file
+    """This function creates an appropriate datastore for writing a dataset to disk as a
+    netCDF file.
 
     See `Dataset.to_netcdf` for full API docs.
 
@@ -1229,7 +1227,7 @@ def save_mfdataset(
 
 
 def _validate_datatypes_for_zarr_append(dataset):
-    """DataArray.name and Dataset keys must be a string or None"""
+    """DataArray.name and Dataset keys must be a string or None."""
 
     def check_dtype(var):
         if (
@@ -1284,8 +1282,8 @@ def to_zarr(
     consolidated=False,
     append_dim=None,
 ):
-    """This function creates an appropriate datastore for writing a dataset to
-    a zarr ztore
+    """This function creates an appropriate datastore for writing a dataset to a zarr
+    ztore.
 
     See `Dataset.to_zarr` for full API docs.
     """

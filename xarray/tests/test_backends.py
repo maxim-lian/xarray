@@ -701,7 +701,7 @@ class DatasetIOBase:
             assert_identical(expected, actual)
 
     def test_ondisk_after_print(self):
-        """ Make sure print does not load file into memory """
+        """Make sure print does not load file into memory."""
         in_memory = create_test_data()
         with self.roundtrip(in_memory) as on_disk:
             repr(on_disk)
@@ -2249,9 +2249,8 @@ class TestH5NetCDFData(NetCDF4Base):
                     assert v == actual["var2"].encoding[k]
 
     def test_compression_check_encoding_h5py(self):
-        """When mismatched h5py and NetCDF4-Python encodings are expressed
-        in to_netcdf(encoding=...), must raise ValueError
-        """
+        """When mismatched h5py and NetCDF4-Python encodings are expressed in
+        to_netcdf(encoding=...), must raise ValueError."""
         data = Dataset({"x": ("y", np.arange(10.0))})
         # Compatible encodings are graciously supported
         with create_tmp_file() as tmp_file:
@@ -2479,9 +2478,7 @@ def test_open_mfdataset_manyfiles(
 
 @requires_netCDF4
 def test_open_mfdataset_list_attr():
-    """
-    Case when an attribute of type list differs across the multiple files
-    """
+    """Case when an attribute of type list differs across the multiple files."""
     from netCDF4 import Dataset
 
     with create_tmp_files(2) as nfiles:
@@ -3038,9 +3035,10 @@ class TestDask(DatasetIOBase):
 @requires_scipy_or_netCDF4
 @requires_dask
 class TestOpenMFDataSetDeprecation:
-    """
-    Set of tests to check that FutureWarnings are correctly raised until the
-    deprecation cycle is complete. #2616
+    """Set of tests to check that FutureWarnings are correctly raised until the
+    deprecation cycle is complete.
+
+    #2616
     """
 
     def test_open_mfdataset_default(self):
@@ -3288,9 +3286,7 @@ class TestPseudoNetCDFFormat:
                 yield ds
 
     def test_ict_format(self):
-        """
-        Open a CAMx file and test data variables
-        """
+        """Open a CAMx file and test data variables."""
         ictfile = open_example_dataset(
             "example.ict", engine="pseudonetcdf", backend_kwargs={"format": "ffi1001"}
         )
@@ -3384,9 +3380,7 @@ class TestPseudoNetCDFFormat:
             assert_identical(expected, actual)
 
     def test_uamiv_format_read(self):
-        """
-        Open a CAMx file and test data variables
-        """
+        """Open a CAMx file and test data variables."""
 
         camxfile = open_example_dataset(
             "example.uamiv", engine="pseudonetcdf", backend_kwargs={"format": "uamiv"}
@@ -3418,9 +3412,7 @@ class TestPseudoNetCDFFormat:
         camxfile.close()
 
     def test_uamiv_format_mfread(self):
-        """
-        Open a CAMx file and test data variables
-        """
+        """Open a CAMx file and test data variables."""
 
         camxfile = open_example_mfdataset(
             ["example.uamiv", "example.uamiv"],

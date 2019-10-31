@@ -24,8 +24,7 @@ def move_exp_nanmean(array, *, axis, alpha):
 
 
 def _get_center_of_mass(comass, span, halflife, alpha):
-    """
-    Vendored from pandas.core.window.common._get_center_of_mass
+    """Vendored from pandas.core.window.common._get_center_of_mass.
 
     See licenses/PANDAS_LICENSE for the function's license
     """
@@ -57,9 +56,7 @@ def _get_center_of_mass(comass, span, halflife, alpha):
 
 
 class RollingExp:
-    """
-    Exponentially-weighted moving window object.
-    Similar to EWM in pandas
+    """Exponentially-weighted moving window object. Similar to EWM in pandas.
 
     Parameters
     ----------
@@ -89,8 +86,7 @@ class RollingExp:
         self.alpha = _get_alpha(**{window_type: window})
 
     def mean(self):
-        """
-        Exponentially weighted moving average
+        """Exponentially weighted moving average.
 
         Examples
         --------

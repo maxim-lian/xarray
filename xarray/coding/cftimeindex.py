@@ -1,4 +1,4 @@
-"""DatetimeIndex analog for cftime.datetime objects"""
+"""DatetimeIndex analog for cftime.datetime objects."""
 # The pandas.Index subclass defined here was copied and adapted for
 # use with cftime.datetime objects based on the source code defining
 # pandas.DatetimeIndex.
@@ -119,11 +119,8 @@ def _parse_iso8601_with_reso(date_type, timestr):
 
 
 def _parsed_string_to_bounds(date_type, resolution, parsed):
-    """Generalization of
-    pandas.tseries.index.DatetimeIndex._parsed_string_to_bounds
-    for use with non-standard calendars and cftime.datetime
-    objects.
-    """
+    """Generalization of pandas.tseries.index.DatetimeIndex._parsed_string_to_bounds for
+    use with non-standard calendars and cftime.datetime objects."""
     if resolution == "year":
         return (
             date_type(parsed.year, 1, 1),
@@ -163,12 +160,12 @@ def _parsed_string_to_bounds(date_type, resolution, parsed):
 
 
 def get_date_field(datetimes, field):
-    """Adapted from pandas.tslib.get_date_field"""
+    """Adapted from pandas.tslib.get_date_field."""
     return np.array([getattr(date, field) for date in datetimes])
 
 
 def _field_accessor(name, docstring=None, min_cftime_version="0.0"):
-    """Adapted from pandas.tseries.index._field_accessor"""
+    """Adapted from pandas.tseries.index._field_accessor."""
 
     def f(self, min_cftime_version=min_cftime_version):
         import cftime
@@ -215,7 +212,7 @@ def assert_all_valid_date_type(data):
 
 
 class CFTimeIndex(pd.Index):
-    """Custom Index for working with CF calendars and dates
+    """Custom Index for working with CF calendars and dates.
 
     All elements of a CFTimeIndex must be cftime.datetime objects.
 
@@ -255,8 +252,7 @@ class CFTimeIndex(pd.Index):
         return result
 
     def _partial_date_slice(self, resolution, parsed):
-        """Adapted from
-        pandas.tseries.index.DatetimeIndex._partial_date_slice
+        """Adapted from pandas.tseries.index.DatetimeIndex._partial_date_slice.
 
         Note that when using a CFTimeIndex, if a partial-date selection
         returns a single element, it will never be converted to a scalar
@@ -318,7 +314,7 @@ class CFTimeIndex(pd.Index):
         return np.flatnonzero(lhs_mask & rhs_mask)
 
     def _get_string_slice(self, key):
-        """Adapted from pandas.tseries.index.DatetimeIndex._get_string_slice"""
+        """Adapted from pandas.tseries.index.DatetimeIndex._get_string_slice."""
         parsed, resolution = _parse_iso8601_with_reso(self.date_type, key)
         try:
             loc = self._partial_date_slice(resolution, parsed)
@@ -327,15 +323,14 @@ class CFTimeIndex(pd.Index):
         return loc
 
     def get_loc(self, key, method=None, tolerance=None):
-        """Adapted from pandas.tseries.index.DatetimeIndex.get_loc"""
+        """Adapted from pandas.tseries.index.DatetimeIndex.get_loc."""
         if isinstance(key, str):
             return self._get_string_slice(key)
         else:
             return pd.Index.get_loc(self, key, method=method, tolerance=tolerance)
 
     def _maybe_cast_slice_bound(self, label, side, kind):
-        """Adapted from
-        pandas.tseries.index.DatetimeIndex._maybe_cast_slice_bound"""
+        """Adapted from pandas.tseries.index.DatetimeIndex._maybe_cast_slice_bound."""
         if isinstance(label, str):
             parsed, resolution = _parse_iso8601_with_reso(self.date_type, label)
             start, end = _parsed_string_to_bounds(self.date_type, resolution, parsed)
@@ -348,7 +343,7 @@ class CFTimeIndex(pd.Index):
     # TODO: Add ability to use integer range outside of iloc?
     # e.g. series[1:5].
     def get_value(self, series, key):
-        """Adapted from pandas.tseries.index.DatetimeIndex.get_value"""
+        """Adapted from pandas.tseries.index.DatetimeIndex.get_value."""
         if np.asarray(key).dtype == np.dtype(bool):
             return series.iloc[key]
         elif isinstance(key, slice):
@@ -357,8 +352,7 @@ class CFTimeIndex(pd.Index):
             return series.iloc[self.get_loc(key)]
 
     def __contains__(self, key):
-        """Adapted from
-        pandas.tseries.base.DatetimeIndexOpsMixin.__contains__"""
+        """Adapted from pandas.tseries.base.DatetimeIndexOpsMixin.__contains__"""
         try:
             result = self.get_loc(key)
             return (
@@ -370,7 +364,7 @@ class CFTimeIndex(pd.Index):
             return False
 
     def contains(self, key):
-        """Needed for .loc based partial-string indexing"""
+        """Needed for .loc based partial-string indexing."""
         return self.__contains__(key)
 
     def shift(self, n, freq):
@@ -493,10 +487,10 @@ class CFTimeIndex(pd.Index):
         return pd.DatetimeIndex(nptimes)
 
     def strftime(self, date_format):
-        """
-        Return an Index of formatted strings specified by date_format, which
-        supports the same string format as the python standard library. Details
-        of the string format can be found in `python string format doc
+        """Return an Index of formatted strings specified by date_format, which supports
+        the same string format as the python standard library. Details of the string
+        format can be found in `python string format doc.
+
         <https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior>`__
 
         Parameters

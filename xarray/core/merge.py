@@ -70,8 +70,7 @@ def broadcast_dimension_size(variables: List[Variable],) -> Dict[Hashable, int]:
 
 
 class MergeError(ValueError):
-    """Error class for merge failures due to incompatible arguments.
-    """
+    """Error class for merge failures due to incompatible arguments."""
 
     # inherits from ValueError for backward compatibility
     # TODO: move this to an xarray.exceptions module?
@@ -298,8 +297,8 @@ def merge_coordinates_without_align(
 ) -> Tuple[Dict[Hashable, Variable], Dict[Hashable, pd.Index]]:
     """Merge variables/indexes from coordinates without automatic alignments.
 
-    This function is used for merging coordinate from pre-existing xarray
-    objects.
+    This function is used for merging coordinate from pre-existing
+    xarray objects.
     """
     collected = collect_from_coordinates(objects)
 
@@ -433,9 +432,9 @@ def merge_coords(
 ) -> Tuple[Dict[Hashable, Variable], Dict[Hashable, pd.Index]]:
     """Merge coordinate variables.
 
-    See merge_core below for argument descriptions. This works similarly to
-    merge_core, except everything we don't worry about whether variables are
-    coordinates or not.
+    See merge_core below for argument descriptions. This works similarly
+    to merge_core, except everything we don't worry about whether
+    variables are coordinates or not.
     """
     _assert_compat_valid(compat)
     coerced = coerce_pandas_values(objects)
@@ -460,7 +459,7 @@ def merge_data_and_coords(data, coords, compat="broadcast_equals", join="outer")
 
 
 def _extract_indexes_from_coords(coords):
-    """Yields the name & index of valid indexes from a mapping of coords"""
+    """Yields the name & index of valid indexes from a mapping of coords."""
     for name, variable in coords.items():
         variable = as_variable(variable, name=name)
         if variable.dims == (name,):
@@ -470,8 +469,8 @@ def _extract_indexes_from_coords(coords):
 def assert_valid_explicit_coords(variables, dims, explicit_coords):
     """Validate explicit coordinate names/dims.
 
-    Raise a MergeError if an explicit coord shares a name with a dimension
-    but is comprised of arbitrary dimensions.
+    Raise a MergeError if an explicit coord shares a name with a
+    dimension but is comprised of arbitrary dimensions.
     """
     for coord_name in explicit_coords:
         if coord_name in dims and variables[coord_name].dims != (coord_name,):
@@ -794,8 +793,7 @@ def dataset_merge_method(
     join: str,
     fill_value: Any,
 ) -> _MergeResult:
-    """Guts of the Dataset.merge method.
-    """
+    """Guts of the Dataset.merge method."""
     # we are locked into supporting overwrite_vars for the Dataset.merge
     # method due for backwards compatibility
     # TODO: consider deprecating it?
@@ -832,9 +830,9 @@ def dataset_update_method(
 ) -> _MergeResult:
     """Guts of the Dataset.update method.
 
-    This drops a duplicated coordinates from `other` if `other` is not an
-    `xarray.Dataset`, e.g., if it's a dict with DataArray values (GH2068,
-    GH2180).
+    This drops a duplicated coordinates from `other` if `other` is not
+    an `xarray.Dataset`, e.g., if it's a dict with DataArray values
+    (GH2068, GH2180).
     """
     from .dataarray import DataArray
     from .dataset import Dataset

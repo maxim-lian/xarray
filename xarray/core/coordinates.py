@@ -144,7 +144,7 @@ class Coordinates(Mapping[Hashable, "DataArray"]):
             self._update_coords(variables, indexes)
 
     def merge(self, other: "Coordinates") -> "Dataset":
-        """Merge two sets of coordinates to create a new Dataset
+        """Merge two sets of coordinates to create a new Dataset.
 
         The method implements the logic used for joining coordinates in the
         result of a binary operation performed on xarray objects:
@@ -185,8 +185,8 @@ class DatasetCoordinates(Coordinates):
     """Dictionary like container for Dataset coordinates.
 
     Essentially an immutable dictionary with keys given by the array's
-    dimensions and the values given by the corresponding xarray.Coordinate
-    objects.
+    dimensions and the values given by the corresponding
+    xarray.Coordinate objects.
     """
 
     __slots__ = ("_data",)
@@ -214,8 +214,7 @@ class DatasetCoordinates(Coordinates):
         return cast("DataArray", self._data[key])
 
     def to_dataset(self) -> "Dataset":
-        """Convert these coordinates into a new Dataset
-        """
+        """Convert these coordinates into a new Dataset."""
         return self._data._copy_listed(self._names)
 
     def _update_coords(
@@ -250,7 +249,7 @@ class DatasetCoordinates(Coordinates):
             raise KeyError(key)
 
     def _ipython_key_completions_(self):
-        """Provide method for the key-autocompletions in IPython. """
+        """Provide method for the key-autocompletions in IPython."""
         return [
             key
             for key in self._data._ipython_key_completions_()
@@ -261,8 +260,8 @@ class DatasetCoordinates(Coordinates):
 class DataArrayCoordinates(Coordinates):
     """Dictionary like container for DataArray coordinates.
 
-    Essentially a dict with keys given by the array's
-    dimensions and the values given by corresponding DataArray objects.
+    Essentially a dict with keys given by the array's dimensions and the
+    values given by corresponding DataArray objects.
     """
 
     __slots__ = ("_data",)
@@ -315,15 +314,15 @@ class DataArrayCoordinates(Coordinates):
         del self._data._coords[key]
 
     def _ipython_key_completions_(self):
-        """Provide method for the key-autocompletions in IPython. """
+        """Provide method for the key-autocompletions in IPython."""
         return self._data._ipython_key_completions_()
 
 
 class LevelCoordinatesSource(Mapping[Hashable, Any]):
     """Iterator for MultiIndex level coordinates.
 
-    Used for attribute style lookup with AttrAccessMixin. Not returned directly
-    by any public methods.
+    Used for attribute style lookup with AttrAccessMixin. Not returned
+    directly by any public methods.
     """
 
     __slots__ = ("_data",)
@@ -369,9 +368,8 @@ def remap_label_indexers(
     tolerance=None,
     **indexers_kwargs: Any,
 ) -> Tuple[dict, dict]:  # TODO more precise return type after annotations in indexing
-    """Remap indexers from obj.coords.
-    If indexer is an instance of DataArray and it has coordinate, then this coordinate
-    will be attached to pos_indexers.
+    """Remap indexers from obj.coords. If indexer is an instance of DataArray and it has
+    coordinate, then this coordinate will be attached to pos_indexers.
 
     Returns
     -------

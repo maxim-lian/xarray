@@ -1,5 +1,4 @@
-"""String formatting routines for __repr__.
-"""
+"""String formatting routines for __repr__."""
 import contextlib
 import functools
 from datetime import datetime, timedelta
@@ -15,10 +14,9 @@ from .pycompat import dask_array_type, sparse_array_type
 
 
 def pretty_print(x, numchars):
-    """Given an object `x`, call `str(x)` and format the returned string so
-    that it is numchars long, padding with trailing spaces or truncating with
-    ellipses as necessary
-    """
+    """Given an object `x`, call `str(x)` and format the returned string so that it is
+    numchars long, padding with trailing spaces or truncating with ellipses as
+    necessary."""
     s = maybe_truncate(x, numchars)
     return s + " " * max(numchars - len(s), 0)
 
@@ -51,7 +49,7 @@ def _get_indexer_at_least_n_items(shape, n_desired, from_end):
 
 
 def first_n_items(array, n_desired):
-    """Returns the first n_desired items of an array"""
+    """Returns the first n_desired items of an array."""
     # Unfortunately, we can't just do array.flat[:n_desired] here because it
     # might not be a numpy.ndarray. Moreover, access to elements of the array
     # could be very expensive (e.g. if it's only available over DAP), so go out
@@ -70,7 +68,7 @@ def first_n_items(array, n_desired):
 
 
 def last_n_items(array, n_desired):
-    """Returns the last n_desired items of an array"""
+    """Returns the last n_desired items of an array."""
     # Unfortunately, we can't just do array.flat[-n_desired:] here because it
     # might not be a numpy.ndarray. Moreover, access to elements of the array
     # could be very expensive (e.g. if it's only available over DAP), so go out
@@ -95,7 +93,7 @@ def last_item(array):
 
 
 def format_timestamp(t):
-    """Cast given object to a Timestamp and return a nicely formatted string"""
+    """Cast given object to a Timestamp and return a nicely formatted string."""
     # Timestamp is only valid for 1678 to 2262
     try:
         datetime_str = str(pd.Timestamp(t))
@@ -115,7 +113,7 @@ def format_timestamp(t):
 
 
 def format_timedelta(t, timedelta_format=None):
-    """Cast given object to a Timestamp and return a nicely formatted string"""
+    """Cast given object to a Timestamp and return a nicely formatted string."""
     timedelta_str = str(pd.Timedelta(t))
     try:
         days_str, time_str = timedelta_str.split(" days ")
@@ -132,7 +130,7 @@ def format_timedelta(t, timedelta_format=None):
 
 
 def format_item(x, timedelta_format=None, quote_strings=True):
-    """Returns a succinct summary of an object as a string"""
+    """Returns a succinct summary of an object as a string."""
     if isinstance(x, (np.datetime64, datetime)):
         return format_timestamp(x)
     if isinstance(x, (np.timedelta64, timedelta)):
@@ -146,7 +144,7 @@ def format_item(x, timedelta_format=None, quote_strings=True):
 
 
 def format_items(x):
-    """Returns a succinct summaries of all items in a sequence as strings"""
+    """Returns a succinct summaries of all items in a sequence as strings."""
     x = np.asarray(x)
     timedelta_format = "datetime"
     if np.issubdtype(x.dtype, np.timedelta64):
@@ -164,9 +162,8 @@ def format_items(x):
 
 
 def format_array_flat(array, max_width):
-    """Return a formatted string for as many items in the flattened version of
-    array that will fit within max_width characters.
-    """
+    """Return a formatted string for as many items in the flattened version of array
+    that will fit within max_width characters."""
     # every item will take up at least two characters, but we always want to
     # print at least first and last items
     max_possibly_relevant = min(
@@ -214,10 +211,8 @@ with contextlib.suppress(ImportError):
 
 
 def inline_dask_repr(array):
-    """Similar to dask.array.DataArray.__repr__, but without
-    redundant information that's already printed by the repr
-    function of the xarray wrapper.
-    """
+    """Similar to dask.array.DataArray.__repr__, but without redundant information
+    that's already printed by the repr function of the xarray wrapper."""
     assert isinstance(array, dask_array_type), array
 
     chunksize = tuple(c[0] for c in array.chunks)
@@ -326,9 +321,8 @@ EMPTY_REPR = "    *empty*"
 
 
 def _get_col_items(mapping):
-    """Get all column items to format, including both keys of `mapping`
-    and MultiIndex levels if any.
-    """
+    """Get all column items to format, including both keys of `mapping` and MultiIndex
+    levels if any."""
     from .variable import IndexVariable
 
     col_items = []

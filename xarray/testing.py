@@ -1,4 +1,4 @@
-"""Testing functions exposed to the user API"""
+"""Testing functions exposed to the user API."""
 from typing import Hashable, Set, Union
 
 import numpy as np
@@ -29,8 +29,7 @@ def _data_allclose_or_equiv(arr1, arr2, rtol=1e-05, atol=1e-08, decode_bytes=Tru
 
 
 def assert_equal(a, b):
-    """Like :py:func:`numpy.testing.assert_array_equal`, but for xarray
-    objects.
+    """Like :py:func:`numpy.testing.assert_array_equal`, but for xarray objects.
 
     Raises an AssertionError if two objects are not equal. This will match
     data values, dimensions and coordinates, but not names or attributes
@@ -60,8 +59,8 @@ def assert_equal(a, b):
 
 
 def assert_identical(a, b):
-    """Like :py:func:`xarray.testing.assert_equal`, but also matches the
-    objects' names and attributes.
+    """Like :py:func:`xarray.testing.assert_equal`, but also matches the objects' names
+    and attributes.
 
     Raises an AssertionError if two objects are not identical.
 
@@ -142,8 +141,7 @@ def assert_allclose(a, b, rtol=1e-05, atol=1e-08, decode_bytes=True):
 
 
 def assert_chunks_equal(a, b):
-    """
-    Assert that chunksizes along chunked dimensions are equal.
+    """Assert that chunksizes along chunked dimensions are equal.
 
     Parameters
     ----------
@@ -255,9 +253,9 @@ def _assert_dataset_invariants(ds: Dataset):
 def _assert_internal_invariants(xarray_obj: Union[DataArray, Dataset, Variable],):
     """Validate that an xarray object satisfies its own internal invariants.
 
-    This exists for the benefit of xarray's own test suite, but may be useful
-    in external projects if they (ill-advisedly) create objects using xarray's
-    private APIs.
+    This exists for the benefit of xarray's own test suite, but may be
+    useful in external projects if they (ill-advisedly) create objects
+    using xarray's private APIs.
     """
     if isinstance(xarray_obj, Variable):
         _assert_variable_invariants(xarray_obj)

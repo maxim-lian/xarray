@@ -133,8 +133,8 @@ def _decode_datetime_with_pandas(flat_num_dates, units, calendar):
 
 
 def decode_cf_datetime(num_dates, units, calendar=None, use_cftime=None):
-    """Given an array of numeric dates in netCDF format, convert it into a
-    numpy array of date time objects.
+    """Given an array of numeric dates in netCDF format, convert it into a numpy array
+    of date time objects.
 
     For standard (Gregorian) calendars, this function uses vectorized
     operations, which makes it much faster than cftime.num2date. In such a
@@ -205,9 +205,8 @@ def to_datetime_unboxed(value, **kwargs):
 
 
 def decode_cf_timedelta(num_timedeltas, units):
-    """Given an array of numeric timedeltas in netCDF format, convert it into a
-    numpy timedelta64[ns] array.
-    """
+    """Given an array of numeric timedeltas in netCDF format, convert it into a numpy
+    timedelta64[ns] array."""
     num_timedeltas = np.asarray(num_timedeltas)
     units = _netcdf_to_numpy_timeunit(units)
     result = to_timedelta_unboxed(num_timedeltas.ravel(), unit=units)
@@ -225,7 +224,7 @@ def _infer_time_units_from_diff(unique_timedeltas):
 
 
 def infer_calendar_name(dates):
-    """Given an array of datetimes, infer the CF calendar name"""
+    """Given an array of datetimes, infer the CF calendar name."""
     if np.asarray(dates).dtype == "datetime64[ns]":
         return "proleptic_gregorian"
     else:
@@ -233,11 +232,10 @@ def infer_calendar_name(dates):
 
 
 def infer_datetime_units(dates):
-    """Given an array of datetimes, returns a CF compatible time-unit string of
-    the form "{time_unit} since {date[0]}", where `time_unit` is 'days',
-    'hours', 'minutes' or 'seconds' (the first one that can evenly divide all
-    unique time deltas in `dates`)
-    """
+    """Given an array of datetimes, returns a CF compatible time-unit string of the form
+    "{time_unit} since {date[0]}", where `time_unit` is 'days', 'hours', 'minutes' or
+    'seconds' (the first one that can evenly divide all unique time deltas in
+    `dates`)"""
     dates = np.asarray(dates).ravel()
     if np.asarray(dates).dtype == "datetime64[ns]":
         dates = to_datetime_unboxed(dates)
@@ -258,6 +256,7 @@ def infer_datetime_units(dates):
 
 def format_cftime_datetime(date):
     """Converts a cftime.datetime object to a string with the format:
+
     YYYY-MM-DD HH:MM:SS.UUUUUU
     """
     return "{:04d}-{:02d}-{:02d} {:02d}:{:02d}:{:02d}.{:06d}".format(
@@ -272,9 +271,10 @@ def format_cftime_datetime(date):
 
 
 def infer_timedelta_units(deltas):
-    """Given an array of timedeltas, returns a CF compatible time-unit from
-    {'days', 'hours', 'minutes' 'seconds'} (the first one that can evenly
-    divide all unique time deltas in `deltas`)
+    """Given an array of timedeltas, returns a CF compatible time-unit from.
+
+    {'days', 'hours', 'minutes' 'seconds'} (the first one that can
+    evenly divide all unique time deltas in `deltas`)
     """
     deltas = to_timedelta_unboxed(np.asarray(deltas).ravel())
     unique_timedeltas = np.unique(deltas[pd.notnull(deltas)])
@@ -283,8 +283,8 @@ def infer_timedelta_units(deltas):
 
 
 def cftime_to_nptime(times):
-    """Given an array of cftime.datetime objects, return an array of
-    numpy.datetime64 objects of the same size"""
+    """Given an array of cftime.datetime objects, return an array of numpy.datetime64
+    objects of the same size."""
     times = np.asarray(times)
     new = np.empty(times.shape, dtype="M8[ns]")
     for i, t in np.ndenumerate(times):
@@ -318,8 +318,9 @@ def _cleanup_netcdf_time_units(units):
 def _encode_datetime_with_cftime(dates, units, calendar):
     """Fallback method for encoding dates using cftime.
 
-    This method is more flexible than xarray's parsing using datetime64[ns]
-    arrays but also slower because it loops over each element.
+    This method is more flexible than xarray's parsing using
+    datetime64[ns] arrays but also slower because it loops over each
+    element.
     """
     import cftime
 
@@ -341,8 +342,8 @@ def cast_to_int_if_safe(num):
 
 
 def encode_cf_datetime(dates, units=None, calendar=None):
-    """Given an array of datetime objects, returns the tuple `(num, units,
-    calendar)` suitable for a CF compliant time variable.
+    """Given an array of datetime objects, returns the tuple `(num, units, calendar)`
+    suitable for a CF compliant time variable.
 
     Unlike `date2num`, this function can handle datetime64 arrays.
 

@@ -1,7 +1,7 @@
 """Compatibility module defining operations on duck numpy-arrays.
 
-Currently, this means Dask or NumPy arrays. None of these functions should
-accept or return xarray objects.
+Currently, this means Dask or NumPy arrays. None of these functions
+should accept or return xarray objects.
 """
 import contextlib
 import inspect
@@ -175,8 +175,7 @@ def as_shared_dtype(scalars_or_arrays):
 
 
 def allclose_or_equiv(arr1, arr2, rtol=1e-5, atol=1e-8):
-    """Like np.allclose, but also allows values to be NaN in both arrays
-    """
+    """Like np.allclose, but also allows values to be NaN in both arrays."""
     arr1 = asarray(arr1)
     arr2 = asarray(arr2)
     if arr1.shape != arr2.shape:
@@ -185,8 +184,7 @@ def allclose_or_equiv(arr1, arr2, rtol=1e-5, atol=1e-8):
 
 
 def array_equiv(arr1, arr2):
-    """Like np.array_equal, but also allows values to be NaN in both arrays
-    """
+    """Like np.array_equal, but also allows values to be NaN in both arrays."""
     arr1 = asarray(arr1)
     arr2 = asarray(arr2)
     if arr1.shape != arr2.shape:
@@ -199,8 +197,7 @@ def array_equiv(arr1, arr2):
 
 def array_notnull_equiv(arr1, arr2):
     """Like np.array_equal, but also allows values to be NaN in either or both
-    arrays
-    """
+    arrays."""
     arr1 = asarray(arr1)
     arr2 = asarray(arr2)
     if arr1.shape != arr2.shape:
@@ -212,8 +209,7 @@ def array_notnull_equiv(arr1, arr2):
 
 
 def count(data, axis=None):
-    """Count the number of non-NA in this array along the given axis or axes
-    """
+    """Count the number of non-NA in this array along the given axis or axes."""
     return np.sum(np.logical_not(isnull(data)), axis=axis)
 
 
@@ -363,8 +359,7 @@ def _to_pytimedelta(array, unit="us"):
 
 
 def mean(array, axis=None, skipna=None, **kwargs):
-    """inhouse mean that can handle np.datetime64 or cftime.datetime
-    dtypes"""
+    """inhouse mean that can handle np.datetime64 or cftime.datetime dtypes."""
     from .common import _contains_cftime_datetimes
 
     array = asarray(array)
@@ -426,8 +421,7 @@ _fail_on_dask_array_input_skipna = partial(
 
 
 def first(values, axis, skipna=None):
-    """Return the first non-NA elements in this array along the given axis
-    """
+    """Return the first non-NA elements in this array along the given axis."""
     if (skipna or skipna is None) and values.dtype.kind not in "iSU":
         # only bother for dtypes that can hold NaN
         _fail_on_dask_array_input_skipna(values)
@@ -436,8 +430,7 @@ def first(values, axis, skipna=None):
 
 
 def last(values, axis, skipna=None):
-    """Return the last non-NA elements in this array along the given axis
-    """
+    """Return the last non-NA elements in this array along the given axis."""
     if (skipna or skipna is None) and values.dtype.kind not in "iSU":
         # only bother for dtypes that can hold NaN
         _fail_on_dask_array_input_skipna(values)
@@ -446,8 +439,8 @@ def last(values, axis, skipna=None):
 
 
 def rolling_window(array, axis, window, center, fill_value):
-    """
-    Make an ndarray with a rolling window of axis-th dimension.
+    """Make an ndarray with a rolling window of axis-th dimension.
+
     The rolling dimension will be placed at the last dimension.
     """
     if isinstance(array, dask_array_type):

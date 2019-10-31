@@ -217,7 +217,7 @@ def test_field_access(data, field):
 
 @requires_cftime
 def test_cftime_strftime_access(data):
-    """ compare cftime formatting against datetime formatting """
+    """compare cftime formatting against datetime formatting."""
     date_format = "%Y%m%d%H"
     result = data.time.dt.strftime(date_format)
     datetime_array = xr.DataArray(

@@ -11,18 +11,13 @@ except ImportError:
 
 
 def _replace_nan(a, val):
-    """
-    replace nan in a by val, and returns the replaced array and the nan
-    position
-    """
+    """replace nan in a by val, and returns the replaced array and the nan position."""
     mask = isnull(a)
     return where_method(val, mask, a), mask
 
 
 def _maybe_null_out(result, axis, mask, min_count=1):
-    """
-    xarray version of pandas.core.nanops._maybe_null_out
-    """
+    """xarray version of pandas.core.nanops._maybe_null_out."""
     if hasattr(axis, "__len__"):  # if tuple or list
         raise ValueError(
             "min_count is not available for reduction " "with more than one dimensions."
@@ -44,8 +39,9 @@ def _maybe_null_out(result, axis, mask, min_count=1):
 
 
 def _nan_argminmax_object(func, fill_value, value, axis=None, **kwargs):
-    """ In house nanargmin, nanargmax for object arrays. Always return integer
-    type
+    """In house nanargmin, nanargmax for object arrays.
+
+    Always return integer type
     """
     valid_count = count(value, axis=axis)
     value = fillna(value, fill_value)
@@ -59,7 +55,7 @@ def _nan_argminmax_object(func, fill_value, value, axis=None, **kwargs):
 
 
 def _nan_minmax_object(func, fill_value, value, axis=None, **kwargs):
-    """ In house nanmin and nanmax for object array """
+    """In house nanmin and nanmax for object array."""
     valid_count = count(value, axis=axis)
     filled_value = fillna(value, fill_value)
     data = getattr(np, func)(filled_value, axis=axis, **kwargs)
@@ -115,7 +111,10 @@ def nansum(a, axis=None, dtype=None, out=None, min_count=None):
 
 
 def _nanmean_ddof_object(ddof, value, axis=None, dtype=None, **kwargs):
-    """ In house nanmean. ddof argument will be used in _nanvar method """
+    """In house nanmean.
+
+    ddof argument will be used in _nanvar method
+    """
     from .duck_array_ops import count, fillna, _dask_or_eager_func, where_method
 
     valid_count = count(value, axis=axis)

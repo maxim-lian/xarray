@@ -117,8 +117,8 @@ def get_write_lock(key):
 def acquire(lock, blocking=True):
     """Acquire a lock, possibly in a non-blocking fashion.
 
-    Includes backwards compatibility hacks for old versions of Python, dask
-    and dask-distributed.
+    Includes backwards compatibility hacks for old versions of Python,
+    dask and dask-distributed.
     """
     if blocking:
         # no arguments needed
@@ -138,8 +138,8 @@ def acquire(lock, blocking=True):
 class CombinedLock:
     """A combination of multiple locks.
 
-    Like a locked door, a CombinedLock is locked if any of its constituent
-    locks are locked.
+    Like a locked door, a CombinedLock is locked if any of its
+    constituent locks are locked.
     """
 
     def __init__(self, locks):

@@ -1138,7 +1138,7 @@ class TestDataset:
         assert_array_equal(actual["var3"], expected_var3)
 
     def test_isel_dataarray(self):
-        """ Test for indexing by DataArray """
+        """Test for indexing by DataArray."""
         data = create_test_data()
         # indexing with DataArray with same-name coordinates.
         indexing_da = DataArray(
@@ -2295,9 +2295,12 @@ class TestDataset:
         ],
     )
     def test_copy_coords(self, deep, expected_orig):
-        """The test fails for the shallow copy, and apparently only on Windows
-        for some reason. In windows coords seem to be immutable unless it's one
-        dataset deep copied from another."""
+        """The test fails for the shallow copy, and apparently only on Windows for some
+        reason.
+
+        In windows coords seem to be immutable unless it's one dataset
+        deep copied from another.
+        """
         ds = xr.DataArray(
             np.ones([2, 2, 2]),
             coords={"a": [1, 2], "b": ["x", "y"], "c": [0, 1]},
@@ -5783,9 +5786,9 @@ def test_no_dict():
 def test_subclass_slots():
     """Test that Dataset subclasses must explicitly define ``__slots__``.
 
-    .. note::
-       As of 0.13.0, this is actually mitigated into a FutureWarning for any class
-       defined outside of the xarray package.
+    .. note::    As of 0.13.0, this is actually mitigated into a
+    FutureWarning for any class    defined outside of the xarray
+    package.
     """
     with pytest.raises(AttributeError) as e:
 
@@ -5797,8 +5800,7 @@ def test_subclass_slots():
 
 def test_weakref():
     """Classes with __slots__ are incompatible with the weakref module unless they
-    explicitly state __weakref__ among their slots
-    """
+    explicitly state __weakref__ among their slots."""
     from weakref import ref
 
     ds = Dataset()

@@ -1,7 +1,8 @@
-"""Backend objects for saving and loading data
+"""Backend objects for saving and loading data.
 
-DataStores provide a uniform interface for saving and loading data in different
-formats. They should not be used directly, but rather through Dataset objects.
+DataStores provide a uniform interface for saving and loading data in
+different formats. They should not be used directly, but rather through
+Dataset objects.
 """
 from .cfgrib_ import CfGribDataStore
 from .common import AbstractDataStore

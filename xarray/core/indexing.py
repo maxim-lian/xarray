@@ -16,12 +16,12 @@ from .utils import is_dict_like, maybe_cast_to_coords_dtype
 
 
 def expanded_indexer(key, ndim):
-    """Given a key for indexing an ndarray, return an equivalent key which is a
-    tuple with length equal to the number of dimensions.
+    """Given a key for indexing an ndarray, return an equivalent key which is a tuple
+    with length equal to the number of dimensions.
 
-    The expansion is done by replacing all `Ellipsis` items with the right
-    number of full slices and then padding the key with full slices so that it
-    reaches the appropriate dimensionality.
+    The expansion is done by replacing all `Ellipsis` items with the
+    right number of full slices and then padding the key with full
+    slices so that it reaches the appropriate dimensionality.
     """
     if not isinstance(key, tuple):
         # numpy treats non-tuple keys equivalent to tuples of length 1
@@ -72,8 +72,7 @@ def _sanitize_slice_element(x):
 
 
 def _asarray_tuplesafe(values):
-    """
-    Convert values into a numpy array of at most 1-dimension, while preserving
+    """Convert values into a numpy array of at most 1-dimension, while preserving
     tuples.
 
     Adapted from pandas.core.common._asarray_tuplesafe
@@ -97,8 +96,7 @@ def _is_nested_tuple(possible_tuple):
 
 def get_indexer_nd(index, labels, method=None, tolerance=None):
     """Wrapper around :meth:`pandas.Index.get_indexer` supporting n-dimensional
-    labels
-    """
+    labels."""
     flat_labels = np.ravel(labels)
     flat_indexer = index.get_indexer(flat_labels, method=method, tolerance=tolerance)
     indexer = flat_indexer.reshape(labels.shape)
@@ -106,10 +104,11 @@ def get_indexer_nd(index, labels, method=None, tolerance=None):
 
 
 def convert_label_indexer(index, label, index_name="", method=None, tolerance=None):
-    """Given a pandas.Index and labels (e.g., from __getitem__) for one
-    dimension, return an indexer suitable for indexing an ndarray along that
-    dimension. If `index` is a pandas.MultiIndex and depending on `label`,
-    return a new pandas.Index or pandas.MultiIndex (otherwise return None).
+    """Given a pandas.Index and labels (e.g., from __getitem__) for one dimension,
+    return an indexer suitable for indexing an ndarray along that dimension.
+
+    If `index` is a pandas.MultiIndex and depending on `label`, return a
+    new pandas.Index or pandas.MultiIndex (otherwise return None).
     """
     new_index = None
 
@@ -194,12 +193,12 @@ def convert_label_indexer(index, label, index_name="", method=None, tolerance=No
 
 
 def get_dim_indexers(data_obj, indexers):
-    """Given a xarray data object and label based indexers, return a mapping
-    of label indexers with only dimension names as keys.
+    """Given a xarray data object and label based indexers, return a mapping of label
+    indexers with only dimension names as keys.
 
     It groups multiple level indexers given on a multi-index dimension
-    into a single, dictionary indexer for that dimension (Raise a ValueError
-    if it is not possible).
+    into a single, dictionary indexer for that dimension (Raise a
+    ValueError if it is not possible).
     """
     invalid = [
         k
@@ -231,9 +230,11 @@ def get_dim_indexers(data_obj, indexers):
 
 
 def remap_label_indexers(data_obj, indexers, method=None, tolerance=None):
-    """Given an xarray data object and label based indexers, return a mapping
-    of equivalent location based indexers. Also return a mapping of updated
-    pandas index objects (in case of multi-index level drop).
+    """Given an xarray data object and label based indexers, return a mapping of
+    equivalent location based indexers.
+
+    Also return a mapping of updated pandas index objects (in case of
+    multi-index level drop).
     """
     if method is not None and not isinstance(method, str):
         raise TypeError("``method`` must be a string")
@@ -266,10 +267,9 @@ def remap_label_indexers(data_obj, indexers, method=None, tolerance=None):
 
 
 def slice_slice(old_slice, applied_slice, size):
-    """Given a slice and the size of the dimension to which it will be applied,
-    index it with another slice to return a new slice equivalent to applying
-    the slices sequentially
-    """
+    """Given a slice and the size of the dimension to which it will be applied, index it
+    with another slice to return a new slice equivalent to applying the slices
+    sequentially."""
     step = (old_slice.step or 1) * (applied_slice.step or 1)
 
     # For now, use the hack of turning old_slice into an ndarray to reconstruct
@@ -342,9 +342,9 @@ def as_integer_slice(value):
 class BasicIndexer(ExplicitIndexer):
     """Tuple for basic indexing.
 
-    All elements should be int or slice objects. Indexing follows NumPy's
-    rules for basic indexing: each axis is independently sliced and axes
-    indexed with an integer are dropped from the result.
+    All elements should be int or slice objects. Indexing follows
+    NumPy's rules for basic indexing: each axis is independently sliced
+    and axes indexed with an integer are dropped from the result.
     """
 
     __slots__ = ()
@@ -371,10 +371,10 @@ class BasicIndexer(ExplicitIndexer):
 class OuterIndexer(ExplicitIndexer):
     """Tuple for outer/orthogonal indexing.
 
-    All elements should be int, slice or 1-dimensional np.ndarray objects with
-    an integer dtype. Indexing is applied independently along each axis, and
-    axes indexed with an integer are dropped from the result. This type of
-    indexing works like MATLAB/Fortran.
+    All elements should be int, slice or 1-dimensional np.ndarray
+    objects with an integer dtype. Indexing is applied independently
+    along each axis, and axes indexed with an integer are dropped from
+    the result. This type of indexing works like MATLAB/Fortran.
     """
 
     __slots__ = ()
@@ -412,10 +412,11 @@ class OuterIndexer(ExplicitIndexer):
 class VectorizedIndexer(ExplicitIndexer):
     """Tuple for vectorized indexing.
 
-    All elements should be slice or N-dimensional np.ndarray objects with an
-    integer dtype and the same number of dimensions. Indexing follows proposed
-    rules for np.ndarray.vindex, which matches NumPy's advanced indexing rules
-    (including broadcasting) except sliced axes are always moved to the end:
+    All elements should be slice or N-dimensional np.ndarray objects
+    with an integer dtype and the same number of dimensions. Indexing
+    follows proposed rules for np.ndarray.vindex, which matches NumPy's
+    advanced indexing rules (including broadcasting) except sliced axes
+    are always moved to the end:
     https://github.com/numpy/numpy/pull/6256
     """
 
@@ -454,8 +455,7 @@ class VectorizedIndexer(ExplicitIndexer):
 
 
 class ExplicitlyIndexed:
-    """Mixin to mark support for Indexer subclasses in indexing.
-    """
+    """Mixin to mark support for Indexer subclasses in indexing."""
 
     __slots__ = ()
 
@@ -492,8 +492,7 @@ class ImplicitToExplicitIndexingAdapter(utils.NDArrayMixin):
 
 
 class LazilyOuterIndexedArray(ExplicitlyIndexedNDArrayMixin):
-    """Wrap an array to make basic and outer indexing lazy.
-    """
+    """Wrap an array to make basic and outer indexing lazy."""
 
     __slots__ = ("array", "key")
 
@@ -569,8 +568,7 @@ class LazilyOuterIndexedArray(ExplicitlyIndexedNDArrayMixin):
 
 
 class LazilyVectorizedIndexedArray(ExplicitlyIndexedNDArrayMixin):
-    """Wrap an array to make vectorized indexing lazy.
-    """
+    """Wrap an array to make vectorized indexing lazy."""
 
     __slots__ = ("array", "key")
 
@@ -678,11 +676,8 @@ class MemoryCachedArray(ExplicitlyIndexedNDArrayMixin):
 
 
 def as_indexable(array):
-    """
-    This function always returns a ExplicitlyIndexed subclass,
-    so that the vectorized indexing is always possible with the returned
-    object.
-    """
+    """This function always returns a ExplicitlyIndexed subclass, so that the vectorized
+    indexing is always possible with the returned object."""
     if isinstance(array, ExplicitlyIndexed):
         return array
     if isinstance(array, np.ndarray):
@@ -757,7 +752,7 @@ def _outer_to_numpy_indexer(key, shape):
 
 
 def _combine_indexers(old_key, shape, new_key):
-    """ Combine two indexers.
+    """Combine two indexers.
 
     Parameters
     ----------
@@ -842,8 +837,9 @@ def decompose_indexer(
 
 
 def _decompose_slice(key, size):
-    """ convert a slice to successive two slices. The first slice always has
-    a positive step.
+    """convert a slice to successive two slices.
+
+    The first slice always has a positive step.
     """
     start, stop, step = key.indices(size)
     if step > 0:
@@ -862,10 +858,9 @@ def _decompose_vectorized_indexer(
     shape: Tuple[int, ...],
     indexing_support: IndexingSupport,
 ) -> Tuple[ExplicitIndexer, ExplicitIndexer]:
-    """
-    Decompose vectorized indexer to the successive two indexers, where the
-    first indexer will be used to index backend arrays, while the second one
-    is used to index loaded on-memory np.ndarray.
+    """Decompose vectorized indexer to the successive two indexers, where the first
+    indexer will be used to index backend arrays, while the second one is used to index
+    loaded on-memory np.ndarray.
 
     Parameters
     ----------
@@ -940,10 +935,9 @@ def _decompose_outer_indexer(
     shape: Tuple[int, ...],
     indexing_support: IndexingSupport,
 ) -> Tuple[ExplicitIndexer, ExplicitIndexer]:
-    """
-    Decompose outer indexer to the successive two indexers, where the
-    first indexer will be used to index backend arrays, while the second one
-    is used to index the loaded on-memory np.ndarray.
+    """Decompose outer indexer to the successive two indexers, where the first indexer
+    will be used to index backend arrays, while the second one is used to index the
+    loaded on-memory np.ndarray.
 
     Parameters
     ----------
@@ -1058,7 +1052,7 @@ def _decompose_outer_indexer(
 
 
 def _arrayize_vectorized_indexer(indexer, shape):
-    """ Return an identical vindex but slices are replaced by arrays """
+    """Return an identical vindex but slices are replaced by arrays."""
     slices = [v for v in indexer.tuple if isinstance(v, slice)]
     if len(slices) == 0:
         return indexer
@@ -1285,9 +1279,8 @@ class DaskIndexingAdapter(ExplicitlyIndexedNDArrayMixin):
     __slots__ = ("array",)
 
     def __init__(self, array):
-        """ This adapter is created in Variable.__getitem__ in
-        Variable._broadcast_indexes.
-        """
+        """This adapter is created in Variable.__getitem__ in
+        Variable._broadcast_indexes."""
         self.array = array
 
     def __getitem__(self, key):
@@ -1322,8 +1315,7 @@ class DaskIndexingAdapter(ExplicitlyIndexedNDArrayMixin):
 
 
 class PandasIndexAdapter(ExplicitlyIndexedNDArrayMixin):
-    """Wrap a pandas.Index to preserve dtypes and handle explicit indexing.
-    """
+    """Wrap a pandas.Index to preserve dtypes and handle explicit indexing."""
 
     __slots__ = ("array", "_dtype")
 

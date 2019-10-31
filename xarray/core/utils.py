@@ -1,5 +1,4 @@
-"""Internal utilties; not for external use
-"""
+"""Internal utilties; not for external use."""
 import contextlib
 import functools
 import itertools
@@ -133,8 +132,9 @@ def multiindex_from_product_levels(
 def maybe_wrap_array(original, new_array):
     """Wrap a transformed array with __array_wrap__ is it can be done safely.
 
-    This lets us treat arbitrary functions that take and return ndarray objects
-    like ufuncs, as long as they return an array with the same shape.
+    This lets us treat arbitrary functions that take and return ndarray
+    objects like ufuncs, as long as they return an array with the same
+    shape.
     """
     # in case func lost array's metadata
     if isinstance(new_array, np.ndarray) and new_array.shape == original.shape:
@@ -144,9 +144,11 @@ def maybe_wrap_array(original, new_array):
 
 
 def equivalent(first: T, second: T) -> bool:
-    """Compare two objects for equivalence (identity or equality), using
-    array_equiv if either object is an ndarray. If both objects are lists,
-    equivalent is sequentially called on all the elements.
+    """Compare two objects for equivalence (identity or equality), using array_equiv if
+    either object is an ndarray.
+
+    If both objects are lists, equivalent is sequentially called on all
+    the elements.
     """
     # TODO: refactor to avoid circular import
     from . import duck_array_ops
@@ -174,9 +176,8 @@ def list_equiv(first, second):
 
 
 def peek_at(iterable: Iterable[T]) -> Tuple[T, Iterator[T]]:
-    """Returns the first value from iterable, as well as a new iterator with
-    the same content as the original iterable
-    """
+    """Returns the first value from iterable, as well as a new iterator with the same
+    content as the original iterable."""
     gen = iter(iterable)
     peek = next(gen)
     return peek, itertools.chain([peek], gen)
@@ -296,16 +297,14 @@ def is_valid_numpy_dtype(dtype: Any) -> bool:
 
 
 def to_0d_object_array(value: Any) -> np.ndarray:
-    """Given a value, wrap it in a 0-D numpy.ndarray with dtype=object.
-    """
+    """Given a value, wrap it in a 0-D numpy.ndarray with dtype=object."""
     result = np.empty((), dtype=object)
     result[()] = value
     return result
 
 
 def to_0d_array(value: Any) -> np.ndarray:
-    """Given a value, wrap it in a 0-D numpy.ndarray.
-    """
+    """Given a value, wrap it in a 0-D numpy.ndarray."""
     if np.isscalar(value) or (isinstance(value, np.ndarray) and value.ndim == 0):
         return np.array(value)
     else:
@@ -317,8 +316,8 @@ def dict_equiv(
     second: Mapping[K, V],
     compat: Callable[[V, V], bool] = equivalent,
 ) -> bool:
-    """Test equivalence of two dict-like objects. If any of the values are
-    numpy arrays, compare them correctly.
+    """Test equivalence of two dict-like objects. If any of the values are numpy arrays,
+    compare them correctly.
 
     Parameters
     ----------
@@ -371,8 +370,9 @@ def ordered_dict_intersection(
 
 
 class Frozen(Mapping[K, V]):
-    """Wrapper around an object implementing the mapping interface to make it
-    immutable. If you really want to modify the mapping, the mutable version is
+    """Wrapper around an object implementing the mapping interface to make it immutable.
+
+    If you really want to modify the mapping, the mutable version is
     saved under the `mapping` attribute.
     """
 
@@ -402,10 +402,8 @@ def FrozenDict(*args, **kwargs) -> Frozen:
 
 
 class SortedKeysDict(MutableMapping[K, V]):
-    """An wrapper for dictionary-like objects that always iterates over its
-    items in sorted order by key but is otherwise equivalent to the underlying
-    mapping.
-    """
+    """An wrapper for dictionary-like objects that always iterates over its items in
+    sorted order by key but is otherwise equivalent to the underlying mapping."""
 
     __slots__ = ("mapping",)
 
@@ -437,8 +435,9 @@ class SortedKeysDict(MutableMapping[K, V]):
 class OrderedSet(MutableSet[T]):
     """A simple ordered set.
 
-    The API matches the builtin set, but it preserves insertion order of elements, like
-    a dict. Note that, unlike in an OrderedDict, equality tests are not order-sensitive.
+    The API matches the builtin set, but it preserves insertion order of
+    elements, like a dict. Note that, unlike in an OrderedDict, equality
+    tests are not order-sensitive.
     """
 
     _d: Dict[T, None]
@@ -481,9 +480,8 @@ class OrderedSet(MutableSet[T]):
 
 
 class NdimSizeLenMixin:
-    """Mixin class that extends a class that defines a ``shape`` property to
-    one that also defines ``ndim``, ``size`` and ``__len__``.
-    """
+    """Mixin class that extends a class that defines a ``shape`` property to one that
+    also defines ``ndim``, ``size`` and ``__len__``."""
 
     __slots__ = ()
 
@@ -504,11 +502,11 @@ class NdimSizeLenMixin:
 
 
 class NDArrayMixin(NdimSizeLenMixin):
-    """Mixin class for making wrappers of N-dimensional arrays that conform to
-    the ndarray interface required for the data argument to Variable objects.
+    """Mixin class for making wrappers of N-dimensional arrays that conform to the
+    ndarray interface required for the data argument to Variable objects.
 
-    A subclass should set the `array` property and override one or more of
-    `dtype`, `shape` and `__getitem__`.
+    A subclass should set the `array` property and override one or more
+    of `dtype`, `shape` and `__getitem__`.
     """
 
     __slots__ = ()
@@ -529,8 +527,7 @@ class NDArrayMixin(NdimSizeLenMixin):
 
 
 class ReprObject:
-    """Object that prints as the given value, for use with sentinel values.
-    """
+    """Object that prints as the given value, for use with sentinel values."""
 
     __slots__ = ("_value",)
 
@@ -551,9 +548,8 @@ class ReprObject:
 
 @contextlib.contextmanager
 def close_on_error(f):
-    """Context manager to ensure that a file opened by xarray is closed if an
-    exception is raised before the user sees the file object.
-    """
+    """Context manager to ensure that a file opened by xarray is closed if an exception
+    is raised before the user sees the file object."""
     try:
         yield
     except Exception:
@@ -586,8 +582,7 @@ def is_uniform_spaced(arr, **kwargs) -> bool:
 
 
 def hashable(v: Any) -> bool:
-    """Determine whether `v` can be hashed.
-    """
+    """Determine whether `v` can be hashed."""
     try:
         hash(v)
     except TypeError:
@@ -600,9 +595,8 @@ def not_implemented(*args, **kwargs):
 
 
 def decode_numpy_dict_values(attrs: Mapping[K, V]) -> Dict[K, V]:
-    """Convert attribute values from numpy objects to native Python objects,
-    for use in to_dict
-    """
+    """Convert attribute values from numpy objects to native Python objects, for use in
+    to_dict."""
     attrs = dict(attrs)
     for k, v in attrs.items():
         if isinstance(v, np.ndarray):
@@ -614,7 +608,9 @@ def decode_numpy_dict_values(attrs: Mapping[K, V]) -> Dict[K, V]:
 
 def ensure_us_time_resolution(val):
     """Convert val out of numpy time, for use in to_dict.
-    Needed because of numpy bug GH#7619"""
+
+    Needed because of numpy bug GH#7619
+    """
     if np.issubdtype(val.dtype, np.datetime64):
         val = val.astype("datetime64[us]")
     elif np.issubdtype(val.dtype, np.timedelta64):
@@ -623,8 +619,7 @@ def ensure_us_time_resolution(val):
 
 
 class HiddenKeyDict(MutableMapping[K, V]):
-    """Acts like a normal dictionary, but hides certain keys.
-    """
+    """Acts like a normal dictionary, but hides certain keys."""
 
     __slots__ = ("_data", "_hidden_keys")
 
@@ -662,10 +657,8 @@ class HiddenKeyDict(MutableMapping[K, V]):
 
 
 def infix_dims(dims_supplied: Collection, dims_all: Collection) -> Iterator:
-    """
-    Resolves a supplied list containing an ellispsis representing other items, to
-    a generator with the 'realized' list of all items
-    """
+    """Resolves a supplied list containing an ellispsis representing other items, to a
+    generator with the 'realized' list of all items."""
     if ... in dims_supplied:
         if len(set(dims_all)) != len(dims_all):
             raise ValueError("Cannot use ellipsis with repeated dims")
@@ -686,8 +679,8 @@ def infix_dims(dims_supplied: Collection, dims_all: Collection) -> Iterator:
 
 
 def get_temp_dimname(dims: Container[Hashable], new_dim: Hashable) -> Hashable:
-    """ Get an new dimension name based on new_dim, that is not used in dims.
-    If the same name exists, we add an underscore(s) in the head.
+    """Get an new dimension name based on new_dim, that is not used in dims. If the same
+    name exists, we add an underscore(s) in the head.
 
     Example1:
         dims: ['a', 'b', 'c']

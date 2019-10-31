@@ -41,7 +41,7 @@ _CFTIME_CALENDARS = [
 
 
 def _id_func(param):
-    """Called on each parameter passed to pytest.mark.parametrize"""
+    """Called on each parameter passed to pytest.mark.parametrize."""
     return str(param)
 
 

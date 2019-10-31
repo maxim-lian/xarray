@@ -7,9 +7,8 @@ from .common import AbstractWritableDataStore
 
 
 class InMemoryDataStore(AbstractWritableDataStore):
-    """
-    Stores dimensions, variables and attributes in ordered dictionaries, making
-    this store fast compared to stores which save to disk.
+    """Stores dimensions, variables and attributes in ordered dictionaries, making this
+    store fast compared to stores which save to disk.
 
     This store exists purely for internal testing purposes.
     """

@@ -21,7 +21,7 @@ _ERROR_MSG = (
 
 
 class RasterioArrayWrapper(BackendArray):
-    """A wrapper around rasterio dataset objects"""
+    """A wrapper around rasterio dataset objects."""
 
     def __init__(self, manager, lock, vrt_params=None):
         from rasterio.vrt import WarpedVRT
@@ -50,7 +50,7 @@ class RasterioArrayWrapper(BackendArray):
         return self._shape
 
     def _get_indexer(self, key):
-        """ Get indexer for rasterio array.
+        """Get indexer for rasterio array.
 
         Parameter
         ---------
@@ -148,7 +148,6 @@ def _parse_envi(meta):
     -------
     parsed_meta : dict
         Dictionary containing the original keys and the parsed values
-
     """
 
     def parsevec(s):

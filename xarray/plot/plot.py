@@ -1,10 +1,7 @@
-"""
-Use this module directly:
-    import xarray.plot as xplt
+"""Use this module directly: import xarray.plot as xplt.
 
-Or use the methods on a DataArray or Dataset:
-    DataArray.plot._____
-    Dataset.plot._____
+Or use the methods on a DataArray or Dataset:     DataArray.plot._____
+Dataset.plot._____
 """
 import functools
 
@@ -126,8 +123,7 @@ def plot(
     subplot_kws=None,
     **kwargs,
 ):
-    """
-    Default plot of DataArray using matplotlib.pyplot.
+    """Default plot of DataArray using matplotlib.pyplot.
 
     Calls xarray plotting function based on the dimensions of
     darray.squeeze()
@@ -161,7 +157,6 @@ def plot(
         to FacetGrid plotting.
     **kwargs : optional
         Additional keyword arguments to matplotlib
-
     """
     darray = darray.squeeze().compute()
 
@@ -228,8 +223,7 @@ def line(
     _labels=True,
     **kwargs,
 ):
-    """
-    Line plot of DataArray index against values
+    """Line plot of DataArray index against values.
 
     Wraps :func:`matplotlib:matplotlib.pyplot.plot`
 
@@ -351,8 +345,7 @@ def line(
 
 
 def step(darray, *args, where="pre", linestyle=None, ls=None, **kwargs):
-    """
-    Step plot of DataArray index against values
+    """Step plot of DataArray index against values.
 
     Similar to :func:`matplotlib:matplotlib.pyplot.step`
 
@@ -406,8 +399,7 @@ def hist(
     ylim=None,
     **kwargs,
 ):
-    """
-    Histogram of DataArray
+    """Histogram of DataArray.
 
     Wraps :func:`matplotlib:matplotlib.pyplot.hist`
 
@@ -431,7 +423,6 @@ def hist(
         Mutually exclusive with ``size`` and ``figsize``.
     **kwargs : optional
         Additional keyword arguments to matplotlib.pyplot.hist
-
     """
     ax = get_axis(figsize, size, aspect, ax)
 
@@ -451,8 +442,8 @@ def hist(
 # MUST run before any 2d plotting functions are defined since
 # _plot2d decorator adds them as methods here.
 class _PlotMethods:
-    """
-    Enables use of xarray.plot functions as attributes on a DataArray.
+    """Enables use of xarray.plot functions as attributes on a DataArray.
+
     For example, DataArray.plot.imshow
     """
 
@@ -478,8 +469,7 @@ class _PlotMethods:
 
 
 def _plot2d(plotfunc):
-    """
-    Decorator for common 2d plotting logic
+    """Decorator for common 2d plotting logic.
 
     Also adds the 2d plot method to class _PlotMethods
     """
@@ -810,11 +800,10 @@ def _plot2d(plotfunc):
         norm=None,
         **kwargs,
     ):
-        """
-        The method should have the same signature as the function.
+        """The method should have the same signature as the function.
 
-        This just makes the method work on Plotmethods objects,
-        and passes all the other arguments straight through.
+        This just makes the method work on Plotmethods objects, and
+        passes all the other arguments straight through.
         """
         allargs = locals()
         allargs["darray"] = _PlotMethods_obj._da
@@ -831,8 +820,7 @@ def _plot2d(plotfunc):
 
 @_plot2d
 def imshow(x, y, z, ax, **kwargs):
-    """
-    Image plot of 2d DataArray using matplotlib.pyplot
+    """Image plot of 2d DataArray using matplotlib.pyplot.
 
     Wraps :func:`matplotlib:matplotlib.pyplot.imshow`
 
@@ -906,8 +894,7 @@ def imshow(x, y, z, ax, **kwargs):
 
 @_plot2d
 def contour(x, y, z, ax, **kwargs):
-    """
-    Contour plot of 2d DataArray
+    """Contour plot of 2d DataArray.
 
     Wraps :func:`matplotlib:matplotlib.pyplot.contour`
     """
@@ -917,8 +904,7 @@ def contour(x, y, z, ax, **kwargs):
 
 @_plot2d
 def contourf(x, y, z, ax, **kwargs):
-    """
-    Filled contour plot of 2d DataArray
+    """Filled contour plot of 2d DataArray.
 
     Wraps :func:`matplotlib:matplotlib.pyplot.contourf`
     """
@@ -928,8 +914,7 @@ def contourf(x, y, z, ax, **kwargs):
 
 @_plot2d
 def pcolormesh(x, y, z, ax, infer_intervals=None, **kwargs):
-    """
-    Pseudocolor plot of 2d DataArray
+    """Pseudocolor plot of 2d DataArray.
 
     Wraps :func:`matplotlib:matplotlib.pyplot.pcolormesh`
     """
