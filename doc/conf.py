@@ -15,11 +15,17 @@
 
 import datetime
 import os
+import pathlib
 import subprocess
 import sys
 from contextlib import suppress
 
-import xarray
+# make sure the source version is preferred (#3567)
+root = pathlib.Path(__file__).absolute().parent.parent
+os.environ["PYTHONPATH"] = str(root)
+sys.path.insert(0, str(root))
+
+import xarray  # isort:skip
 
 allowed_failures = set()
 
