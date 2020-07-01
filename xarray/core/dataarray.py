@@ -2,7 +2,6 @@ import datetime
 import functools
 from numbers import Number
 from typing import (
-    TYPE_CHECKING,
     Any,
     Callable,
     Dict,
@@ -12,6 +11,7 @@ from typing import (
     Mapping,
     Optional,
     Sequence,
+    TYPE_CHECKING,
     Tuple,
     TypeVar,
     Union,
@@ -21,7 +21,6 @@ from typing import (
 import numpy as np
 import pandas as pd
 
-from ..plot.plot import _PlotMethods
 from . import (
     computation,
     dtypes,
@@ -34,6 +33,7 @@ from . import (
     utils,
     weighted,
 )
+from ..plot.plot import _PlotMethods
 from .accessor_dt import CombinedDatetimelikeAccessor
 from .accessor_str import StringAccessor
 from .alignment import (
@@ -53,7 +53,7 @@ from .dataset import Dataset, split_indexes
 from .formatting import format_item
 from .indexes import Indexes, default_indexes, propagate_indexes
 from .indexing import is_fancy_indexer
-from .merge import PANDAS_TYPES, MergeError, _extract_indexes_from_coords
+from .merge import MergeError, PANDAS_TYPES, _extract_indexes_from_coords
 from .options import OPTIONS
 from .utils import Default, ReprObject, _check_inplace, _default, either_dict_or_kwargs
 from .variable import (
@@ -63,6 +63,8 @@ from .variable import (
     as_variable,
     assert_unique_multiindex_level_names,
 )
+
+str_ = str
 
 if TYPE_CHECKING:
     T_DSorDA = TypeVar("T_DSorDA", "DataArray", Dataset)
@@ -238,7 +240,7 @@ class DataArray(AbstractArray, DataWithCoords):
     always returns another DataArray.
     """
 
-    _cache: Dict[str, Any]
+    _cache: Dict[str_, Any]
     _coords: Dict[Any, Variable]
     _indexes: Optional[Dict[Hashable, pd.Index]]
     _name: Optional[Hashable]
@@ -306,7 +308,7 @@ class DataArray(AbstractArray, DataWithCoords):
             for 1D data) or a sequence of hashables with length equal to the
             number of dimensions. If this argument is omitted, dimension names
             default to ``['dim_0', ... 'dim_n']``.
-        name : str or None, optional
+        name : str_ or None, optional
             Name of this array.
         attrs : dict_like or None, optional
             Attributes to assign to the new instance. By default, an empty
@@ -963,8 +965,8 @@ class DataArray(AbstractArray, DataWithCoords):
             Tuple[Tuple[Number, ...], ...],
             Mapping[Hashable, Union[None, Number, Tuple[Number, ...]]],
         ] = None,
-        name_prefix: str = "xarray-",
-        token: str = None,
+        name_prefix: str_ = "xarray-",
+        token: str_ = None,
         lock: bool = False,
     ) -> "DataArray":
         """Coerce this array's data into a dask arrays with the given chunks.
@@ -982,9 +984,9 @@ class DataArray(AbstractArray, DataWithCoords):
         chunks : int, tuple or mapping, optional
             Chunk sizes along each dimension, e.g., ``5``, ``(5, 5)`` or
             ``{'x': 5, 'y': 5}``.
-        name_prefix : str, optional
+        name_prefix : str_, optional
             Prefix for the name of the new dask array.
-        token : str, optional
+        token : str_, optional
             Token uniquely identifying this array.
         lock : optional
             Passed on to :py:func:`dask.array.from_array`, if the array is not
@@ -1006,7 +1008,7 @@ class DataArray(AbstractArray, DataWithCoords):
         self,
         indexers: Mapping[Hashable, Any] = None,
         drop: bool = False,
-        missing_dims: str = "raise",
+        missing_dims: str_ = "raise",
         **indexers_kwargs: Any,
     ) -> "DataArray":
         """Return a new DataArray whose data is given by integer indexing
@@ -1068,7 +1070,7 @@ class DataArray(AbstractArray, DataWithCoords):
     def sel(
         self,
         indexers: Mapping[Hashable, Any] = None,
-        method: str = None,
+        method: str_ = None,
         tolerance=None,
         drop: bool = False,
         **indexers_kwargs: Any,
@@ -1273,7 +1275,7 @@ class DataArray(AbstractArray, DataWithCoords):
     def reindex_like(
         self,
         other: Union["DataArray", Dataset],
-        method: str = None,
+        method: str_ = None,
         tolerance=None,
         copy: bool = True,
         fill_value=dtypes.NA,
@@ -1333,7 +1335,7 @@ class DataArray(AbstractArray, DataWithCoords):
     def reindex(
         self,
         indexers: Mapping[Hashable, Any] = None,
-        method: str = None,
+        method: str_ = None,
         tolerance=None,
         copy: bool = True,
         fill_value=dtypes.NA,
@@ -1397,9 +1399,9 @@ class DataArray(AbstractArray, DataWithCoords):
     def interp(
         self,
         coords: Mapping[Hashable, Any] = None,
-        method: str = "linear",
+        method: str_ = "linear",
         assume_sorted: bool = False,
-        kwargs: Mapping[str, Any] = None,
+        kwargs: Mapping[str_, Any] = None,
         **coords_kwargs: Any,
     ) -> "DataArray":
         """ Multidimensional interpolation of variables.
@@ -1464,9 +1466,9 @@ class DataArray(AbstractArray, DataWithCoords):
     def interp_like(
         self,
         other: Union["DataArray", Dataset],
-        method: str = "linear",
+        method: str_ = "linear",
         assume_sorted: bool = False,
-        kwargs: Mapping[str, Any] = None,
+        kwargs: Mapping[str_, Any] = None,
     ) -> "DataArray":
         """Interpolate this object onto the coordinates of another object,
         filling out of range values with NaN.
@@ -1525,7 +1527,7 @@ class DataArray(AbstractArray, DataWithCoords):
 
         Parameters
         ----------
-        new_name_or_name_dict : str or dict-like, optional
+        new_name_or_name_dict : str_ or dict-like, optional
             If the argument is dict-like, it used as a mapping from old
             names to new names for coordinates. Otherwise, use the argument
             as the new name for this array.
@@ -1906,7 +1908,7 @@ class DataArray(AbstractArray, DataWithCoords):
 
         Parameters
         ----------
-        dim : str
+        dim : str_
             Name of existing dimension to unstack
         level : int or str
             The MultiIndex level to expand to a dataset along. Can either be
@@ -2010,7 +2012,7 @@ class DataArray(AbstractArray, DataWithCoords):
         return self.transpose()
 
     def drop_vars(
-        self, names: Union[Hashable, Iterable[Hashable]], *, errors: str = "raise"
+        self, names: Union[Hashable, Iterable[Hashable]], *, errors: str_ = "raise"
     ) -> "DataArray":
         """Drop variables from this DataArray.
 
@@ -2036,7 +2038,7 @@ class DataArray(AbstractArray, DataWithCoords):
         labels: Mapping = None,
         dim: Hashable = None,
         *,
-        errors: str = "raise",
+        errors: str_ = "raise",
         **labels_kwargs,
     ) -> "DataArray":
         """Backward compatible method based on `drop_vars` and `drop_sel`
@@ -2055,7 +2057,7 @@ class DataArray(AbstractArray, DataWithCoords):
         self,
         labels: Mapping[Hashable, Any] = None,
         *,
-        errors: str = "raise",
+        errors: str_ = "raise",
         **labels_kwargs,
     ) -> "DataArray":
         """Drop index labels from this DataArray.
@@ -2083,7 +2085,7 @@ class DataArray(AbstractArray, DataWithCoords):
         return self._from_temp_dataset(ds)
 
     def dropna(
-        self, dim: Hashable, how: str = "any", thresh: int = None
+        self, dim: Hashable, how: str_ = "any", thresh: int = None
     ) -> "DataArray":
         """Returns a new array with dropped labels for missing values along
         the provided dimension.
@@ -2136,11 +2138,11 @@ class DataArray(AbstractArray, DataWithCoords):
     def interpolate_na(
         self,
         dim: Hashable = None,
-        method: str = "linear",
+        method: str_ = "linear",
         limit: int = None,
-        use_coordinate: Union[bool, str] = True,
+        use_coordinate: Union[bool, str_] = True,
         max_gap: Union[
-            int, float, str, pd.Timedelta, np.timedelta64, datetime.timedelta
+            int, float, str_, pd.Timedelta, np.timedelta64, datetime.timedelta
         ] = None,
         keep_attrs: bool = None,
         **kwargs: Any,
@@ -2149,9 +2151,9 @@ class DataArray(AbstractArray, DataWithCoords):
 
         Parameters
         ----------
-        dim : str
+        dim : str_
             Specifies the dimension along which to interpolate.
-        method : str, optional
+        method : str_, optional
             String indicating which method to use for interpolation:
 
             - 'linear': linear interpolation (Default). Additional keyword
@@ -2258,7 +2260,7 @@ class DataArray(AbstractArray, DataWithCoords):
 
         Parameters
         ----------
-        dim : str
+        dim : str_
             Specifies the dimension along which to propagate values when
             filling.
         limit : int, default None
@@ -2579,7 +2581,7 @@ class DataArray(AbstractArray, DataWithCoords):
 
         return from_iris(cube)
 
-    def _all_compat(self, other: "DataArray", compat_str: str) -> bool:
+    def _all_compat(self, other: "DataArray", compat_str: str_) -> bool:
         """Helper function for equals, broadcast_equals, and identical
         """
 
@@ -2673,7 +2675,7 @@ class DataArray(AbstractArray, DataWithCoords):
     def _binary_op(
         f: Callable[..., Any],
         reflexive: bool = False,
-        join: str = None,  # see xarray.align
+        join: str_ = None,  # see xarray.align
         **ignored_kwargs,
     ) -> Callable[..., "DataArray"]:
         @functools.wraps(f)
@@ -2731,7 +2733,7 @@ class DataArray(AbstractArray, DataWithCoords):
 
     plot = utils.UncachedAccessor(_PlotMethods)
 
-    def _title_for_slice(self, truncate: int = 50) -> str:
+    def _title_for_slice(self, truncate: int = 50) -> str_:
         """
         If the dataarray has 1 dimensional coordinates or comes from a slice
         we can show that info in the title
@@ -3029,7 +3031,7 @@ class DataArray(AbstractArray, DataWithCoords):
         self,
         q: Any,
         dim: Union[Hashable, Sequence[Hashable], None] = None,
-        interpolation: str = "linear",
+        interpolation: str_ = "linear",
         keep_attrs: bool = None,
         skipna: bool = True,
     ) -> "DataArray":
@@ -3161,7 +3163,7 @@ class DataArray(AbstractArray, DataWithCoords):
         return self._from_temp_dataset(ds)
 
     def differentiate(
-        self, coord: Hashable, edge_order: int = 1, datetime_unit: str = None
+        self, coord: Hashable, edge_order: int = 1, datetime_unit: str_ = None
     ) -> "DataArray":
         """ Differentiate the array with the second order accurate central
         differences.
@@ -3220,7 +3222,7 @@ class DataArray(AbstractArray, DataWithCoords):
         return self._from_temp_dataset(ds)
 
     def integrate(
-        self, dim: Union[Hashable, Sequence[Hashable]], datetime_unit: str = None
+        self, dim: Union[Hashable, Sequence[Hashable]], datetime_unit: str_ = None
     ) -> "DataArray":
         """ integrate the array with the trapezoidal rule.
 
@@ -3232,7 +3234,7 @@ class DataArray(AbstractArray, DataWithCoords):
         ----------
         dim: hashable, or a sequence of hashable
             Coordinate(s) used for the integration.
-        datetime_unit: str, optional
+        datetime_unit: str_, optional
             Can be used to specify the unit if datetime coordinate is used.
             One of {'Y', 'M', 'W', 'D', 'h', 'm', 's', 'ms', 'us', 'ns', 'ps',
             'fs', 'as'}
@@ -3291,7 +3293,7 @@ class DataArray(AbstractArray, DataWithCoords):
         self,
         func: "Callable[..., T_DSorDA]",
         args: Sequence[Any] = (),
-        kwargs: Mapping[str, Any] = None,
+        kwargs: Mapping[str_, Any] = None,
         template: Union["DataArray", "Dataset"] = None,
     ) -> "T_DSorDA":
         """
@@ -3459,7 +3461,7 @@ class DataArray(AbstractArray, DataWithCoords):
     def pad(
         self,
         pad_width: Mapping[Hashable, Union[int, Tuple[int, int]]] = None,
-        mode: str = "constant",
+        mode: str_ = "constant",
         stat_length: Union[
             int, Tuple[int, int], Mapping[Hashable, Tuple[int, int]]
         ] = None,
@@ -3469,7 +3471,7 @@ class DataArray(AbstractArray, DataWithCoords):
         end_values: Union[
             int, Tuple[int, int], Mapping[Hashable, Tuple[int, int]]
         ] = None,
-        reflect_type: str = None,
+        reflect_type: str_ = None,
         **pad_width_kwargs: Any,
     ) -> "DataArray":
         """Pad this array along one or more dimensions.
@@ -3487,7 +3489,7 @@ class DataArray(AbstractArray, DataWithCoords):
         pad_width : Mapping with the form of {dim: (pad_before, pad_after)}
             Number of values padded along each dimension.
             {dim: pad} is a shortcut for pad_before = pad_after = pad
-        mode : str
+        mode : str_
             One of the following string values (taken from numpy docs)
 
             'constant' (default)
@@ -3643,7 +3645,7 @@ class DataArray(AbstractArray, DataWithCoords):
 
         Parameters
         ----------
-        dim : str, optional
+        dim : str_, optional
             Dimension over which to apply `idxmin`.  This is optional for 1D
             arrays, but required for arrays with 2 or more dimensions.
         skipna : bool or None, default None
@@ -3740,7 +3742,7 @@ class DataArray(AbstractArray, DataWithCoords):
 
         Parameters
         ----------
-        dim : str, optional
+        dim : str_, optional
             Dimension over which to apply `idxmax`.  This is optional for 1D
             arrays, but required for arrays with 2 or more dimensions.
         skipna : bool or None, default None
